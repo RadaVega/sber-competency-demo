@@ -1,0 +1,97 @@
+@import "tailwindcss";
+
+@theme {
+  /* ---- Canvas & surfaces ---- */
+  --color-canvas: #0B0E14;          /* near-black blue, not pure black */
+  --color-surface: #11151D;         /* card background */
+  --color-surface-raised: #161B25;  /* hovered / elevated card */
+  --color-border: #232A37;          /* hairline borders */
+  --color-border-soft: #1A2029;
+
+  /* ---- Text ---- */
+  --color-ink-1: #E7EAF0;           /* primary text */
+  --color-ink-2: #9AA4B6;           /* secondary text */
+  --color-ink-3: #5C6680;           /* tertiary / captions */
+
+  /* ---- Accent: signal amber (the "alert / focus" color of an ops desk) ---- */
+  --color-signal: #E8A33D;
+  --color-signal-soft: #3A2E18;
+
+  /* ---- Status ---- */
+  --color-good: #4FAE82;
+  --color-good-soft: #16241D;
+  --color-warn: #D98B3D;
+  --color-warn-soft: #2B2014;
+  --color-risk: #C75D5D;
+  --color-risk-soft: #2B1818;
+
+  /* ---- Sber brand thread (used sparingly, never as primary) ---- */
+  --color-sber: #21A038;
+
+  /* ---- Type ---- */
+  --font-display: "Fraunces", "Georgia", serif;
+  --font-sans: "Inter", -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+}
+
+@layer base {
+  html {
+    background: var(--color-canvas);
+    color-scheme: dark;
+  }
+  body {
+    background: var(--color-canvas);
+    color: var(--color-ink-1);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+  * {
+    border-color: var(--color-border);
+  }
+
+  /* Consistent keyboard focus ring everywhere — buttons, inputs, links.
+     Mouse/touch interaction never shows it (focus-visible only). */
+  button:focus-visible,
+  input:focus-visible,
+  a:focus-visible,
+  [tabindex]:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--color-canvas), 0 0 0 4px var(--color-signal);
+    border-radius: 6px;
+  }
+}
+
+@keyframes screen-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-screen-in {
+  animation: screen-in 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-screen-in {
+    animation: none;
+  }
+}
+
+@layer utilities {
+  .font-display { font-family: var(--font-display); }
+  .font-mono { font-family: var(--font-mono); }
+
+  .grid-overlay {
+    background-image:
+      linear-gradient(to right, var(--color-border-soft) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--color-border-soft) 1px, transparent 1px);
+    background-size: 64px 64px;
+  }
+
+  .text-balance { text-wrap: balance; }
+}
