@@ -1,36 +1,38 @@
 import { ArrowRight } from "lucide-react";
 import type { ModeConfig } from "@/data/modes";
+import { PLATFORM_NAME, PLATFORM_NAME_RU, PLATFORM_TAGLINE, PLATFORM_TAGLINE_RU } from "@/data/modes";
 
 const highlights: Record<string, string[]> = {
   sber: [
-    "Какие компетенции есть у организации сегодня?",
-    "Где критические дефициты, блокирующие стратегию?",
-    "Кто внутри компании способен возглавить AI-инициативы?",
+    "Какие AI-компетенции есть внутри организации сегодня?",
+    "Где критические дефициты, блокирующие AI-стратегию?",
+    "Как внешняя экосистема Точки Сборки закрывает пробелы: 67% → 89%",
   ],
   vk: [
     "Как быстрее собирать команды под новые продукты?",
     "Какие компетенции нужны — и есть ли они внутри?",
-    "Как сократить срок запуска продукта на 40%?",
+    "Как Точка Сборки сокращает Time-to-Market на 40%?",
   ],
   rosatom: [
     "Какие компетенции критичны для стратегических проектов страны?",
-    "Где риски на уровне национальных приоритетов?",
-    "Кто в организации носитель уникальной экспертизы?",
+    "Где риски потери уникальной экспертизы?",
+    "Как внешний кадровый резерв снижает технологический риск?",
   ],
   yandex: [
     "Как быстрее находить и собирать сильные продуктовые команды?",
     "Какие роли доступны прямо сейчас — а где дефицит?",
-    "Как ускорить эксперименты и запуск новых направлений?",
+    "Как гибридная сеть талантов ускоряет запуск направлений?",
   ],
 };
 
 const agentLabels = [
-  "Competency Analyzer",
-  "Gap Analysis",
-  "Mentor Matching",
-  "Learning Planner",
-  "Team Formation",
-  "Executive Recommendation",
+  "Internal Talent Agent",
+  "External Talent Agent",
+  "Competency Agent",
+  "Gap Analysis Agent",
+  "Mentor Agent",
+  "Team Formation Agent",
+  "Executive Recommendation Agent",
 ];
 
 export function IntroScreen({
@@ -49,7 +51,7 @@ export function IntroScreen({
 
       <div className="relative w-full max-w-[860px] flex flex-col items-center text-center gap-10">
 
-        {/* Org badge */}
+        {/* Platform brand */}
         <div className="flex items-center gap-3">
           <div
             className="h-10 w-10 rounded-[8px] flex items-center justify-center text-[14px] font-bold"
@@ -62,12 +64,25 @@ export function IntroScreen({
           </span>
         </div>
 
-        {/* Platform name */}
-        <div>
-          <div className="text-[11px] uppercase tracking-[0.16em] text-(--color-signal) font-mono mb-5">
-            {mode.platformName}
+        {/* Global platform name */}
+        <div className="text-center">
+          <div className="text-[11px] uppercase tracking-[0.16em] text-(--color-signal) font-mono mb-2">
+            {PLATFORM_NAME}
           </div>
-          <h1 className="font-display text-[40px] sm:text-[52px] text-(--color-ink-1) leading-tight text-balance max-w-[720px] mx-auto">
+          <div className="text-[12px] text-(--color-ink-3) mb-4">
+            {PLATFORM_NAME_RU}
+          </div>
+          <div className="text-[11px] text-(--color-ink-3) font-mono">
+            {PLATFORM_TAGLINE}
+          </div>
+          <div className="text-[11px] text-(--color-ink-3) font-mono">
+            {PLATFORM_TAGLINE_RU}
+          </div>
+        </div>
+
+        {/* Scenario question */}
+        <div>
+          <h1 className="font-display text-[40px] sm:text-[52px] text-(--color-ink-1) leading-tight text-balance max-w-[720px] mx-auto text-center">
             {mode.mainQuestion}
           </h1>
         </div>
@@ -110,7 +125,7 @@ export function IntroScreen({
           ))}
         </div>
         <p className="text-[12px] text-(--color-ink-3) -mt-4">
-          6 специализированных агентов · 1 рекомендация · 5 минут демонстрации
+          7 специализированных агентов · 2 источника талантов · 5 минут демонстрации
         </p>
 
       </div>

@@ -57,8 +57,8 @@ export function ModeSwitcher({
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="text-[13px] text-(--color-ink-1) font-medium">{m.org}</div>
-                  <div className="text-[11px] text-(--color-ink-3) leading-snug mt-0.5">
-                    {m.platformName} <span className="opacity-70">({m.platformNameRu})</span>
+                  <div className="text-[11px] text-(--color-ink-3) leading-snug mt-0.5 truncate">
+                    {m.scenarioName}
                   </div>
                 </div>
                 {id === active && (

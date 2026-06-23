@@ -4,14 +4,14 @@ import { Card } from "@/components/Card";
 import { agentChain } from "@/data/mockData";
 import { bi } from "@/lib/bi";
 
-const VIEW = 600;
+const VIEW = 620;
 const CX = VIEW / 2;
 const CY = VIEW / 2;
-const HUB_R = 62;
-const NODE_DIST = 218;
-const NODE_R = 40;
-const STEP_MS = 1000;
-const GAP_MS = 250;
+const HUB_R = 58;
+const NODE_DIST = 210;
+const NODE_R = 36;
+const STEP_MS = 900;
+const GAP_MS = 200;
 
 type StepState = "pending" | "active" | "done";
 

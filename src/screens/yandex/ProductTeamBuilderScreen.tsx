@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Sparkles, Loader2, Zap } from "lucide-react";
+import { Sparkles, Loader2, Zap, ArrowRight } from "lucide-react";
 import { Card } from "@/components/Card";
 import { yandexProductIdeas } from "@/data/yandexData";
 import type { YandexRole } from "@/data/yandexData";
@@ -14,7 +14,7 @@ const speedMeta: Record<string, { text: string; label: string }> = {
   slow: { text: "text-(--color-risk)", label: "Дефицит" },
 };
 
-export function ProductTeamBuilderScreen() {
+export function ProductTeamBuilderScreen({ onNext }: { onNext?: () => void }) {
   const [idea, setIdea] = useState("");
   const [status, setStatus] = useState<Status>("idle");
   const [roles, setRoles] = useState<YandexRole[]>([]);
@@ -76,51 +76,54 @@ export function ProductTeamBuilderScreen() {
               </button>
             ))}
           </div>
-
           {source && (
             <div className="text-[11px] text-(--color-ink-3) font-mono flex items-center gap-1.5 pt-3">
-              <span
-                className={`h-1.5 w-1.5 rounded-full ${
-                  source === "live" ? "bg-(--color-good)" : "bg-(--color-ink-3)"
-                }`}
-              />
-              {source === "live"
-                ? "Анализ выполнен моделью Claude"
-                : "Демо-режим — офлайн-данные"}
+              <span className={`h-1.5 w-1.5 rounded-full ${source === "live" ? "bg-(--color-good)" : "bg-(--color-ink-3)"}`} />
+              {source === "live" ? "Анализ выполнен моделью Claude" : "Демо-режим — офлайн-данные"}
             </div>
           )}
         </div>
       </Card>
 
       {status === "done" && (
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-          {roles.map((r) => {
-            const meta = speedMeta[r.speed];
-            return (
-              <Card key={r.role}>
-                <div className="p-5 flex flex-col gap-3">
-                  <div className="flex items-start justify-between">
-                    <h3 className="text-[15px] text-(--color-ink-1) font-medium">{r.role}</h3>
-                    <Zap className={`h-4 w-4 ${meta.text}`} />
+        <>
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+            {roles.map((r) => {
+              const meta = speedMeta[r.speed];
+              return (
+                <Card key={r.role}>
+                  <div className="p-5 flex flex-col gap-3">
+                    <div className="flex items-start justify-between">
+                      <h3 className="text-[15px] text-(--color-ink-1) font-medium">{r.role}</h3>
+                      <Zap className={`h-4 w-4 ${meta.text}`} />
+                    </div>
+                    <div className={`text-[12.5px] font-medium ${meta.text}`}>
+                      {meta.label} · {r.candidatesAvailable} кандидата(ов)
+                    </div>
+                    <div className="flex flex-wrap gap-1.5 pt-2 border-t border-(--color-border-soft)">
+                      {r.requiredCompetencies.map((c) => (
+                        <span key={c} className="rounded-full border border-(--color-border) bg-(--color-surface-raised) px-2.5 py-1 text-[12px] text-(--color-ink-2)">
+                          {c}
+                        </span>
+                      ))}
+                    </div>
                   </div>
-                  <div className={`text-[12.5px] font-medium ${meta.text}`}>
-                    {meta.label} · {r.candidatesAvailable} кандидата(ов)
-                  </div>
-                  <div className="flex flex-wrap gap-1.5 pt-2 border-t border-(--color-border-soft)">
-                    {r.requiredCompetencies.map((c) => (
-                      <span
-                        key={c}
-                        className="rounded-full border border-(--color-border) bg-(--color-surface-raised) px-2.5 py-1 text-[12px] text-(--color-ink-2)"
-                      >
-                        {c}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </Card>
-            );
-          })}
-        </div>
+                </Card>
+              );
+            })}
+          </div>
+          {onNext && (
+            <div className="flex justify-end mt-6">
+              <button
+                onClick={onNext}
+                className="group flex items-center gap-2 rounded-md bg-(--color-signal) px-5 py-3 text-[13px] font-medium text-(--color-canvas) hover:brightness-110 transition-all"
+              >
+                {bi("Talent Ecosystem", "Экосистема талантов")}
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+              </button>
+            </div>
+          )}
+        </>
       )}
     </div>
   );

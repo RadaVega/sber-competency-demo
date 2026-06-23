@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Play } from "lucide-react";
 import { ModeSwitcher } from "@/components/ModeSwitcher";
-import { modes, type ModeId } from "@/data/modes";
+import { modes, type ModeId, PLATFORM_NAME, PLATFORM_NAME_RU } from "@/data/modes";
 import { bi } from "@/lib/bi";
 import { IntroScreen } from "@/screens/IntroScreen";
 import { SberApp, sberScreens, useSberScreenState } from "@/screens/sber/SberApp";
@@ -11,7 +11,7 @@ import {
   rosatomScreens,
   useRosatomScreenState,
 } from "@/screens/rosatom/RosatomApp";
-import { YandexApp, yandexScreens } from "@/screens/yandex/YandexApp";
+import { YandexApp, yandexScreens, useYandexScreenState } from "@/screens/yandex/YandexApp";
 
 function App() {
   const [mode, setMode] = useState<ModeId>("sber");
@@ -20,6 +20,7 @@ function App() {
   const [sberScreen, setSberScreen] = useSberScreenState();
   const [vkScreen, setVkScreen] = useVKScreenState();
   const [rosatomScreen, setRosatomScreen] = useRosatomScreenState();
+  const [yandexScreen, setYandexScreen] = useYandexScreenState();
 
   // When the mode is switched from the intro screen, stay on intro.
   // When switched mid-demo, jump to that mode's first screen.
@@ -29,6 +30,7 @@ function App() {
       if (id === "sber") setSberScreen("dashboard");
       if (id === "vk") setVkScreen("initiative");
       if (id === "rosatom") setRosatomScreen("map");
+      if (id === "yandex") setYandexScreen("builder");
     }
   }
 
@@ -48,13 +50,14 @@ function App() {
       ? vkScreen
       : mode === "rosatom"
       ? rosatomScreen
-      : "builder";
+      : yandexScreen;
 
   function handleNavClick(id: string) {
     if (!started) setStarted(true);
     if (mode === "sber") setSberScreen(id as never);
     if (mode === "vk") setVkScreen(id as never);
     if (mode === "rosatom") setRosatomScreen(id as never);
+    if (mode === "yandex") setYandexScreen(id as never);
   }
 
   return (
@@ -81,7 +84,9 @@ function App() {
         {started && mode === "rosatom" && (
           <RosatomApp active={rosatomScreen} onChangeScreen={setRosatomScreen} />
         )}
-        {started && mode === "yandex" && <YandexApp />}
+        {started && mode === "yandex" && (
+          <YandexApp active={yandexScreen} onChangeScreen={setYandexScreen} />
+        )}
       </main>
     </div>
   );
@@ -124,14 +129,13 @@ function TopBar({
             </div>
             <div className="min-w-0">
               <div className="text-[13px] font-medium text-(--color-ink-1) leading-tight truncate">
-                {config.platformName}
+                {PLATFORM_NAME}
                 <span className="text-(--color-ink-3) font-normal hidden sm:inline">
-                  {" "}
-                  ({config.platformNameRu})
+                  {" "}({PLATFORM_NAME_RU})
                 </span>
               </div>
               <div className="text-[11px] text-(--color-ink-3) font-mono leading-tight">
-                {config.org} · Strategy Office
+                {config.org} · {config.scenarioName}
               </div>
             </div>
           </button>

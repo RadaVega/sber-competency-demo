@@ -83,11 +83,48 @@ Governance, then a real pilot project by day 90."*
 *"Five roles. Look at AI Architect and Change Manager — both under 50%
 coverage. That's the real risk to the timeline, not the technology."*
 
-**[click]** "Agentic AI Orchestration"
+**[click]** "Ecosystem"
 
 ---
 
-## Screen 6 — Agent Orchestration (60 sec) — THE CENTERPIECE
+## Screens 6–8 — Talent Ecosystem → External Discovery → Pipeline (60 sec) — THE DIFFERENTIATOR
+
+**Screen 6 — Talent Ecosystem**
+
+Let the dual-contour layout land — internal on the left, Tochka Sborki
+on the right — before you speak.
+
+*"Most systems stop here — internal workforce only. We don't. On the right
+is the Tochka Sborki ecosystem: 1,200+ students, 870 specialists, 215
+experts, 67 project teams. Now watch what happens to capability coverage."*
+
+**[click]** "Подключить Точку Сборки"
+
+*"67% with internal resources only. 89% with the hybrid network. That's
+three critical gaps — Agentic AI, AI Governance, Prompt Engineering —
+fully closed through the external contour."*
+
+**[click]** nav "07 External"
+
+**Screen 7 — External Talent Discovery**
+
+*"These are real profiles: students from МФТИ and ВШЭ, specialists with
+2–4 years in AI, expert mentors. Each tagged by competency, readiness, and
+development potential. Ready to engage on a real pilot in weeks, not months."*
+
+**[click]** nav "08 Pipeline"
+
+**Screen 8 — Talent Pipeline**
+
+*"And this is the long game. Tochka Sborki is not a recruitment agency.
+It's a continuous pipeline — from first-year student to strategic initiative
+contributor. The organisation gets a talent conveyor, not a one-time hire."*
+
+**[click]** "Orchestration"
+
+---
+
+## Screen 9 — Agent Orchestration (45 sec) — THE CENTERPIECE
 
 Let it auto-play. Don't talk over the first 2 seconds — let the visual
 land.
