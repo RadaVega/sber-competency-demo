@@ -1,14 +1,10 @@
-// Vercel Edge Function. Runs server-side, so ANTHROPIC_API_KEY never reaches
-// the browser. Configure the key in Vercel → Project → Settings →
-// Environment Variables as ANTHROPIC_API_KEY.
-//
-// Locally, if no key is set, the client (src/lib/claudeClient.ts) falls back
-// to mock data automatically — so `npm run dev` works out of the box without
-// any backend running.
+// Vercel Serverless Function (Node.js runtime).
+// Priority: GigaChat (if GIGACHAT_AUTH_KEY set) → Anthropic → 501
+// The client falls back to mock data on any non-200 response.
 
-export const config = { runtime: "edge" };
+import { gigachatConfigured, gigachatComplete } from "./_gigachat";
 
-const SYSTEM_PROMPT = `Ты — AI-модуль анализа компетенций в корпоративной системе Сбера.
+const SYSTEM_PROMPT = `Ты — AI-модуль анализа компетенций в корпоративной системе.
 Тебе дают текущую роль сотрудника, целевую роль и список текущих компетенций.
 Верни ТОЛЬКО валидный JSON (без markdown, без преамбулы) со следующей структурой:
 
@@ -21,67 +17,54 @@ const SYSTEM_PROMPT = `Ты — AI-модуль анализа компетен�
   ]
 }
 
-Включи в radar 5-7 компетенций: часть уже сильных сторон сотрудника и часть
-критических пробелов для целевой роли. Будь реалистичен и конкретен.`;
+Включи в radar 5-7 компетенций. Будь реалистичен и конкретен.`;
 
 export default async function handler(req: Request): Promise<Response> {
   if (req.method !== "POST") {
-    return new Response(JSON.stringify({ error: "Method not allowed" }), {
-      status: 405,
-    });
+    return new Response(JSON.stringify({ error: "Method not allowed" }), { status: 405 });
   }
 
-  const apiKey = process.env.ANTHROPIC_API_KEY;
-  if (!apiKey) {
-    return new Response(
-      JSON.stringify({ error: "ANTHROPIC_API_KEY not configured" }),
-      { status: 501 }
-    );
-  }
+  const body = await req.json();
+  const { role, targetRole, currentCompetencies } = body;
+  const userMessage = `Текущая роль: ${role}\nЦелевая роль: ${targetRole}\nТекущие компетенции: ${(currentCompetencies as string[]).join(", ")}`;
 
   try {
-    const body = await req.json();
-    const { role, targetRole, currentCompetencies } = body;
+    let raw: string;
 
-    const userPrompt = `Текущая роль: ${role}
-Целевая роль: ${targetRole}
-Текущие компетенции: ${(currentCompetencies as string[]).join(", ")}`;
-
-    const response = await fetch("https://api.anthropic.com/v1/messages", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-api-key": apiKey,
-        "anthropic-version": "2023-06-01",
-      },
-      body: JSON.stringify({
-        model: "claude-sonnet-4-6",
-        max_tokens: 1000,
-        system: SYSTEM_PROMPT,
-        messages: [{ role: "user", content: userPrompt }],
-      }),
-    });
-
-    if (!response.ok) {
-      const errText = await response.text();
-      return new Response(JSON.stringify({ error: errText }), {
-        status: response.status,
-      });
+    if (gigachatConfigured()) {
+      raw = await gigachatComplete(SYSTEM_PROMPT, userMessage);
+    } else if (process.env.ANTHROPIC_API_KEY) {
+      raw = await callAnthropic(SYSTEM_PROMPT, userMessage);
+    } else {
+      return new Response(JSON.stringify({ error: "No AI provider configured" }), { status: 501 });
     }
 
-    const data = await response.json();
-    const textBlock = data.content?.find((b: { type: string }) => b.type === "text");
-    const raw = (textBlock?.text ?? "").replace(/```json|```/g, "").trim();
-    const parsed = JSON.parse(raw);
-
-    return new Response(JSON.stringify(parsed), {
+    const parsed = JSON.parse(raw.replace(/```json|```/g, "").trim());
+    return new Response(JSON.stringify({ ...parsed, provider: gigachatConfigured() ? "gigachat" : "anthropic" }), {
       status: 200,
       headers: { "Content-Type": "application/json" },
     });
   } catch (err) {
-    return new Response(
-      JSON.stringify({ error: err instanceof Error ? err.message : "Unknown error" }),
-      { status: 500 }
-    );
+    return new Response(JSON.stringify({ error: err instanceof Error ? err.message : "Unknown error" }), { status: 500 });
   }
+}
+
+async function callAnthropic(system: string, user: string): Promise<string> {
+  const res = await fetch("https://api.anthropic.com/v1/messages", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "x-api-key": process.env.ANTHROPIC_API_KEY!,
+      "anthropic-version": "2023-06-01",
+    },
+    body: JSON.stringify({
+      model: "claude-sonnet-4-6",
+      max_tokens: 1000,
+      system,
+      messages: [{ role: "user", content: user }],
+    }),
+  });
+  const data = await res.json();
+  const block = data.content?.find((b: { type: string }) => b.type === "text");
+  return block?.text ?? "";
 }

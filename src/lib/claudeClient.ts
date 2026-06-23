@@ -1,7 +1,16 @@
+// All three analysis functions follow the same pattern:
+//   - isLive=false  → skip the API call, return mock data immediately
+//   - isLive=true   → call the server-side endpoint (GigaChat or Anthropic)
+//                     on failure, fall back to mock data + source:"mock"
+// The "provider" field returned by the server ("gigachat" | "anthropic")
+// is surfaced in the UI so the presenter can verify which AI is running.
+
 import type { Employee, CompetencyScore } from "@/data/types";
 import { employee as mockEmployee } from "@/data/mockData";
 import { vkRoles as mockVKRoles, type VKRole } from "@/data/vkData";
 import { yandexRoles as mockYandexRoles, type YandexRole } from "@/data/yandexData";
+
+export type AIProvider = "gigachat" | "anthropic" | "mock";
 
 export interface AnalysisResult {
   readinessCurrentRole: number;
@@ -9,25 +18,29 @@ export interface AnalysisResult {
   criticalGaps: string[];
   radar: CompetencyScore[];
   source: "live" | "mock";
+  provider: AIProvider;
 }
 
 export interface VKAnalysisResult {
   roles: VKRole[];
   source: "live" | "mock";
+  provider: AIProvider;
 }
 
 export interface YandexAnalysisResult {
   roles: YandexRole[];
   source: "live" | "mock";
+  provider: AIProvider;
 }
 
-/**
- * Calls the server-side Claude analysis endpoint (api/analyze-employee.ts).
- * If the endpoint isn't available — e.g. running `npm run dev` locally
- * without `vercel dev`, or no ANTHROPIC_API_KEY configured — falls back to
- * realistic mock data so the demo always works.
- */
-export async function analyzeEmployee(emp: Employee): Promise<AnalysisResult> {
+// ---- Sber Employee Analysis ----
+
+export async function analyzeEmployee(
+  emp: Employee,
+  isLive: boolean
+): Promise<AnalysisResult> {
+  if (!isLive) return mockEmployeeResult();
+
   try {
     const res = await fetch("/api/analyze-employee", {
       method: "POST",
@@ -38,71 +51,68 @@ export async function analyzeEmployee(emp: Employee): Promise<AnalysisResult> {
         currentCompetencies: emp.currentCompetencies,
       }),
     });
-
     if (!res.ok) throw new Error(`Status ${res.status}`);
-
     const data = await res.json();
     if (!data.radar || !Array.isArray(data.radar)) throw new Error("Bad shape");
-
-    return { ...data, source: "live" };
+    return { ...data, source: "live", provider: data.provider ?? "gigachat" };
   } catch {
-    // Mock fallback — simulate latency so the loading state still demos well.
-    await new Promise((r) => setTimeout(r, 900));
-    return {
-      readinessCurrentRole: mockEmployee.readinessCurrentRole,
-      readinessTargetRole: mockEmployee.readinessTargetRole,
-      criticalGaps: mockEmployee.criticalGaps,
-      radar: mockEmployee.radar,
-      source: "mock",
-    };
+    return mockEmployeeResult();
   }
 }
 
-/**
- * VK's Strategic Initiative Builder. Same pattern as analyzeEmployee:
- * calls api/analyze-initiative.ts, falls back to mock VK roles if the
- * endpoint isn't available or no ANTHROPIC_API_KEY is configured.
- */
-export async function analyzeVKInitiative(initiative: string): Promise<VKAnalysisResult> {
+function mockEmployeeResult(): AnalysisResult {
+  return {
+    readinessCurrentRole: mockEmployee.readinessCurrentRole,
+    readinessTargetRole:  mockEmployee.readinessTargetRole,
+    criticalGaps:         mockEmployee.criticalGaps,
+    radar:                mockEmployee.radar,
+    source:               "mock",
+    provider:             "mock",
+  };
+}
+
+// ---- VK Initiative Analysis ----
+
+export async function analyzeVKInitiative(
+  initiative: string,
+  isLive: boolean
+): Promise<VKAnalysisResult> {
+  if (!isLive) return { roles: mockVKRoles, source: "mock", provider: "mock" };
+
   try {
     const res = await fetch("/api/analyze-initiative", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ initiative }),
     });
-
     if (!res.ok) throw new Error(`Status ${res.status}`);
-
     const data = await res.json();
     if (!data.roles || !Array.isArray(data.roles)) throw new Error("Bad shape");
-
-    return { roles: data.roles, source: "live" };
+    return { roles: data.roles, source: "live", provider: data.provider ?? "gigachat" };
   } catch {
-    await new Promise((r) => setTimeout(r, 900));
-    return { roles: mockVKRoles, source: "mock" };
+    return { roles: mockVKRoles, source: "mock", provider: "mock" };
   }
 }
 
-/**
- * Yandex's Product Team Builder. Same pattern again — calls
- * api/analyze-team.ts, falls back to mock Yandex roles.
- */
-export async function analyzeYandexTeam(idea: string): Promise<YandexAnalysisResult> {
+// ---- Yandex Team Analysis ----
+
+export async function analyzeYandexTeam(
+  idea: string,
+  isLive: boolean
+): Promise<YandexAnalysisResult> {
+  if (!isLive) return { roles: mockYandexRoles, source: "mock", provider: "mock" };
+
   try {
     const res = await fetch("/api/analyze-team", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ idea }),
     });
-
     if (!res.ok) throw new Error(`Status ${res.status}`);
-
     const data = await res.json();
     if (!data.roles || !Array.isArray(data.roles)) throw new Error("Bad shape");
-
-    return { roles: data.roles, source: "live" };
+    return { roles: data.roles, source: "live", provider: data.provider ?? "gigachat" };
   } catch {
-    await new Promise((r) => setTimeout(r, 900));
-    return { roles: mockYandexRoles, source: "mock" };
+    return { roles: mockYandexRoles, source: "mock", provider: "mock" };
   }
 }

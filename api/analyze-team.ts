@@ -1,9 +1,6 @@
-// Vercel Edge Function. Mirrors api/analyze-employee.ts and
-// api/analyze-initiative.ts — server-side only, key never reaches the browser.
+import { gigachatConfigured, gigachatComplete } from "./_gigachat";
 
-export const config = { runtime: "edge" };
-
-const SYSTEM_PROMPT = `Ты — AI-модуль формирования продуктовых команд в Яндексе.
+const SYSTEM_PROMPT = `Ты — AI-модуль формирования продуктовых команд.
 Тебе дают продуктовую идею. Верни ТОЛЬКО валидный JSON (без markdown):
 
 {
@@ -17,65 +14,53 @@ const SYSTEM_PROMPT = `Ты — AI-модуль формирования про�
   ]
 }
 
-Включи 4-6 ролей. "speed" отражает, насколько быстро можно укомплектовать
-роль внутренними кандидатами: "fast" — кандидаты готовы сейчас,
-"medium" — требуется 2-4 недели на подбор/дообучение, "slow" — выраженный
-дефицит специалистов. candidatesAvailable — реалистичное число кандидатов
-внутри компании (0-10).`;
+Включи 4-6 ролей. "speed": fast — готовы сейчас, medium — 2-4 недели, slow — дефицит.`;
 
 export default async function handler(req: Request): Promise<Response> {
   if (req.method !== "POST") {
-    return new Response(JSON.stringify({ error: "Method not allowed" }), {
-      status: 405,
-    });
+    return new Response(JSON.stringify({ error: "Method not allowed" }), { status: 405 });
   }
 
-  const apiKey = process.env.ANTHROPIC_API_KEY;
-  if (!apiKey) {
-    return new Response(
-      JSON.stringify({ error: "ANTHROPIC_API_KEY not configured" }),
-      { status: 501 }
-    );
-  }
+  const { idea } = await req.json();
+  const userMessage = `Продуктовая идея: ${idea}`;
 
   try {
-    const { idea } = await req.json();
+    let raw: string;
 
-    const response = await fetch("https://api.anthropic.com/v1/messages", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-api-key": apiKey,
-        "anthropic-version": "2023-06-01",
-      },
-      body: JSON.stringify({
-        model: "claude-sonnet-4-6",
-        max_tokens: 1000,
-        system: SYSTEM_PROMPT,
-        messages: [{ role: "user", content: `Продуктовая идея: ${idea}` }],
-      }),
-    });
-
-    if (!response.ok) {
-      const errText = await response.text();
-      return new Response(JSON.stringify({ error: errText }), {
-        status: response.status,
-      });
+    if (gigachatConfigured()) {
+      raw = await gigachatComplete(SYSTEM_PROMPT, userMessage);
+    } else if (process.env.ANTHROPIC_API_KEY) {
+      raw = await callAnthropic(SYSTEM_PROMPT, userMessage);
+    } else {
+      return new Response(JSON.stringify({ error: "No AI provider configured" }), { status: 501 });
     }
 
-    const data = await response.json();
-    const textBlock = data.content?.find((b: { type: string }) => b.type === "text");
-    const raw = (textBlock?.text ?? "").replace(/```json|```/g, "").trim();
-    const parsed = JSON.parse(raw);
-
-    return new Response(JSON.stringify(parsed), {
+    const parsed = JSON.parse(raw.replace(/```json|```/g, "").trim());
+    return new Response(JSON.stringify({ ...parsed, provider: gigachatConfigured() ? "gigachat" : "anthropic" }), {
       status: 200,
       headers: { "Content-Type": "application/json" },
     });
   } catch (err) {
-    return new Response(
-      JSON.stringify({ error: err instanceof Error ? err.message : "Unknown error" }),
-      { status: 500 }
-    );
+    return new Response(JSON.stringify({ error: err instanceof Error ? err.message : "Unknown error" }), { status: 500 });
   }
+}
+
+async function callAnthropic(system: string, user: string): Promise<string> {
+  const res = await fetch("https://api.anthropic.com/v1/messages", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "x-api-key": process.env.ANTHROPIC_API_KEY!,
+      "anthropic-version": "2023-06-01",
+    },
+    body: JSON.stringify({
+      model: "claude-sonnet-4-6",
+      max_tokens: 1000,
+      system,
+      messages: [{ role: "user", content: user }],
+    }),
+  });
+  const data = await res.json();
+  const block = data.content?.find((b: { type: string }) => b.type === "text");
+  return block?.text ?? "";
 }

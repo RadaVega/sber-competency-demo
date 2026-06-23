@@ -1,9 +1,12 @@
 import { useState } from "react";
 import { ArrowRight, Sparkles, Loader2 } from "lucide-react";
 import { Card, CardHeader } from "@/components/Card";
+import { AISourceBadge } from "@/components/AISourceBadge";
 import { initiativeExamples } from "@/data/vkData";
 import type { VKRole } from "@/data/vkData";
 import { analyzeVKInitiative } from "@/lib/claudeClient";
+import type { AIProvider } from "@/lib/claudeClient";
+import { useLiveMode } from "@/lib/LiveModeContext";
 import { bi } from "@/lib/bi";
 
 type Status = "idle" | "loading" | "done";
@@ -19,13 +22,16 @@ export function VKInitiativeScreen({ onNext }: { onNext: () => void }) {
   const [status, setStatus] = useState<Status>("idle");
   const [roles, setRoles] = useState<VKRole[]>([]);
   const [source, setSource] = useState<"live" | "mock" | null>(null);
+  const [provider, setProvider] = useState<AIProvider>("mock");
+  const { isLive } = useLiveMode();
 
   async function handleAnalyze() {
     if (!initiative.trim()) return;
     setStatus("loading");
-    const result = await analyzeVKInitiative(initiative);
+    const result = await analyzeVKInitiative(initiative, isLive);
     setRoles(result.roles);
     setSource(result.source);
+    setProvider(result.provider);
     setStatus("done");
   }
 
@@ -82,16 +88,7 @@ export function VKInitiativeScreen({ onNext }: { onNext: () => void }) {
           </div>
 
           {source && (
-            <div className="text-[11px] text-(--color-ink-3) font-mono flex items-center gap-1.5 pt-3">
-              <span
-                className={`h-1.5 w-1.5 rounded-full ${
-                  source === "live" ? "bg-(--color-good)" : "bg-(--color-ink-3)"
-                }`}
-              />
-              {source === "live"
-                ? "Анализ выполнен моделью Claude"
-                : "Демо-режим — офлайн-данные"}
-            </div>
+            <AISourceBadge source={source} provider={provider} />
           )}
         </div>
       </Card>

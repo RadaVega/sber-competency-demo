@@ -3,8 +3,10 @@ import { ArrowLeft, ArrowRight, Sparkles, Loader2 } from "lucide-react";
 import { Card, CardHeader } from "@/components/Card";
 import { MetricStat } from "@/components/MetricStat";
 import { CompetencyRadar } from "@/components/CompetencyRadar";
+import { AISourceBadge } from "@/components/AISourceBadge";
 import { employee } from "@/data/mockData";
 import { analyzeEmployee, type AnalysisResult } from "@/lib/claudeClient";
+import { useLiveMode } from "@/lib/LiveModeContext";
 import { bi } from "@/lib/bi";
 
 type Status = "idle" | "loading" | "done";
@@ -25,9 +27,11 @@ export function EmployeeScreen({
   const [status, setStatus] = useState<Status>("idle");
   const [result, setResult] = useState<AnalysisResult | null>(null);
 
+  const { isLive } = useLiveMode();
+
   async function handleAnalyze() {
     setStatus("loading");
-    const r = await analyzeEmployee(employee);
+    const r = await analyzeEmployee(employee, isLive);
     setResult(r);
     setStatus("done");
   }
@@ -117,16 +121,7 @@ export function EmployeeScreen({
             )}
 
             {status === "done" && result && (
-              <div className="text-[11px] text-(--color-ink-3) font-mono flex items-center gap-1.5 pt-1">
-                <span
-                  className={`h-1.5 w-1.5 rounded-full ${
-                    result.source === "live" ? "bg-(--color-good)" : "bg-(--color-ink-3)"
-                  }`}
-                />
-                {result.source === "live"
-                  ? "Анализ выполнен моделью Claude"
-                  : "Демо-режим — офлайн-данные"}
-              </div>
+              <AISourceBadge source={result.source} provider={result.provider} />
             )}
           </div>
         </Card>
