@@ -129,13 +129,11 @@ function TopBar({
               </span>
             </div>
             <div className="min-w-0">
-              <div className="text-[13px] font-medium text-(--color-ink-1) leading-tight truncate">
-                {PLATFORM_NAME}
-                <span className="text-(--color-ink-3) font-normal hidden sm:inline">
-                  {" "}({PLATFORM_NAME_RU})
-                </span>
+              <div className="flex items-baseline gap-2 leading-tight flex-wrap">
+                <span className="text-[13px] font-medium text-(--color-ink-1)">{PLATFORM_NAME}</span>
+                <span className="text-[11px] text-(--color-ink-3) hidden lg:inline">{PLATFORM_NAME_RU}</span>
               </div>
-              <div className="text-[11px] text-(--color-ink-3) font-mono leading-tight">
+              <div className="text-[11px] text-(--color-ink-3) font-mono leading-tight mt-0.5">
                 {config.org} · {config.scenarioName}
               </div>
             </div>

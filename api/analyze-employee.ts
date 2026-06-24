@@ -1,6 +1,9 @@
 /* eslint-disable no-var */
 declare var process: { env: Record<string, string | undefined> };
 
+// Edge runtime — uses Web API Request with .json() method
+export const config = { runtime: "edge" };
+
 import { gigachatConfigured, gigachatComplete } from "./_gigachat.js";
 
 const SYSTEM_PROMPT = `Ты — AI-модуль анализа компетенций в корпоративной системе.

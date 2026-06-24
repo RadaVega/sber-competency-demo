@@ -1,6 +1,8 @@
 /* eslint-disable no-var */
 declare var process: { env: Record<string, string | undefined> };
 
+export const config = { runtime: "edge" };
+
 import { gigachatConfigured, gigachatComplete } from "./_gigachat.js";
 
 const SYSTEM_PROMPT = `Ты — AI-модуль формирования продуктовых команд.
