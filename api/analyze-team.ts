@@ -1,72 +1,51 @@
 /* eslint-disable no-var */
 declare var process: { env: Record<string, string | undefined> };
 
-export const config = { runtime: "edge" };
-
 import { gigachatConfigured, gigachatComplete } from "./_gigachat.js";
+
+interface Req { method?: string; body: { idea: string } }
+interface Res { status(c: number): Res; json(d: unknown): void }
 
 const SYSTEM_PROMPT = `Ты — AI-модуль формирования продуктовых команд.
 Тебе дают продуктовую идею. Верни ТОЛЬКО валидный JSON (без markdown):
 
 {
-  "roles": [
-    {
-      "role": "string",
-      "speed": "fast" | "medium" | "slow",
-      "candidatesAvailable": число,
-      "requiredCompetencies": ["...", "..."]
-    }
-  ]
+  "roles": [{
+    "role": "string",
+    "speed": "fast" | "medium" | "slow",
+    "candidatesAvailable": число,
+    "requiredCompetencies": ["..."]
+  }]
 }
 
-Включи 4-6 ролей. fast — готовы сейчас, medium — 2-4 недели, slow — дефицит.`;
+Включи 4-6 ролей. fast — готовы, medium — 2-4 нед, slow — дефицит.`;
 
-export default async function handler(req: Request): Promise<Response> {
-  if (req.method !== "POST") {
-    return new Response(JSON.stringify({ error: "Method not allowed" }), { status: 405 });
-  }
+export default async function handler(req: Req, res: Res): Promise<void> {
+  if (req.method !== "POST") { res.status(405).json({ error: "Method not allowed" }); return; }
 
-  const { idea } = await req.json() as { idea: string };
-  const userMessage = `Продуктовая идея: ${idea}`;
-
+  const { idea } = req.body;
   try {
     let raw: string;
     if (gigachatConfigured()) {
-      raw = await gigachatComplete(SYSTEM_PROMPT, userMessage);
+      raw = await gigachatComplete(SYSTEM_PROMPT, `Идея: ${idea}`);
     } else if (process.env.ANTHROPIC_API_KEY) {
-      raw = await callAnthropic(SYSTEM_PROMPT, userMessage);
+      raw = await callAnthropic(SYSTEM_PROMPT, `Идея: ${idea}`);
     } else {
-      return new Response(JSON.stringify({ error: "No AI provider configured" }), { status: 501 });
+      res.status(501).json({ error: "No AI provider configured" }); return;
     }
-
     const parsed = JSON.parse(raw.replace(/```json|```/g, "").trim()) as Record<string, unknown>;
-    return new Response(
-      JSON.stringify({ ...parsed, provider: gigachatConfigured() ? "gigachat" : "anthropic" }),
-      { status: 200, headers: { "Content-Type": "application/json" } }
-    );
+    res.status(200).json({ ...parsed, provider: gigachatConfigured() ? "gigachat" : "anthropic" });
   } catch (err) {
-    return new Response(
-      JSON.stringify({ error: err instanceof Error ? err.message : "Unknown error" }),
-      { status: 500 }
-    );
+    res.status(500).json({ error: err instanceof Error ? err.message : "Unknown" });
   }
 }
 
 async function callAnthropic(system: string, user: string): Promise<string> {
-  const res = await fetch("https://api.anthropic.com/v1/messages", {
+  const r = await fetch("https://api.anthropic.com/v1/messages", {
     method: "POST",
-    headers: {
-      "Content-Type":      "application/json",
-      "x-api-key":         process.env.ANTHROPIC_API_KEY ?? "",
-      "anthropic-version": "2023-06-01",
-    },
-    body: JSON.stringify({
-      model: "claude-sonnet-4-6",
-      max_tokens: 1000,
-      system,
-      messages: [{ role: "user", content: user }],
-    }),
+    headers: { "Content-Type": "application/json", "x-api-key": process.env.ANTHROPIC_API_KEY ?? "", "anthropic-version": "2023-06-01" },
+    body: JSON.stringify({ model: "claude-sonnet-4-6", max_tokens: 1000, system, messages: [{ role: "user", content: user }] }),
   });
-  const data = await res.json() as { content: { type: string; text?: string }[] };
-  return data.content?.find((b) => b.type === "text")?.text ?? "";
+  const d = await r.json() as { content: { type: string; text?: string }[] };
+  return d.content?.find(b => b.type === "text")?.text ?? "";
 }
