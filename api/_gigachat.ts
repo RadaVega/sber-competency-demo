@@ -1,4 +1,5 @@
-import process from "node:process";
+/* eslint-disable no-var */
+declare var process: { env: Record<string, string | undefined> };
 
 const TOKEN_URL = "https://ngw.devices.sberbank.ru:9443/api/v2/oauth";
 const CHAT_URL  = "https://gigachat.devices.sberbank.ru/api/v1/chat/completions";
@@ -15,7 +16,7 @@ async function fetchToken(): Promise<string> {
   const now = Date.now();
   if (cachedToken && now < tokenExpiresAt - 30_000) return cachedToken;
 
-  const authKey = process.env.GIGACHAT_AUTH_KEY!;
+  const authKey = process.env.GIGACHAT_AUTH_KEY ?? "";
   const scope   = process.env.GIGACHAT_SCOPE ?? "GIGACHAT_API_PERS";
   const rqUID   = crypto.randomUUID();
 
@@ -56,8 +57,8 @@ export async function gigachatComplete(
       model:      MODEL,
       max_tokens: 1000,
       messages: [
-        { role: "system",  content: systemPrompt },
-        { role: "user",    content: userMessage  },
+        { role: "system", content: systemPrompt },
+        { role: "user",   content: userMessage  },
       ],
     }),
   });
@@ -67,8 +68,6 @@ export async function gigachatComplete(
     throw new Error(`GigaChat completion error ${res.status}: ${txt}`);
   }
 
-  const data = await res.json() as {
-    choices: { message: { content: string } }[];
-  };
+  const data = await res.json() as { choices: { message: { content: string } }[] };
   return data.choices[0]?.message?.content ?? "";
 }

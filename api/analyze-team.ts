@@ -1,4 +1,6 @@
-import process from "node:process";
+/* eslint-disable no-var */
+declare var process: { env: Record<string, string | undefined> };
+
 import { gigachatConfigured, gigachatComplete } from "./_gigachat.js";
 
 const SYSTEM_PROMPT = `Ты — AI-модуль формирования продуктовых команд.
@@ -63,9 +65,6 @@ async function callAnthropic(system: string, user: string): Promise<string> {
       messages: [{ role: "user", content: user }],
     }),
   });
-  const data = await res.json() as {
-    content: { type: string; text?: string }[];
-  };
-  const block = data.content?.find((b) => b.type === "text");
-  return block?.text ?? "";
+  const data = await res.json() as { content: { type: string; text?: string }[] };
+  return data.content?.find((b) => b.type === "text")?.text ?? "";
 }
