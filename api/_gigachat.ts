@@ -6,7 +6,7 @@ declare var process: { env: Record<string, string | undefined> };
 
 const TOKEN_URL = "https://ngw.devices.sberbank.ru:9443/api/v2/oauth";
 const CHAT_URL  = "https://gigachat.devices.sberbank.ru/api/v1/chat/completions";
-const MODEL     = "GigaChat-Lite";
+const MODEL     = process.env.GIGACHAT_MODEL ?? "GigaChat";
 
 // Token cache — valid 30 min per GigaChat docs
 let cachedToken: string | null = null;
