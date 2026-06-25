@@ -46,7 +46,7 @@ export function SberApp({
       {active === "ecosystem"     && <TalentEcosystemScreen mode={mode} onBack={() => onChangeScreen("team")} onNext={() => onChangeScreen("external")} />}
       {active === "external"      && <ExternalTalentDiscoveryScreen onBack={() => onChangeScreen("ecosystem")} onNext={() => onChangeScreen("pipeline")} />}
       {active === "pipeline"      && <TalentPipelineScreen mode={mode} onBack={() => onChangeScreen("external")} onNext={() => onChangeScreen("orchestration")} />}
-      {active === "orchestration" && <OrchestrationScreen onBack={() => onChangeScreen("pipeline")} onNext={() => onChangeScreen("executive")} />}
+      {active === "orchestration" && <OrchestrationScreen onBack={() => onChangeScreen("pipeline")} onNext={() => onChangeScreen("executive")} accentColor={mode.accentColor} />}
       {active === "executive"     && <ExecutiveScreen onBack={() => onChangeScreen("orchestration")} onNext={() => onChangeScreen("division")} />}
       {active === "division"      && <DivisionReadinessScreen onBack={() => onChangeScreen("executive")} />}
     </>

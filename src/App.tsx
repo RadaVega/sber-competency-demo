@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Play } from "lucide-react";
 import { ModeSwitcher } from "@/components/ModeSwitcher";
 import { LiveModeToggle } from "@/components/LiveModeToggle";
-import { modes, type ModeId, PLATFORM_NAME, PLATFORM_NAME_RU } from "@/data/modes";
+import { modes, type ModeId, PLATFORM_NAME } from "@/data/modes";
 import { bi } from "@/lib/bi";
 import { IntroScreen } from "@/screens/IntroScreen";
 import { SberApp, sberScreens, useSberScreenState } from "@/screens/sber/SberApp";
@@ -129,11 +129,10 @@ function TopBar({
               </span>
             </div>
             <div className="min-w-0">
-              <div className="flex items-baseline gap-2 leading-tight flex-wrap">
-                <span className="text-[13px] font-medium text-(--color-ink-1)">{PLATFORM_NAME}</span>
-                <span className="text-[11px] text-(--color-ink-3) hidden lg:inline">{PLATFORM_NAME_RU}</span>
+              <div className="text-[13px] font-medium text-(--color-ink-1) leading-tight truncate">
+                {PLATFORM_NAME}
               </div>
-              <div className="text-[11px] text-(--color-ink-3) font-mono leading-tight mt-0.5">
+              <div className="text-[11px] text-(--color-ink-3) font-mono leading-tight mt-0.5 truncate">
                 {config.org} · {config.scenarioName}
               </div>
             </div>
