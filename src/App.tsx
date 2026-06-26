@@ -113,7 +113,7 @@ function TopBar({
   const config = modes[mode];
 
   return (
-    <header className="sticky top-0 z-20 border-b border-(--color-border) bg-(--color-canvas)/90 backdrop-blur">
+    <header className="sticky top-0 z-20 border-b border-(--color-border-soft) glass-subtle">
       <div className="mx-auto max-w-[1280px] px-4 sm:px-8 py-3 sm:py-4 flex flex-col gap-3">
         <div className="flex items-center justify-between gap-4">
           <button

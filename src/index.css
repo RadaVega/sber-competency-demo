@@ -1,56 +1,73 @@
 @import "tailwindcss";
 
 @theme {
-  /* ---- Canvas & surfaces ---- */
-  --color-canvas: #0B0E14;          /* near-black blue, not pure black */
-  --color-surface: #11151D;         /* card background */
-  --color-surface-raised: #161B25;  /* hovered / elevated card */
-  --color-border: #232A37;          /* hairline borders */
-  --color-border-soft: #1A2029;
+  /* ========================================================
+     CAPABILITY INTELLIGENCE PLATFORM — DESIGN SYSTEM v2
+     Inspired by Tochka Sborki: deep space, glass morphism,
+     gradient accents, expressive typography.
+     Still executive-grade — not a marketing site.
+     ======================================================== */
+
+  /* ---- Canvas (deeper, richer than v1) ---- */
+  --color-canvas:        #06091A;   /* deep space navy */
+  --color-canvas-mid:   #080C20;   /* slightly lighter layer */
+  --color-surface:      #0D1128;   /* card background */
+  --color-surface-raised: #111530; /* hovered / elevated */
+  --color-border:        #1E2444;  /* hairline */
+  --color-border-soft:   #151933;  /* softer dividers */
 
   /* ---- Text ---- */
-  --color-ink-1: #E7EAF0;           /* primary text */
-  --color-ink-2: #9AA4B6;           /* secondary text */
-  --color-ink-3: #5C6680;           /* tertiary / captions */
+  --color-ink-1:  #EDF0FA;   /* primary — cooler white */
+  --color-ink-2:  #8E96B8;   /* secondary */
+  --color-ink-3:  #4A5278;   /* tertiary / captions */
 
-  /* ---- Accent: signal amber (the "alert / focus" color of an ops desk) ---- */
-  --color-signal: #E8A33D;
-  --color-signal-soft: #3A2E18;
+  /* ---- Accent: electric violet — the platform's identity color ---- */
+  --color-signal:       #7C6EFF;   /* electric violet */
+  --color-signal-soft:  #1A1740;
+  --color-signal-mid:   #3D3880;
+
+  /* ---- Gradient stops for accent ---- */
+  --color-grad-from:  #7C6EFF;   /* violet */
+  --color-grad-to:    #4FA8FF;   /* electric blue */
 
   /* ---- Status ---- */
-  --color-good: #4FAE82;
-  --color-good-soft: #16241D;
-  --color-warn: #D98B3D;
-  --color-warn-soft: #2B2014;
-  --color-risk: #C75D5D;
-  --color-risk-soft: #2B1818;
+  --color-good:      #36C882;   /* emerald */
+  --color-good-soft: #0C2820;
+  --color-warn:      #F5A623;
+  --color-warn-soft: #2A1E08;
+  --color-risk:      #FF4D6A;
+  --color-risk-soft: #2A0D14;
 
-  /* ---- Sber brand thread (used sparingly, never as primary) ---- */
-  --color-sber: #21A038;
+  /* ---- Company accents (used in badges & mode-specific elements) ---- */
+  --color-sber:    #21A038;
+  --color-vk:      #0077FF;
+  --color-rosatom: #6BC4E8;
+  --color-yandex:  #FFCC00;
 
-  /* ---- Type ---- */
+  /* ---- Type scale ---- */
   --font-display: "Fraunces", "Georgia", serif;
-  --font-sans: "Inter", -apple-system, "Segoe UI", sans-serif;
-  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --font-sans:    "Inter", -apple-system, "Segoe UI", sans-serif;
+  --font-mono:    "IBM Plex Mono", ui-monospace, monospace;
 }
 
+/* ================================================================
+   BASE
+   ================================================================ */
 @layer base {
   html {
     background: var(--color-canvas);
     color-scheme: dark;
   }
+
   body {
     background: var(--color-canvas);
     color: var(--color-ink-1);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
   }
-  * {
-    border-color: var(--color-border);
-  }
 
-  /* Consistent keyboard focus ring everywhere — buttons, inputs, links.
-     Mouse/touch interaction never shows it (focus-visible only). */
+  * { border-color: var(--color-border); }
+
   button:focus-visible,
   input:focus-visible,
   a:focus-visible,
@@ -61,37 +78,117 @@
   }
 }
 
+/* ================================================================
+   ANIMATIONS
+   ================================================================ */
 @keyframes screen-in {
-  from {
-    opacity: 0;
-    transform: translateY(6px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
-
 .animate-screen-in {
-  animation: screen-in 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+  animation: screen-in 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
-
 @media (prefers-reduced-motion: reduce) {
-  .animate-screen-in {
-    animation: none;
-  }
+  .animate-screen-in { animation: none; }
 }
 
+@keyframes gradient-shift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradient-shift 6s ease infinite;
+}
+
+@keyframes float-glow {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50%       { opacity: 0.65; transform: scale(1.08); }
+}
+.animate-glow {
+  animation: float-glow 4s ease-in-out infinite;
+}
+
+/* ================================================================
+   UTILITIES
+   ================================================================ */
 @layer utilities {
   .font-display { font-family: var(--font-display); }
-  .font-mono { font-family: var(--font-mono); }
+  .font-mono    { font-family: var(--font-mono); }
+  .text-balance { text-wrap: balance; }
 
+  /* Subtle grid — barely visible on deep navy */
   .grid-overlay {
     background-image:
-      linear-gradient(to right, var(--color-border-soft) 1px, transparent 1px),
+      linear-gradient(to right,  var(--color-border-soft) 1px, transparent 1px),
       linear-gradient(to bottom, var(--color-border-soft) 1px, transparent 1px);
     background-size: 64px 64px;
   }
 
-  .text-balance { text-wrap: balance; }
+  /* Glass morphism card */
+  .glass {
+    background: rgba(13, 17, 40, 0.7);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(124, 110, 255, 0.15);
+  }
+  .glass-subtle {
+    background: rgba(8, 12, 32, 0.6);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+
+  /* Gradient text */
+  .text-gradient {
+    background: linear-gradient(135deg, var(--color-grad-from), var(--color-grad-to));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .text-gradient-accent {
+    background: linear-gradient(135deg, #7C6EFF, #4FA8FF, #36C882);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Gradient borders */
+  .border-gradient {
+    border: 1px solid transparent;
+    background-clip: padding-box;
+    position: relative;
+  }
+  .border-gradient::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    background: linear-gradient(135deg, var(--color-grad-from), var(--color-grad-to));
+    z-index: -1;
+    opacity: 0.3;
+  }
+
+  /* Glow shadows */
+  .glow-signal {
+    box-shadow: 0 0 24px rgba(124, 110, 255, 0.25), 0 0 8px rgba(124, 110, 255, 0.15);
+  }
+  .glow-good {
+    box-shadow: 0 0 20px rgba(54, 200, 130, 0.2);
+  }
+  .glow-warn {
+    box-shadow: 0 0 20px rgba(245, 166, 35, 0.2);
+  }
+  .glow-risk {
+    box-shadow: 0 0 20px rgba(255, 77, 106, 0.2);
+  }
+
+  /* Ambient radial gradient bg — used on intro + special screens */
+  .ambient-bg {
+    background:
+      radial-gradient(ellipse 60% 50% at 20% 30%, rgba(124,110,255,0.12) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 40% at 80% 70%, rgba(79,168,255,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 60% at 50% 0%,  rgba(54,200,130,0.04) 0%, transparent 50%);
+  }
 }
