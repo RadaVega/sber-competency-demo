@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { StrategicEcosystemScreen } from "@/screens/shared/StrategicEcosystemScreen";
+import { StrategicInitiativeScreen } from "@/screens/shared/StrategicInitiativeScreen";
 import { VKInitiativeScreen } from "@/screens/vk/VKInitiativeScreen";
 import { VKTalentDiscoveryScreen } from "@/screens/vk/VKTalentDiscoveryScreen";
 import { VKSimulatorScreen } from "@/screens/vk/VKSimulatorScreen";
@@ -10,14 +11,15 @@ import { TalentPipelineScreen } from "@/screens/shared/TalentPipelineScreen";
 import { modes } from "@/data/modes";
 
 export const vkScreens = [
-  { id: "ecosystem-concept", label: "Why",        labelRu: "Концепция",       number: "00" },
-  { id: "initiative",        label: "Initiative", labelRu: "Инициатива",      number: "01" },
-  { id: "talent",            label: "Talent",     labelRu: "Эксперты",        number: "02" },
-  { id: "simulator",         label: "Simulator",  labelRu: "Симулятор",       number: "03" },
-  { id: "ecosystem",         label: "Ecosystem",  labelRu: "Экосистема",      number: "04" },
-  { id: "external",          label: "External",   labelRu: "Внешние таланты", number: "05" },
-  { id: "pipeline",          label: "Pipeline",   labelRu: "Конвейер",        number: "06" },
-  { id: "executive",         label: "Executive",  labelRu: "Рекомендация",    number: "07" },
+  { id: "why",        label: "Why",        labelRu: "Почему",          number: "00" },
+  { id: "initiative", label: "Initiative", labelRu: "Инициатива",      number: "01" },
+  { id: "team-build", label: "Teams",      labelRu: "Сборка команд",   number: "02" },
+  { id: "talent",     label: "Talent",     labelRu: "Эксперты",        number: "03" },
+  { id: "simulator",  label: "Simulator",  labelRu: "Симулятор",       number: "04" },
+  { id: "ecosystem",  label: "Ecosystem",  labelRu: "Экосистема",      number: "05" },
+  { id: "external",   label: "External",   labelRu: "Внешние таланты", number: "06" },
+  { id: "pipeline",   label: "Pipeline",   labelRu: "Конвейер",        number: "07" },
+  { id: "executive",  label: "Outcome",    labelRu: "Результат",       number: "08" },
 ] as const;
 
 export type VKScreenId = (typeof vkScreens)[number]["id"];
@@ -27,16 +29,17 @@ export function VKApp({ active, onChangeScreen }: { active: VKScreenId; onChange
   const go   = onChangeScreen;
   return (
     <>
-      {active === "ecosystem-concept" && <StrategicEcosystemScreen mode={mode} onBack={() => {}} onNext={() => go("initiative")} />}
-      {active === "initiative"        && <VKInitiativeScreen onNext={() => go("talent")} />}
-      {active === "talent"            && <VKTalentDiscoveryScreen onBack={() => go("initiative")} onNext={() => go("simulator")} />}
-      {active === "simulator"         && <VKSimulatorScreen onBack={() => go("talent")} onNext={() => go("ecosystem")} />}
-      {active === "ecosystem"         && <TalentEcosystemScreen mode={mode} onBack={() => go("simulator")} onNext={() => go("external")} />}
-      {active === "external"          && <ExternalTalentDiscoveryScreen onBack={() => go("ecosystem")} onNext={() => go("pipeline")} />}
-      {active === "pipeline"          && <TalentPipelineScreen mode={mode} onBack={() => go("external")} onNext={() => go("executive")} />}
-      {active === "executive"         && <VKExecutiveScreen onBack={() => go("pipeline")} />}
+      {active === "why"        && <StrategicEcosystemScreen mode={mode} onBack={() => {}} onNext={() => go("initiative")} />}
+      {active === "initiative" && <StrategicInitiativeScreen mode={mode} onBack={() => go("why")} onNext={() => go("team-build")} />}
+      {active === "team-build" && <VKInitiativeScreen onNext={() => go("talent")} />}
+      {active === "talent"     && <VKTalentDiscoveryScreen onBack={() => go("team-build")} onNext={() => go("simulator")} />}
+      {active === "simulator"  && <VKSimulatorScreen onBack={() => go("talent")} onNext={() => go("ecosystem")} />}
+      {active === "ecosystem"  && <TalentEcosystemScreen mode={mode} onBack={() => go("simulator")} onNext={() => go("external")} />}
+      {active === "external"   && <ExternalTalentDiscoveryScreen onBack={() => go("ecosystem")} onNext={() => go("pipeline")} />}
+      {active === "pipeline"   && <TalentPipelineScreen mode={mode} onBack={() => go("external")} onNext={() => go("executive")} />}
+      {active === "executive"  && <VKExecutiveScreen onBack={() => go("pipeline")} />}
     </>
   );
 }
 
-export function useVKScreenState() { return useState<VKScreenId>("ecosystem-concept"); }
+export function useVKScreenState() { return useState<VKScreenId>("why"); }

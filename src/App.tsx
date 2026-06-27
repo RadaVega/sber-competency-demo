@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Play } from "lucide-react";
 import { ModeSwitcher } from "@/components/ModeSwitcher";
 import { LiveModeToggle } from "@/components/LiveModeToggle";
+import { ViewModeSwitcher } from "@/components/ViewModeSwitcher";
 import { modes, type ModeId, PLATFORM_NAME } from "@/data/modes";
 import { bi } from "@/lib/bi";
 import { IntroScreen } from "@/screens/IntroScreen";
@@ -138,6 +139,7 @@ function TopBar({
             </div>
           </button>
 
+          <ViewModeSwitcher />
           <LiveModeToggle />
           <div className="shrink-0">
             <ModeSwitcher active={mode} onChange={onModeChange} />
