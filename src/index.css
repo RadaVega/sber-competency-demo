@@ -1,53 +1,56 @@
 @import "tailwindcss";
 
 @theme {
-  /* ========================================================
-     CAPABILITY INTELLIGENCE PLATFORM — DESIGN SYSTEM v2
-     Inspired by Tochka Sborki: deep space, glass morphism,
-     gradient accents, expressive typography.
-     Still executive-grade — not a marketing site.
-     ======================================================== */
+  /* ================================================================
+     CAPABILITY INTELLIGENCE PLATFORM
+     PRESENTATION-GRADE DESIGN SYSTEM
+     Optimised for boardroom projectors, VP demos, large screens.
+     Base font scale is 20% larger than v2 — legible at 3m distance.
+     ================================================================ */
 
-  /* ---- Canvas (deeper, richer than v1) ---- */
-  --color-canvas:        #06091A;   /* deep space navy */
-  --color-canvas-mid:   #080C20;   /* slightly lighter layer */
-  --color-surface:      #0D1128;   /* card background */
-  --color-surface-raised: #111530; /* hovered / elevated */
-  --color-border:        #1E2444;  /* hairline */
-  --color-border-soft:   #151933;  /* softer dividers */
+  /* Canvas */
+  --color-canvas:         #06091A;
+  --color-canvas-mid:     #080C20;
+  --color-surface:        #0D1128;
+  --color-surface-raised: #121630;
+  --color-border:         #1E2444;
+  --color-border-soft:    #151933;
 
-  /* ---- Text ---- */
-  --color-ink-1:  #EDF0FA;   /* primary — cooler white */
-  --color-ink-2:  #8E96B8;   /* secondary */
-  --color-ink-3:  #4A5278;   /* tertiary / captions */
+  /* Text — higher contrast than v2 */
+  --color-ink-1: #F0F3FF;
+  --color-ink-2: #9BA5CC;
+  --color-ink-3: #4D5680;
 
-  /* ---- Accent: electric violet — the platform's identity color ---- */
-  --color-signal:       #7C6EFF;   /* electric violet */
-  --color-signal-soft:  #1A1740;
-  --color-signal-mid:   #3D3880;
+  /* Primary accent */
+  --color-signal:       #8B7FFF;
+  --color-signal-soft:  #1C1A44;
+  --color-grad-from:    #8B7FFF;
+  --color-grad-to:      #56AEFF;
 
-  /* ---- Gradient stops for accent ---- */
-  --color-grad-from:  #7C6EFF;   /* violet */
-  --color-grad-to:    #4FA8FF;   /* electric blue */
+  /* Status */
+  --color-good:      #3ED98A;
+  --color-good-soft: #0B2318;
+  --color-warn:      #F5B731;
+  --color-warn-soft: #2C1E06;
+  --color-risk:      #FF5577;
+  --color-risk-soft: #2C0D15;
 
-  /* ---- Status ---- */
-  --color-good:      #36C882;   /* emerald */
-  --color-good-soft: #0C2820;
-  --color-warn:      #F5A623;
-  --color-warn-soft: #2A1E08;
-  --color-risk:      #FF4D6A;
-  --color-risk-soft: #2A0D14;
-
-  /* ---- Company accents (used in badges & mode-specific elements) ---- */
+  /* Company accents */
   --color-sber:    #21A038;
   --color-vk:      #0077FF;
   --color-rosatom: #6BC4E8;
   --color-yandex:  #FFCC00;
 
-  /* ---- Type scale ---- */
+  /* Typography — presentation scale */
   --font-display: "Fraunces", "Georgia", serif;
   --font-sans:    "Inter", -apple-system, "Segoe UI", sans-serif;
   --font-mono:    "IBM Plex Mono", ui-monospace, monospace;
+
+  /* Presentation font sizes (larger than web default) */
+  --text-body:    16px;
+  --text-sm:      14px;
+  --text-xs:      13px;
+  --text-2xs:     12px;
 }
 
 /* ================================================================
@@ -57,36 +60,41 @@
   html {
     background: var(--color-canvas);
     color-scheme: dark;
+    font-size: var(--text-body);
   }
-
   body {
     background: var(--color-canvas);
     color: var(--color-ink-1);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
+    font-size: var(--text-body);
+    line-height: 1.6;
   }
-
   * { border-color: var(--color-border); }
 
+  /* Presentation-grade focus ring */
   button:focus-visible,
   input:focus-visible,
-  a:focus-visible,
-  [tabindex]:focus-visible {
+  a:focus-visible {
     outline: none;
     box-shadow: 0 0 0 2px var(--color-canvas), 0 0 0 4px var(--color-signal);
-    border-radius: 6px;
+    border-radius: 8px;
   }
+
+  /* Larger base for all text */
+  p   { font-size: 15px; line-height: 1.65; }
+  li  { font-size: 15px; }
 }
 
 /* ================================================================
    ANIMATIONS
    ================================================================ */
 @keyframes screen-in {
-  from { opacity: 0; transform: translateY(8px); }
+  from { opacity: 0; transform: translateY(10px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 .animate-screen-in {
-  animation: screen-in 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  animation: screen-in 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 @media (prefers-reduced-motion: reduce) {
   .animate-screen-in { animation: none; }
@@ -97,18 +105,19 @@
   50%  { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 }
-.animate-gradient {
-  background-size: 200% 200%;
-  animation: gradient-shift 6s ease infinite;
-}
+.animate-gradient { background-size: 200% 200%; animation: gradient-shift 6s ease infinite; }
 
 @keyframes float-glow {
   0%, 100% { opacity: 0.4; transform: scale(1); }
-  50%       { opacity: 0.65; transform: scale(1.08); }
+  50%       { opacity: 0.7; transform: scale(1.1); }
 }
-.animate-glow {
-  animation: float-glow 4s ease-in-out infinite;
+.animate-glow { animation: float-glow 4s ease-in-out infinite; }
+
+@keyframes walkthrough-pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.6; }
 }
+.animate-wt-pulse { animation: walkthrough-pulse 2s ease-in-out infinite; }
 
 /* ================================================================
    UTILITIES
@@ -118,7 +127,6 @@
   .font-mono    { font-family: var(--font-mono); }
   .text-balance { text-wrap: balance; }
 
-  /* Subtle grid — barely visible on deep navy */
   .grid-overlay {
     background-image:
       linear-gradient(to right,  var(--color-border-soft) 1px, transparent 1px),
@@ -126,18 +134,24 @@
     background-size: 64px 64px;
   }
 
-  /* Glass morphism card */
+  /* Glass — presentation surfaces */
   .glass {
-    background: rgba(13, 17, 40, 0.7);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(124, 110, 255, 0.15);
+    background: rgba(13, 17, 40, 0.75);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(139, 127, 255, 0.12);
   }
   .glass-subtle {
-    background: rgba(8, 12, 32, 0.6);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border: 1px solid rgba(255,255,255,0.06);
+    background: rgba(8, 12, 32, 0.65);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+  }
+  .glass-dark {
+    background: rgba(4, 6, 16, 0.92);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(139, 127, 255, 0.2);
   }
 
   /* Gradient text */
@@ -148,47 +162,50 @@
     background-clip: text;
   }
   .text-gradient-accent {
-    background: linear-gradient(135deg, #7C6EFF, #4FA8FF, #36C882);
+    background: linear-gradient(135deg, #8B7FFF, #56AEFF, #3ED98A);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
 
-  /* Gradient borders */
-  .border-gradient {
-    border: 1px solid transparent;
-    background-clip: padding-box;
-    position: relative;
-  }
-  .border-gradient::before {
-    content: '';
-    position: absolute;
-    inset: -1px;
-    border-radius: inherit;
-    background: linear-gradient(135deg, var(--color-grad-from), var(--color-grad-to));
-    z-index: -1;
-    opacity: 0.3;
-  }
+  /* Glows */
+  .glow-signal { box-shadow: 0 0 28px rgba(139,127,255,0.25), 0 0 8px rgba(139,127,255,0.12); }
+  .glow-good   { box-shadow: 0 0 24px rgba(62,217,138,0.2); }
+  .glow-warn   { box-shadow: 0 0 24px rgba(245,183,49,0.2); }
+  .glow-risk   { box-shadow: 0 0 24px rgba(255,85,119,0.2); }
 
-  /* Glow shadows */
-  .glow-signal {
-    box-shadow: 0 0 24px rgba(124, 110, 255, 0.25), 0 0 8px rgba(124, 110, 255, 0.15);
-  }
-  .glow-good {
-    box-shadow: 0 0 20px rgba(54, 200, 130, 0.2);
-  }
-  .glow-warn {
-    box-shadow: 0 0 20px rgba(245, 166, 35, 0.2);
-  }
-  .glow-risk {
-    box-shadow: 0 0 20px rgba(255, 77, 106, 0.2);
-  }
-
-  /* Ambient radial gradient bg — used on intro + special screens */
+  /* Ambient background */
   .ambient-bg {
     background:
-      radial-gradient(ellipse 60% 50% at 20% 30%, rgba(124,110,255,0.12) 0%, transparent 60%),
-      radial-gradient(ellipse 40% 40% at 80% 70%, rgba(79,168,255,0.08) 0%, transparent 60%),
-      radial-gradient(ellipse 50% 60% at 50% 0%,  rgba(54,200,130,0.04) 0%, transparent 50%);
+      radial-gradient(ellipse 60% 50% at 20% 30%, rgba(139,127,255,0.13) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 40% at 80% 70%, rgba(86,174,255,0.09) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 60% at 50% 0%,  rgba(62,217,138,0.05) 0%, transparent 50%);
+  }
+
+  /* ---- PRESENTATION-GRADE TYPOGRAPHY SCALE ---- */
+  /* Body */
+  .text-pres-xs  { font-size: 13px; line-height: 1.5; }
+  .text-pres-sm  { font-size: 14px; line-height: 1.55; }
+  .text-pres-base{ font-size: 16px; line-height: 1.6; }
+  .text-pres-lg  { font-size: 18px; line-height: 1.55; }
+  .text-pres-xl  { font-size: 20px; line-height: 1.5; }
+
+  /* Display / headings */
+  .text-pres-h3  { font-size: 22px; line-height: 1.3; }
+  .text-pres-h2  { font-size: 28px; line-height: 1.25; }
+  .text-pres-h1  { font-size: 38px; line-height: 1.2; }
+  .text-pres-hero{ font-size: 52px; line-height: 1.1; }
+
+  /* Metric numbers — huge on projector */
+  .text-pres-metric-sm { font-size: 40px; line-height: 1; }
+  .text-pres-metric    { font-size: 56px; line-height: 1; }
+  .text-pres-metric-lg { font-size: 72px; line-height: 1; }
+
+  /* Labels / eyebrows — must be legible at distance */
+  .text-pres-label {
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-family: var(--font-mono);
   }
 }

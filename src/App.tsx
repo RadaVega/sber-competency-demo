@@ -13,18 +13,17 @@ import { RosatomApp, rosatomScreens, useRosatomScreenState } from "@/screens/ros
 import { YandexApp, yandexScreens, useYandexScreenState } from "@/screens/yandex/YandexApp";
 
 function App() {
-  const [mode, setMode] = useState<ModeId>("sber");
+  const [mode, setMode]   = useState<ModeId>("sber");
   const [started, setStarted] = useState(false);
-  const [walkthroughActive, setWalkthroughActive] = useState(false);
+  const [walkthrough, setWalkthrough] = useState(false);
 
-  const [sberScreen, setSberScreen] = useSberScreenState();
-  const [vkScreen, setVkScreen] = useVKScreenState();
+  const [sberScreen,    setSberScreen]    = useSberScreenState();
+  const [vkScreen,      setVkScreen]      = useVKScreenState();
   const [rosatomScreen, setRosatomScreen] = useRosatomScreenState();
-  const [yandexScreen, setYandexScreen] = useYandexScreenState();
+  const [yandexScreen,  setYandexScreen]  = useYandexScreenState();
 
-  function handleModeChange(id: ModeId) {
-    setMode(id);
-    setWalkthroughActive(false);
+  function changeMode(id: ModeId) {
+    setMode(id); setWalkthrough(false);
     if (started) {
       if (id === "sber")    setSberScreen("why");
       if (id === "vk")      setVkScreen("why");
@@ -34,54 +33,42 @@ function App() {
   }
 
   const navItems =
-    mode === "sber"    ? sberScreens    :
-    mode === "vk"      ? vkScreens      :
-    mode === "rosatom" ? rosatomScreens :
-    yandexScreens;
+    mode === "sber" ? sberScreens : mode === "vk" ? vkScreens :
+    mode === "rosatom" ? rosatomScreens : yandexScreens;
 
-  const activeScreenId =
-    mode === "sber"    ? sberScreen    :
-    mode === "vk"      ? vkScreen      :
-    mode === "rosatom" ? rosatomScreen :
-    yandexScreen;
+  const activeId =
+    mode === "sber" ? sberScreen : mode === "vk" ? vkScreen :
+    mode === "rosatom" ? rosatomScreen : yandexScreen;
 
-  function handleNavClick(id: string) {
+  function nav(id: string) {
     if (!started) setStarted(true);
-    setWalkthroughActive(false);
+    setWalkthrough(false);
     if (mode === "sber")    setSberScreen(id as never);
     if (mode === "vk")      setVkScreen(id as never);
     if (mode === "rosatom") setRosatomScreen(id as never);
     if (mode === "yandex")  setYandexScreen(id as never);
   }
 
-  function handleWalkthroughNavigate(screenId: string) {
+  function wtNav(id: string) {
     if (!started) setStarted(true);
-    if (mode === "sber")    setSberScreen(screenId as never);
-    if (mode === "vk")      setVkScreen(screenId as never);
-    if (mode === "rosatom") setRosatomScreen(screenId as never);
-    if (mode === "yandex")  setYandexScreen(screenId as never);
-  }
-
-  function startWalkthrough() {
-    setStarted(true);
-    setWalkthroughActive(true);
+    if (mode === "sber")    setSberScreen(id as never);
+    if (mode === "vk")      setVkScreen(id as never);
+    if (mode === "rosatom") setRosatomScreen(id as never);
+    if (mode === "yandex")  setYandexScreen(id as never);
   }
 
   return (
     <div className="min-h-screen bg-(--color-canvas)">
       <TopBar
-        mode={mode}
-        onModeChange={handleModeChange}
-        navItems={navItems}
-        activeScreenId={started ? activeScreenId : "intro"}
-        onNavClick={handleNavClick}
-        started={started}
-        onReturnToIntro={() => { setStarted(false); setWalkthroughActive(false); }}
-        onStartWalkthrough={startWalkthrough}
-        walkthroughActive={walkthroughActive}
+        mode={mode} onModeChange={changeMode}
+        navItems={navItems} activeId={started ? activeId : "intro"}
+        onNav={nav} started={started}
+        onHome={() => { setStarted(false); setWalkthrough(false); }}
+        onWalkthrough={() => { setStarted(true); setWalkthrough(true); }}
+        walkthroughActive={walkthrough}
       />
 
-      <main key={started ? `${mode}-${activeScreenId}` : `${mode}-intro`} className="animate-screen-in">
+      <main key={started ? `${mode}-${activeId}` : `${mode}-intro`} className="animate-screen-in">
         {!started && <IntroScreen mode={modes[mode]} onStart={() => setStarted(true)} />}
         {started && mode === "sber"    && <SberApp    active={sberScreen}    onChangeScreen={setSberScreen} />}
         {started && mode === "vk"      && <VKApp      active={vkScreen}      onChangeScreen={setVkScreen} />}
@@ -89,64 +76,44 @@ function App() {
         {started && mode === "yandex"  && <YandexApp  active={yandexScreen}  onChangeScreen={setYandexScreen} />}
       </main>
 
-      {walkthroughActive && (
-        <ExecutiveWalkthrough
-          companyMode={mode}
-          onNavigate={handleWalkthroughNavigate}
-          onClose={() => setWalkthroughActive(false)}
-        />
+      {walkthrough && (
+        <ExecutiveWalkthrough companyMode={mode} onNavigate={wtNav} onClose={() => setWalkthrough(false)} />
       )}
     </div>
   );
 }
 
-function TopBar({
-  mode, onModeChange, navItems, activeScreenId,
-  onNavClick, started, onReturnToIntro, onStartWalkthrough, walkthroughActive,
-}: {
-  mode: ModeId;
-  onModeChange: (id: ModeId) => void;
+function TopBar({ mode, onModeChange, navItems, activeId, onNav, started, onHome, onWalkthrough, walkthroughActive }: {
+  mode: ModeId; onModeChange: (id: ModeId) => void;
   navItems: readonly { id: string; label: string; labelRu: string; number: string }[];
-  activeScreenId: string;
-  onNavClick: (id: string) => void;
-  started: boolean;
-  onReturnToIntro: () => void;
-  onStartWalkthrough: () => void;
-  walkthroughActive: boolean;
+  activeId: string; onNav: (id: string) => void;
+  started: boolean; onHome: () => void;
+  onWalkthrough: () => void; walkthroughActive: boolean;
 }) {
-  const config = modes[mode];
-
+  const cfg = modes[mode];
   return (
     <header className="sticky top-0 z-20 border-b border-(--color-border-soft) glass-subtle">
-      <div className="mx-auto max-w-[1280px] px-4 sm:px-8 py-3 sm:py-4 flex flex-col gap-3">
+      <div className="mx-auto max-w-[1440px] px-6 sm:px-10 py-4 flex flex-col gap-3">
 
         {/* Top row */}
-        <div className="flex items-center justify-between gap-3">
-          <button onClick={onReturnToIntro} className="flex items-center gap-3 min-w-0 text-left hover:opacity-80 transition-opacity">
-            <div
-              className="h-7 w-7 rounded-lg flex items-center justify-center shrink-0 font-bold text-[11px]"
-              style={{ background: config.accentColor, color: "#06091A", boxShadow: `0 0 12px ${config.accentColor}44` }}
-            >
-              {config.badgeLetter}
+        <div className="flex items-center justify-between gap-4">
+          <button onClick={onHome} className="flex items-center gap-4 min-w-0 text-left hover:opacity-80 transition-opacity">
+            <div className="h-9 w-9 rounded-xl flex items-center justify-center shrink-0 font-bold text-[13px]"
+              style={{ background: cfg.accentColor, color: "#06091A", boxShadow: `0 0 16px ${cfg.accentColor}55` }}>
+              {cfg.badgeLetter}
             </div>
             <div className="min-w-0 hidden sm:block">
-              <div className="text-[13px] font-semibold text-(--color-ink-1) leading-tight truncate">{PLATFORM_NAME}</div>
-              <div className="text-[11px] text-(--color-ink-3) font-mono leading-tight mt-0.5 truncate">{config.org} · {config.scenarioName}</div>
+              <div className="text-pres-base font-semibold text-(--color-ink-1) leading-tight truncate">{PLATFORM_NAME}</div>
+              <div className="text-pres-xs text-(--color-ink-3) font-mono mt-0.5 truncate">{cfg.org} · {cfg.scenarioName}</div>
             </div>
           </button>
 
-          <div className="flex items-center gap-2 shrink-0">
-            {/* Executive Walkthrough button */}
-            <button
-              onClick={onStartWalkthrough}
-              className={`hidden sm:flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-[11.5px] font-mono transition-all ${
-                walkthroughActive
-                  ? "text-(--color-signal) glass border-(--color-signal)/30"
-                  : "glass-subtle text-(--color-ink-3) hover:text-(--color-ink-2)"
-              }`}
-              title="Auto-play executive demo (3-5 min)"
-            >
-              <Clapperboard className="h-3.5 w-3.5" />
+          <div className="flex items-center gap-2 shrink-0 flex-wrap justify-end">
+            <button onClick={onWalkthrough}
+              className={`hidden sm:flex items-center gap-2 rounded-xl px-4 py-2 text-pres-sm font-mono transition-all ${
+                walkthroughActive ? "glass border-(--color-signal)/30 text-(--color-signal)" : "glass-subtle text-(--color-ink-3) hover:text-(--color-ink-2)"
+              }`} title="Auto-play executive walkthrough (~3 min)">
+              <Clapperboard className="h-4 w-4" />
               Walkthrough
             </button>
             <ViewModeSwitcher />
@@ -156,30 +123,25 @@ function TopBar({
         </div>
 
         {/* Nav row */}
-        <div className="flex items-center gap-1 overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0">
+        <div className="flex items-center gap-1 overflow-x-auto -mx-6 px-6 sm:mx-0 sm:px-0 scrollbar-hide">
           {!started ? (
-            <div className="flex items-center gap-1.5 px-3 py-1.5 text-[12px] font-mono text-(--color-signal)">
-              <Play className="h-3 w-3" /> Intro
+            <div className="flex items-center gap-2 px-4 py-2 text-pres-sm font-mono text-(--color-signal)">
+              <Play className="h-3.5 w-3.5" /> Intro
             </div>
-          ) : (
-            navItems.map((s) => (
-              <button
-                key={s.id}
-                onClick={() => onNavClick(s.id)}
-                className={[
-                  "px-3 py-1.5 rounded-lg text-[12px] font-mono transition-all whitespace-nowrap shrink-0",
-                  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-signal)",
-                  activeScreenId === s.id
-                    ? "bg-(--color-surface-raised) text-(--color-ink-1) shadow-sm"
-                    : "text-(--color-ink-3) hover:text-(--color-ink-2) hover:bg-(--color-surface)",
-                ].join(" ")}
-                title={bi(s.label, s.labelRu)}
-              >
-                <span className="text-(--color-signal) mr-1">{s.number}</span>
-                {s.label}
-              </button>
-            ))
-          )}
+          ) : navItems.map(s => (
+            <button key={s.id} onClick={() => onNav(s.id)}
+              className={[
+                "px-4 py-2 rounded-xl text-pres-sm font-mono transition-all whitespace-nowrap shrink-0",
+                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-signal)",
+                activeId === s.id
+                  ? "bg-(--color-surface-raised) text-(--color-ink-1) shadow-sm"
+                  : "text-(--color-ink-3) hover:text-(--color-ink-2) hover:bg-(--color-surface)",
+              ].join(" ")}
+              title={bi(s.label, s.labelRu)}>
+              <span className="text-(--color-signal) mr-1.5">{s.number}</span>
+              {s.label}
+            </button>
+          ))}
         </div>
       </div>
     </header>

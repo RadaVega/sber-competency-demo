@@ -51,7 +51,7 @@ export function EmployeeScreen({
           <div className="text-[11px] uppercase tracking-[0.14em] text-(--color-signal) font-mono mb-3">
             {bi("Employee Competency Analysis", "Анализ компетенций сотрудника")}
           </div>
-          <h1 className="font-display text-[34px] text-(--color-ink-1) leading-tight">
+          <h1 className="font-display text-pres-hero text-(--color-ink-1) leading-tight">
             Анализ сотрудника
           </h1>
         </div>
@@ -106,7 +106,7 @@ export function EmployeeScreen({
             {status === "idle" && (
               <button
                 onClick={handleAnalyze}
-                className="w-full flex items-center justify-center gap-2 rounded-md bg-(--color-signal) px-4 py-3 text-[13px] font-medium text-(--color-canvas) hover:brightness-110 transition-all"
+                className="w-full flex items-center justify-center gap-3 rounded-xl px-5 py-4 text-pres-base font-semibold text-white hover:scale-105 transition-all"
               >
                 <Sparkles className="h-4 w-4" />
                 Анализировать компетенции
@@ -162,7 +162,7 @@ export function EmployeeScreen({
                   {result.criticalGaps.map((g) => (
                     <span
                       key={g}
-                      className="inline-flex items-center gap-1.5 rounded-full border border-(--color-risk)/30 bg-(--color-risk-soft) px-3 py-1 text-[12px] font-medium text-(--color-risk)"
+                      className="inline-flex items-center gap-2 rounded-full border border-(--color-risk)/30 bg-(--color-risk-soft) px-4 py-2 text-pres-sm font-semibold text-(--color-risk)"
                     >
                       <span className="h-1.5 w-1.5 rounded-full bg-current" />
                       {g}

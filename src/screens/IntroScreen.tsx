@@ -47,7 +47,7 @@ export function IntroScreen({ mode, onStart }: { mode: ModeConfig; onStart: () =
       <div className="relative z-10 w-full max-w-[960px] flex flex-col items-center text-center gap-8">
 
         {/* ---- CIPR-2026 banner ---- */}
-        <div className="glass rounded-xl px-5 py-3 flex flex-wrap items-center justify-center gap-4 text-[12px] font-mono text-(--color-ink-3)">
+        <div className="glass rounded-xl px-6 py-3.5 flex flex-wrap items-center justify-center gap-4 text-pres-sm font-mono text-(--color-ink-3)">
           <span className="text-(--color-signal) font-semibold">ЦИПР-2026</span>
           {[
             { icon: <Users className="h-3 w-3" />, val: "13 000+ участников" },
@@ -90,7 +90,7 @@ export function IntroScreen({ mode, onStart }: { mode: ModeConfig; onStart: () =
           <div className="text-[11px] uppercase tracking-[0.18em] text-(--color-ink-3) font-mono mb-3">
             {PLATFORM_TAGLINE}
           </div>
-          <h1 className="font-display text-[38px] sm:text-[52px] text-gradient-accent leading-tight text-balance max-w-[800px] mx-auto">
+          <h1 className="font-display text-[42px] sm:text-pres-hero text-gradient-accent leading-tight text-balance max-w-[850px] mx-auto">
             {mode.mainQuestion}
           </h1>
         </div>
@@ -102,7 +102,7 @@ export function IntroScreen({ mode, onStart }: { mode: ModeConfig; onStart: () =
               <div className="text-[11px] text-(--color-signal) font-mono mb-2 font-medium">
                 {String(i + 1).padStart(2, "0")}
               </div>
-              <p className="text-[13px] text-(--color-ink-2) leading-relaxed">{q}</p>
+              <p className="text-pres-base text-(--color-ink-2) leading-relaxed">{q}</p>
             </div>
           ))}
         </div>
