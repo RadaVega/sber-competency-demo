@@ -4,7 +4,8 @@ import { ModeSwitcher } from "@/components/ModeSwitcher";
 import { LiveModeToggle } from "@/components/LiveModeToggle";
 import { ViewModeSwitcher } from "@/components/ViewModeSwitcher";
 import { ExecutiveWalkthrough } from "@/components/ExecutiveWalkthrough";
-import { modes, type ModeId, PLATFORM_NAME } from "@/data/modes";
+import { modes, type ModeId } from "@/data/modes";
+import { BRAND_EN } from "@/data/branding";
 import { bi } from "@/lib/bi";
 import { IntroScreen } from "@/screens/IntroScreen";
 import { SberApp, sberScreens, useSberScreenState } from "@/screens/sber/SberApp";
@@ -25,10 +26,10 @@ function App() {
   function changeMode(id: ModeId) {
     setMode(id); setWalkthrough(false);
     if (started) {
-      if (id === "sber")    setSberScreen("why");
-      if (id === "vk")      setVkScreen("why");
-      if (id === "rosatom") setRosatomScreen("why");
-      if (id === "yandex")  setYandexScreen("why");
+      if (id === "sber")    setSberScreen("problem");
+      if (id === "vk")      setVkScreen("problem");
+      if (id === "rosatom") setRosatomScreen("problem");
+      if (id === "yandex")  setYandexScreen("problem");
     }
   }
 
@@ -103,7 +104,7 @@ function TopBar({ mode, onModeChange, navItems, activeId, onNav, started, onHome
               {cfg.badgeLetter}
             </div>
             <div className="min-w-0 hidden sm:block">
-              <div className="text-pres-base font-semibold text-(--color-ink-1) leading-tight truncate">{PLATFORM_NAME}</div>
+              <div className="text-pres-base font-semibold text-(--color-ink-1) leading-tight truncate">{BRAND_EN}</div>
               <div className="text-pres-xs text-(--color-ink-3) font-mono mt-0.5 truncate">{cfg.org} · {cfg.scenarioName}</div>
             </div>
           </button>
