@@ -13,6 +13,7 @@ import { ExternalTalentDiscoveryScreen } from "@/screens/shared/ExternalTalentDi
 import { OrchestrationScreen } from "@/screens/OrchestrationScreen";
 import { ExecutiveScreen } from "@/screens/ExecutiveScreen";
 import { DivisionReadinessScreen } from "@/screens/DivisionReadinessScreen";
+import { FutureScreen } from "@/screens/shared/FutureScreen";
 import { modes } from "@/data/modes";
 
 export const sberScreens = [
@@ -30,6 +31,7 @@ export const sberScreens = [
   { id: "orchestration",label: "Orchestration",labelRu: "Оркестрация",      number: "11" },
   { id: "executive",    label: "Outcome",      labelRu: "Результат",        number: "12" },
   { id: "division",     label: "Divisions",    labelRu: "Подразделения",    number: "13" },
+  { id: "future",        label: "Future",       labelRu: "Будущее",          number: "14" },
 ] as const;
 
 export type SberScreenId = (typeof sberScreens)[number]["id"];
@@ -53,6 +55,7 @@ export function SberApp({ active, onChangeScreen }: { active: SberScreenId; onCh
       {active === "orchestration" && <OrchestrationScreen onBack={() => go("external")} onNext={() => go("executive")} accentColor={mode.accentColor} />}
       {active === "executive"     && <ExecutiveScreen onBack={() => go("orchestration")} onNext={() => go("division")} />}
       {active === "division"      && <DivisionReadinessScreen onBack={() => go("executive")} />}
+      {active === "future"         && <FutureScreen mode={mode} onBack={() => go("division")} onRestart={() => go("problem")} />}
     </>
   );
 }

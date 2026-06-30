@@ -7,6 +7,7 @@ import { VKInitiativeScreen } from "@/screens/vk/VKInitiativeScreen";
 import { VKTalentDiscoveryScreen } from "@/screens/vk/VKTalentDiscoveryScreen";
 import { VKSimulatorScreen } from "@/screens/vk/VKSimulatorScreen";
 import { VKExecutiveScreen } from "@/screens/vk/VKExecutiveScreen";
+import { FutureScreen } from "@/screens/shared/FutureScreen";
 import { TalentEcosystemScreen } from "@/screens/shared/TalentEcosystemScreen";
 import { ExternalTalentDiscoveryScreen } from "@/screens/shared/ExternalTalentDiscoveryScreen";
 import { TalentPipelineScreen } from "@/screens/shared/TalentPipelineScreen";
@@ -24,6 +25,7 @@ export const vkScreens = [
   { id: "external",     label: "External",     labelRu: "Внешние таланты", number: "08" },
   { id: "pipeline",     label: "Pipeline",     labelRu: "Конвейер",        number: "09" },
   { id: "executive",    label: "Outcome",      labelRu: "Результат",       number: "10" },
+  { id: "future",       label: "Future",       labelRu: "Будущее",         number: "11" },
 ] as const;
 
 export type VKScreenId = (typeof vkScreens)[number]["id"];
@@ -44,6 +46,7 @@ export function VKApp({ active, onChangeScreen }: { active: VKScreenId; onChange
       {active === "external"     && <ExternalTalentDiscoveryScreen onBack={() => go("ecosystem")} onNext={() => go("pipeline")} />}
       {active === "pipeline"     && <TalentPipelineScreen mode={mode} onBack={() => go("external")} onNext={() => go("executive")} />}
       {active === "executive"    && <VKExecutiveScreen onBack={() => go("pipeline")} />}
+      {active === "future"       && <FutureScreen mode={mode} onBack={() => go("executive")} onRestart={() => go("problem")} />}
     </>
   );
 }

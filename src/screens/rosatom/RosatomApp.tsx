@@ -8,6 +8,7 @@ import { ExpertNetworkScreen } from "@/screens/rosatom/ExpertNetworkScreen";
 import { TalentEcosystemScreen } from "@/screens/shared/TalentEcosystemScreen";
 import { ExternalTalentDiscoveryScreen } from "@/screens/shared/ExternalTalentDiscoveryScreen";
 import { TalentPipelineScreen } from "@/screens/shared/TalentPipelineScreen";
+import { FutureScreen } from "@/screens/shared/FutureScreen";
 import { modes } from "@/data/modes";
 
 export const rosatomScreens = [
@@ -20,6 +21,7 @@ export const rosatomScreens = [
   { id: "ecosystem",    label: "Ecosystem",     labelRu: "Экосистема",        number: "06" },
   { id: "external",     label: "External",      labelRu: "Внешние таланты",   number: "07" },
   { id: "pipeline",     label: "Pipeline",      labelRu: "Конвейер",          number: "08" },
+  { id: "future",       label: "Future",        labelRu: "Будущее",           number: "09" },
 ] as const;
 
 export type RosatomScreenId = (typeof rosatomScreens)[number]["id"];
@@ -37,7 +39,8 @@ export function RosatomApp({ active, onChangeScreen }: { active: RosatomScreenId
       {active === "experts"      && <ExpertNetworkScreen onBack={() => go("map")} onNext={() => go("ecosystem")} />}
       {active === "ecosystem"    && <TalentEcosystemScreen mode={mode} onBack={() => go("experts")} onNext={() => go("external")} />}
       {active === "external"     && <ExternalTalentDiscoveryScreen onBack={() => go("ecosystem")} onNext={() => go("pipeline")} />}
-      {active === "pipeline"     && <TalentPipelineScreen mode={mode} onBack={() => go("external")} onNext={() => go("map")} />}
+      {active === "pipeline"     && <TalentPipelineScreen mode={mode} onBack={() => go("external")} onNext={() => go("future")} />}
+      {active === "future"       && <FutureScreen mode={mode} onBack={() => go("pipeline")} onRestart={() => go("problem")} />}
     </>
   );
 }

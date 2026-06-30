@@ -7,6 +7,7 @@ import { ProductTeamBuilderScreen } from "@/screens/yandex/ProductTeamBuilderScr
 import { TalentEcosystemScreen } from "@/screens/shared/TalentEcosystemScreen";
 import { ExternalTalentDiscoveryScreen } from "@/screens/shared/ExternalTalentDiscoveryScreen";
 import { TalentPipelineScreen } from "@/screens/shared/TalentPipelineScreen";
+import { FutureScreen } from "@/screens/shared/FutureScreen";
 import { modes } from "@/data/modes";
 
 export const yandexScreens = [
@@ -18,6 +19,7 @@ export const yandexScreens = [
   { id: "ecosystem",    label: "Ecosystem",    labelRu: "Экосистема",        number: "05" },
   { id: "external",     label: "External",     labelRu: "Внешние таланты",   number: "06" },
   { id: "pipeline",     label: "Pipeline",     labelRu: "Конвейер",          number: "07" },
+  { id: "future",       label: "Future",       labelRu: "Будущее",           number: "08" },
 ] as const;
 
 export type YandexScreenId = (typeof yandexScreens)[number]["id"];
@@ -34,7 +36,8 @@ export function YandexApp({ active, onChangeScreen }: { active: YandexScreenId; 
       {active === "builder"      && <ProductTeamBuilderScreen onNext={() => go("ecosystem")} />}
       {active === "ecosystem"    && <TalentEcosystemScreen mode={mode} onBack={() => go("builder")} onNext={() => go("external")} />}
       {active === "external"     && <ExternalTalentDiscoveryScreen onBack={() => go("ecosystem")} onNext={() => go("pipeline")} />}
-      {active === "pipeline"     && <TalentPipelineScreen mode={mode} onBack={() => go("external")} onNext={() => go("builder")} />}
+      {active === "pipeline"     && <TalentPipelineScreen mode={mode} onBack={() => go("external")} onNext={() => go("future")} />}
+      {active === "future"       && <FutureScreen mode={mode} onBack={() => go("pipeline")} onRestart={() => go("problem")} />}
     </>
   );
 }
