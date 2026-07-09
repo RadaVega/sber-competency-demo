@@ -2,7 +2,8 @@ import { useState } from "react";
 import { ArrowLeft, ArrowRight, Sparkles, Loader2 } from "lucide-react";
 import { Card, CardHeader } from "@/components/Card";
 import { MetricStat } from "@/components/MetricStat";
-import { CompetencyRadar } from "@/components/CompetencyRadar";
+import { lazy, Suspense } from "react";
+const CompetencyRadar = lazy(() => import("@/components/CompetencyRadar").then(m => ({ default: m.CompetencyRadar })));
 import { AISourceBadge } from "@/components/AISourceBadge";
 import { employee } from "@/data/mockData";
 import { analyzeEmployee, type AnalysisResult } from "@/lib/claudeClient";
@@ -174,7 +175,9 @@ export function EmployeeScreen({
               <Card>
                 <CardHeader eyebrow="Profile" title="Компетенции: текущий vs целевой профиль" />
                 <div className="px-2 pb-4">
-                  <CompetencyRadar data={result.radar} />
+                  <Suspense fallback={<div className="h-[340px] flex items-center justify-center text-pres-label text-(--color-ink-3)">Loading chart…</div>}>
+                    <CompetencyRadar data={result.radar} />
+                  </Suspense>
                 </div>
               </Card>
             </div>
