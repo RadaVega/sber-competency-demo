@@ -27,7 +27,7 @@ export function ExpertNetworkScreen({ onBack, onNext }: { onBack: () => void; on
             onClick={onNext}
             className="group flex items-center gap-2 rounded-md bg-(--color-signal) px-5 py-3 text-[13px] font-medium text-(--color-canvas) hover:brightness-110 transition-all shrink-0"
           >
-            {bi("Talent Ecosystem", "Экосистема талантов")}
+            {bi("Mission Team Builder", "Формирование команды")}
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
           </button>
         )}

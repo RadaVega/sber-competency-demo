@@ -1,6 +1,6 @@
-import { ArrowRight } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import { Card } from "@/components/Card";
-import { nationalCapabilities } from "@/data/rosatomData";
+import { nationalCapabilities, heatMapDomains } from "@/data/rosatomData";
 import { bi } from "@/lib/bi";
 
 const riskMeta: Record<string, { text: string; bg: string; label: string }> = {
@@ -9,13 +9,18 @@ const riskMeta: Record<string, { text: string; bg: string; label: string }> = {
   high: { text: "text-(--color-risk)", bg: "bg-(--color-risk)", label: "Высокий" },
 };
 
-export function CapabilityMapScreen({ onNext }: { onNext: () => void }) {
+export function CapabilityMapScreen({ onBack, onNext }: { onBack?: () => void; onNext: () => void }) {
   return (
     <div className="mx-auto max-w-[1280px] px-8 py-10">
       <div className="mb-10 flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-(--color-border) pb-8">
         <div>
+          {onBack && (
+            <button onClick={onBack} className="flex items-center gap-1.5 text-[12px] text-(--color-ink-3) hover:text-(--color-ink-1) transition-colors mb-3 font-mono">
+              <ArrowLeft className="h-3.5 w-3.5" /> Стратегическая реализация
+            </button>
+          )}
           <div className="text-[11px] uppercase tracking-[0.14em] text-(--color-signal) font-mono mb-3">
-            {bi("National Capability Map", "Карта стратегических компетенций")}
+            {bi("Critical Capability Heat Map", "Карта критических компетенций")}
           </div>
           <h1 className="font-display text-[34px] text-(--color-ink-1) leading-tight max-w-[700px]">
             Какие компетенции необходимы для стратегических проектов страны?
@@ -25,12 +30,43 @@ export function CapabilityMapScreen({ onNext }: { onNext: () => void }) {
           onClick={onNext}
           className="group flex items-center gap-2 rounded-md bg-(--color-signal) px-5 py-3 text-[13px] font-medium text-(--color-canvas) hover:brightness-110 transition-all shrink-0"
         >
-          Сеть экспертов
+          Риск потери знаний
           <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
         </button>
       </div>
 
+      {/* Heat map by domain */}
+      <Card className="mb-8 p-6">
+        <div className="text-[11px] text-(--color-ink-3) font-mono uppercase tracking-[0.08em] mb-5">
+          Тепловая карта по направлениям
+        </div>
+        <div className="flex flex-col gap-4">
+          {heatMapDomains.map((d) => {
+            const risk = riskMeta[d.risk];
+            return (
+              <div key={d.name} className="grid grid-cols-1 sm:grid-cols-[220px_1fr_260px] items-center gap-3">
+                <div className="text-[13.5px] text-(--color-ink-1) font-medium">{d.name}</div>
+                <div className="flex gap-1">
+                  {Array.from({ length: 10 }).map((_, i) => (
+                    <div
+                      key={i}
+                      className={`h-4 flex-1 rounded-sm ${i < d.level ? risk.bg : "bg-(--color-border-soft)"}`}
+                      style={{ opacity: i < d.level ? 0.4 + (i / 10) * 0.6 : 1 }}
+                    />
+                  ))}
+                </div>
+                <div className="text-[12px] text-(--color-ink-3)">{d.explanation}</div>
+              </div>
+            );
+          })}
+        </div>
+      </Card>
+
+      {/* Detailed capability table */}
       <Card>
+        <div className="px-6 pt-6 pb-2 text-[11px] text-(--color-ink-3) font-mono uppercase tracking-[0.08em]">
+          Детализация по проектам
+        </div>
         <div className="divide-y divide-(--color-border-soft)">
           {nationalCapabilities.map((c) => {
             const risk = riskMeta[c.risk];
