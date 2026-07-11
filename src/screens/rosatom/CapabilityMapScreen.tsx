@@ -2,6 +2,7 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import { Card } from "@/components/Card";
 import { nationalCapabilities, heatMapDomains } from "@/data/rosatomData";
 import { bi } from "@/lib/bi";
+import { useViewMode } from "@/lib/ViewModeContext";
 
 const riskMeta: Record<string, { text: string; bg: string; label: string }> = {
   low: { text: "text-(--color-good)", bg: "bg-(--color-good)", label: "Низкий" },
@@ -9,7 +10,18 @@ const riskMeta: Record<string, { text: string; bg: string; label: string }> = {
   high: { text: "text-(--color-risk)", bg: "bg-(--color-risk)", label: "Высокий" },
 };
 
+// From the employee's side, the same gap reads as opportunity — the colour
+// scale flips (a high-risk gap is a high-opportunity opening), the label
+// changes, but the underlying number (level, maturity) stays identical.
+const opportunityMeta: Record<string, { text: string; bg: string; label: string }> = {
+  low: { text: "text-(--color-ink-3)", bg: "bg-(--color-ink-3)", label: "Невысокая" },
+  medium: { text: "text-(--color-signal)", bg: "bg-(--color-signal)", label: "Хорошая" },
+  high: { text: "text-(--color-good)", bg: "bg-(--color-good)", label: "Отличная" },
+};
+
 export function CapabilityMapScreen({ onBack, onNext }: { onBack?: () => void; onNext: () => void }) {
+  const { isVP } = useViewMode();
+
   return (
     <div className="mx-auto max-w-[1280px] px-8 py-10">
       <div className="mb-10 flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-(--color-border) pb-8">
@@ -20,10 +32,14 @@ export function CapabilityMapScreen({ onBack, onNext }: { onBack?: () => void; o
             </button>
           )}
           <div className="text-[11px] uppercase tracking-[0.14em] text-(--color-signal) font-mono mb-3">
-            {bi("Critical Capability Heat Map", "Карта критических компетенций")}
+            {isVP
+              ? bi("Critical Capability Heat Map", "Карта критических компетенций")
+              : bi("Where Opportunity Is Highest", "Карта возможностей роста")}
           </div>
           <h1 className="font-display text-[34px] text-(--color-ink-1) leading-tight max-w-[700px]">
-            Какие компетенции необходимы для стратегических проектов страны?
+            {isVP
+              ? "Какие компетенции необходимы для стратегических проектов страны?"
+              : "Где меньше конкурентов и выше шанс стать заметным специалистом?"}
           </h1>
         </div>
         <button
@@ -38,11 +54,14 @@ export function CapabilityMapScreen({ onBack, onNext }: { onBack?: () => void; o
       {/* Heat map by domain */}
       <Card className="mb-8 p-6">
         <div className="text-[11px] text-(--color-ink-3) font-mono uppercase tracking-[0.08em] mb-5">
-          Тепловая карта по направлениям
+          {isVP ? "Тепловая карта по направлениям" : "Карта возможностей по направлениям"}
         </div>
         <div className="flex flex-col gap-4">
           {heatMapDomains.map((d) => {
-            const risk = riskMeta[d.risk];
+            const meta = isVP ? riskMeta[d.risk] : opportunityMeta[d.risk];
+            // Employee view reads the bar inverted: fewer filled segments in the
+            // VP "maturity" sense means more open room — so we mirror the fill.
+            const filled = isVP ? d.level : 10 - d.level + 2;
             return (
               <div key={d.name} className="grid grid-cols-1 sm:grid-cols-[220px_1fr_260px] items-center gap-3">
                 <div className="text-[13.5px] text-(--color-ink-1) font-medium">{d.name}</div>
@@ -50,12 +69,14 @@ export function CapabilityMapScreen({ onBack, onNext }: { onBack?: () => void; o
                   {Array.from({ length: 10 }).map((_, i) => (
                     <div
                       key={i}
-                      className={`h-4 flex-1 rounded-sm ${i < d.level ? risk.bg : "bg-(--color-border-soft)"}`}
-                      style={{ opacity: i < d.level ? 0.4 + (i / 10) * 0.6 : 1 }}
+                      className={`h-4 flex-1 rounded-sm ${i < filled ? meta.bg : "bg-(--color-border-soft)"}`}
+                      style={{ opacity: i < filled ? 0.4 + (i / 10) * 0.6 : 1 }}
                     />
                   ))}
                 </div>
-                <div className="text-[12px] text-(--color-ink-3)">{d.explanation}</div>
+                <div className="text-[12px] text-(--color-ink-3)">
+                  {isVP ? d.explanation : d.opportunity}
+                </div>
               </div>
             );
           })}
@@ -69,7 +90,7 @@ export function CapabilityMapScreen({ onBack, onNext }: { onBack?: () => void; o
         </div>
         <div className="divide-y divide-(--color-border-soft)">
           {nationalCapabilities.map((c) => {
-            const risk = riskMeta[c.risk];
+            const meta = isVP ? riskMeta[c.risk] : opportunityMeta[c.risk];
             return (
               <div
                 key={c.name}
@@ -80,7 +101,9 @@ export function CapabilityMapScreen({ onBack, onNext }: { onBack?: () => void; o
                     {c.name}
                   </div>
                   <div className="text-[12px] text-(--color-ink-3) mb-1.5">{c.project}</div>
-                  <div className="text-[12px] text-(--color-ink-2)">{c.gapSummary}</div>
+                  <div className="text-[12px] text-(--color-ink-2)">
+                    {isVP ? c.gapSummary : c.opportunityNote}
+                  </div>
                 </div>
 
                 <div>
@@ -89,7 +112,7 @@ export function CapabilityMapScreen({ onBack, onNext }: { onBack?: () => void; o
                   </div>
                   <div className="h-1.5 w-full rounded-full bg-(--color-border-soft) overflow-hidden">
                     <div
-                      className={`h-full rounded-full ${risk.bg} transition-all duration-700`}
+                      className={`h-full rounded-full ${meta.bg} transition-all duration-700`}
                       style={{ width: `${c.maturity}%` }}
                     />
                   </div>
@@ -98,9 +121,9 @@ export function CapabilityMapScreen({ onBack, onNext }: { onBack?: () => void; o
 
                 <div className="text-right">
                   <div className="text-[11px] text-(--color-ink-3) font-mono uppercase tracking-[0.08em] mb-1.5">
-                    Риск
+                    {isVP ? "Риск" : "Возможность"}
                   </div>
-                  <span className={`text-[13px] font-medium ${risk.text}`}>{risk.label}</span>
+                  <span className={`text-[13px] font-medium ${meta.text}`}>{meta.label}</span>
                 </div>
               </div>
             );
