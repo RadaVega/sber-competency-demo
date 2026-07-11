@@ -1,4 +1,4 @@
-import { ArrowRight, ArrowLeft, ArrowDown } from "lucide-react";
+import { ArrowRight, ArrowLeft, ArrowDown, Building2, User, Sparkles } from "lucide-react";
 import { bi } from "@/lib/bi";
 import type { ModeConfig } from "@/data/modes";
 
@@ -51,6 +51,27 @@ const whyHuman = [
   "Профессиональное сообщество",
   "Экспертный статус",
   "Реальное влияние",
+];
+
+const alignmentExamples = [
+  {
+    orgNeed: "Дефицит компетенций в приоритетном направлении",
+    humanGoal: "Хочет развиваться в новой, более сложной области",
+    aiAction: "AI находит совпадение и предлагает наставника",
+    outcome: "Сотрудник закрывает дефицит, получая рост — не по приказу, а по интересу",
+  },
+  {
+    orgNeed: "Критическая экспертиза уходит вместе с уходящими на пенсию",
+    humanGoal: "Опытный эксперт хочет передать знания, а не просто завершить карьеру",
+    aiAction: "AI назначает его наставником и фиксирует методику в базе знаний",
+    outcome: "Знания остаются в организации, эксперт получает новую значимую роль",
+  },
+  {
+    orgNeed: "Стратегическая инициатива требует немедленного усиления команды",
+    humanGoal: "Сотрудник ищет проект, где его вклад будет заметен",
+    aiAction: "AI подбирает его в команду по совпадению компетенций и интересов",
+    outcome: "Команда укомплектована быстрее, сотрудник получает видимость и влияние",
+  },
 ];
 
 export function StrategicEcosystemScreen({
@@ -190,6 +211,36 @@ export function StrategicEcosystemScreen({
               </div>
             ))}
           </div>
+        </div>
+      </div>
+
+      {/* ---- Alignment in practice — makes the "AI aligns both sides" claim concrete ---- */}
+      <div className="mb-8">
+        <div className="text-[11px] uppercase tracking-[0.12em] font-mono mb-4 text-(--color-signal) font-semibold">
+          {bi("Alignment in practice", "Как это работает на практике")}
+        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+          {alignmentExamples.map((ex, i) => (
+            <div
+              key={ex.orgNeed}
+              className="glass rounded-xl p-5 flex flex-col gap-3 animate-converge-fade"
+              style={{ animationDelay: `${1.35 + i * 0.12}s` }}
+            >
+              <div className="flex items-start gap-2.5">
+                <Building2 className="h-4 w-4 shrink-0 mt-0.5" style={{ color: mode.accentColor }} />
+                <p className="text-[12.5px] text-(--color-ink-2) leading-relaxed">{ex.orgNeed}</p>
+              </div>
+              <div className="flex items-start gap-2.5">
+                <User className="h-4 w-4 text-(--color-good) shrink-0 mt-0.5" />
+                <p className="text-[12.5px] text-(--color-ink-2) leading-relaxed">{ex.humanGoal}</p>
+              </div>
+              <div className="flex items-center gap-2 pt-2 border-t border-(--color-border-soft)">
+                <Sparkles className="h-3.5 w-3.5 text-(--color-signal) shrink-0" />
+                <p className="text-[11.5px] text-(--color-signal) font-mono">{ex.aiAction}</p>
+              </div>
+              <p className="text-[12.5px] text-(--color-ink-1) font-medium leading-relaxed">{ex.outcome}</p>
+            </div>
+          ))}
         </div>
       </div>
 
