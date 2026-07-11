@@ -206,7 +206,7 @@ export function StrategicInitiativeScreen({
         {/* ---- Right: Cascade ---- */}
         <div>
           <div className="text-[11px] text-(--color-ink-3) font-mono uppercase tracking-[0.1em] mb-3">
-            {bi("Demo Flow", "Сценарий демонстрации")}
+            {bi("Model Flow", "Логика стратегической модели")}
           </div>
           <div className="glass rounded-xl p-4 flex flex-col gap-1">
             {cascadeSteps.map((step, i) => (

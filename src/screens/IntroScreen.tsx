@@ -1,6 +1,6 @@
 import { ArrowRight } from "lucide-react";
 import type { ModeConfig } from "@/data/modes";
-import { BRAND_EN, BRAND_RU, TAGLINE_RU, TAGLINE_STEPS_RU, HERO_DESCRIPTION_RU } from "@/data/branding";
+import { BRAND_RU, TAGLINE_RU, TAGLINE_STEPS_RU, HERO_DESCRIPTION_RU } from "@/data/branding";
 
 export function IntroScreen({ mode, onStart }: { mode: ModeConfig; onStart: () => void }) {
   return (
@@ -30,7 +30,7 @@ export function IntroScreen({ mode, onStart }: { mode: ModeConfig; onStart: () =
 
         {/* Hero */}
         <div>
-          <div className="text-pres-label text-(--color-ink-3) mb-4">{BRAND_EN}</div>
+          <div className="text-pres-label text-(--color-ink-3) mb-4">Интерактивная стратегическая модель</div>
           <h1 className="font-display text-[44px] sm:text-pres-hero text-gradient-accent leading-tight text-balance max-w-[820px] mx-auto mb-5">
             {BRAND_RU}
           </h1>

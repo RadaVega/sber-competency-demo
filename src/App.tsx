@@ -8,6 +8,7 @@ import { modes, type ModeId } from "@/data/modes";
 import { BRAND_RU } from "@/data/branding";
 import { bi } from "@/lib/bi";
 import { IntroScreen } from "@/screens/IntroScreen";
+import { OpeningExperience } from "@/components/experience/OpeningExperience";
 
 // Meta (screen lists + hooks) — tiny, always bundled
 import { sberScreens, useSberScreenState } from "@/screens/sber/meta";
@@ -32,6 +33,7 @@ function ModeLoader() {
 function App() {
   const [mode, setMode]             = useState<ModeId>("sber");
   const [started, setStarted]       = useState(false);
+  const [openingDone, setOpeningDone] = useState(false);
   const [walkthrough, setWalkthrough] = useState(false);
 
   const [sberScreen,    setSberScreen]    = useSberScreenState();
@@ -75,7 +77,9 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-(--color-canvas)">
+    <>
+      {!openingDone && <OpeningExperience onComplete={() => setOpeningDone(true)} />}
+      <div className="min-h-screen bg-(--color-canvas)">
       <TopBar
         mode={mode} onModeChange={changeMode}
         navItems={navItems} activeId={started ? activeId : "intro"}
@@ -99,6 +103,7 @@ function App() {
         <ExecutiveWalkthrough companyMode={mode} onNavigate={wtNav} onClose={() => setWalkthrough(false)} />
       )}
     </div>
+    </>
   );
 }
 

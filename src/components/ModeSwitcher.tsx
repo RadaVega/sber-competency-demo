@@ -16,7 +16,7 @@ export function ModeSwitcher({ active, onChange }: { active: ModeId; onChange: (
     <div className="relative" ref={ref}>
       <button onClick={() => setOpen(o => !o)}
         className="flex items-center gap-2 rounded-xl glass-subtle px-4 py-2 text-pres-sm text-(--color-ink-1) hover:border-(--color-signal)/30 transition-colors">
-        <span className="text-pres-xs text-(--color-ink-3) font-mono uppercase tracking-wide">Демо</span>
+        <span className="text-pres-xs text-(--color-ink-3) font-mono uppercase tracking-wide">Модель</span>
         <span className="font-semibold">{c.org}</span>
         <ChevronDown className={cn("h-4 w-4 text-(--color-ink-3) transition-transform", open && "rotate-180")} />
       </button>

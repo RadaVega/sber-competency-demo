@@ -142,6 +142,21 @@
 .animate-converge-line { opacity: 0; animation: converge-line 0.8s ease-out 1.1s forwards; }
 .animate-converge-fade { opacity: 0; animation: converge-fade 0.6s ease-out 1.25s forwards; }
 
+/* Opening cinematic (OpeningExperience) — one act fades/scales in as a whole
+   block, and its children (particles, chips, chain labels) fade in
+   individually via opening-fade-in with a per-item delay set inline. */
+@keyframes act-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+.animate-act-in { animation: act-in 0.9s ease-out forwards; }
+
+@keyframes opening-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 0.7; }
+}
+.opening-fade-in { animation: opening-fade-in 1.1s ease-out forwards; }
+
 @media (prefers-reduced-motion: reduce) {
   .animate-screen-in,
   .animate-gradient,
@@ -150,7 +165,9 @@
   .animate-row-in-left,
   .animate-row-in-right,
   .animate-converge-line,
-  .animate-converge-fade {
+  .animate-converge-fade,
+  .animate-act-in,
+  .opening-fade-in {
     animation: none;
     opacity: 1;
     transform: none;
