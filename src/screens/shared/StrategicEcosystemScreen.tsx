@@ -1,6 +1,7 @@
 import { ArrowRight, ArrowLeft, ArrowDown, Building2, User, Sparkles } from "lucide-react";
 import { bi } from "@/lib/bi";
 import { alignmentExamples } from "@/data/alignmentExamples";
+import { useViewMode } from "@/lib/ViewModeContext";
 import type { ModeConfig } from "@/data/modes";
 
 // Paired rows: orgFlow[i] aligns conceptually with humanFlow[i] — this pairing
@@ -63,6 +64,8 @@ export function StrategicEcosystemScreen({
   onBack: () => void;
   onNext: () => void;
 }) {
+  const { isVP } = useViewMode();
+
   return (
     <div className="mx-auto max-w-[1280px] px-8 py-10">
 
@@ -78,14 +81,16 @@ export function StrategicEcosystemScreen({
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
             <h1 className="font-display text-[32px] text-gradient-accent leading-tight max-w-[640px]">
-              Стратегия реализуется через людей
+              {isVP ? "Стратегия реализуется через людей" : "Ваш рост реализует стратегию компании"}
             </h1>
             <p className="text-[14px] text-(--color-ink-2) mt-3 max-w-[560px] leading-relaxed">
-              Платформа соединяет стратегию организации с потенциалом людей — делая эту связь видимой и управляемой.
+              {isVP
+                ? "Платформа соединяет стратегию организации с потенциалом людей — делая эту связь видимой и управляемой."
+                : "Платформа соединяет ваши сильные стороны и цели с реальными задачами организации — открывая понятный путь развития."}
             </p>
           </div>
           <button onClick={onNext} className="group flex items-center gap-2 rounded-xl px-5 py-3 text-[13px] font-semibold text-white hover:scale-105 transition-all shrink-0" style={{ background: `linear-gradient(135deg, ${mode.accentColor}, #7C6EFF)`, boxShadow: `0 4px 20px ${mode.accentColor}33` }}>
-            Готовность организации
+            {isVP ? "Готовность организации" : "Мой путь развития"}
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
           </button>
         </div>
@@ -101,6 +106,9 @@ export function StrategicEcosystemScreen({
         </p>
         <p className="text-[13px] text-(--color-ink-3) font-mono mt-4 uppercase tracking-[0.1em]">
           {bi("Two points of view, one organization", "Два взгляда, одна организация")}
+        </p>
+        <p className="text-[12px] text-(--color-ink-3) mt-3">
+          {isVP ? "Сейчас вы смотрите на это глазами руководителя." : "Сейчас вы смотрите на это глазами сотрудника."}
         </p>
       </div>
 
@@ -118,9 +126,19 @@ export function StrategicEcosystemScreen({
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
 
         {/* Left — Organisation */}
-        <div className="glass rounded-xl p-5">
-          <div className="text-[11px] uppercase tracking-[0.12em] font-mono mb-4 font-semibold" style={{ color: mode.accentColor }}>
-            Организация
+        <div
+          className="glass rounded-xl p-5 transition-all duration-500"
+          style={{
+            borderColor: isVP ? `${mode.accentColor}66` : undefined,
+            boxShadow: isVP ? `0 0 24px ${mode.accentColor}22` : undefined,
+            opacity: isVP ? 1 : 0.72,
+          }}
+        >
+          <div className="flex items-center gap-2 mb-4">
+            <Building2 className="h-3.5 w-3.5" style={{ color: mode.accentColor }} />
+            <div className="text-[11px] uppercase tracking-[0.12em] font-mono font-semibold" style={{ color: mode.accentColor }}>
+              Организация {isVP && <span className="normal-case font-sans text-(--color-ink-3)">— ваш взгляд</span>}
+            </div>
           </div>
           <div className="flex flex-col gap-1.5">
             {orgFlow.map((item, i) => (
@@ -169,9 +187,19 @@ export function StrategicEcosystemScreen({
         </div>
 
         {/* Right — Human */}
-        <div className="glass rounded-xl p-5">
-          <div className="text-[11px] uppercase tracking-[0.12em] font-mono mb-4 text-(--color-good) font-semibold">
-            Человек
+        <div
+          className="glass rounded-xl p-5 transition-all duration-500"
+          style={{
+            borderColor: !isVP ? "color-mix(in srgb, var(--color-good) 40%, transparent)" : undefined,
+            boxShadow: !isVP ? "0 0 24px color-mix(in srgb, var(--color-good) 15%, transparent)" : undefined,
+            opacity: !isVP ? 1 : 0.72,
+          }}
+        >
+          <div className="flex items-center gap-2 mb-4">
+            <User className="h-3.5 w-3.5 text-(--color-good)" />
+            <div className="text-[11px] uppercase tracking-[0.12em] font-mono text-(--color-good) font-semibold">
+              Человек {!isVP && <span className="normal-case font-sans text-(--color-ink-3)">— ваш взгляд</span>}
+            </div>
           </div>
           <div className="flex flex-col gap-1.5">
             {humanFlow.map((item, i) => (
@@ -208,11 +236,11 @@ export function StrategicEcosystemScreen({
             >
               <div className="flex items-start gap-2.5">
                 <Building2 className="h-4 w-4 shrink-0 mt-0.5" style={{ color: mode.accentColor }} />
-                <p className="text-[12.5px] text-(--color-ink-2) leading-relaxed">{ex.orgNeed}</p>
+                <p className={`text-[12.5px] leading-relaxed ${isVP ? "text-(--color-ink-1) font-medium" : "text-(--color-ink-3)"}`}>{ex.orgNeed}</p>
               </div>
               <div className="flex items-start gap-2.5">
                 <User className="h-4 w-4 text-(--color-good) shrink-0 mt-0.5" />
-                <p className="text-[12.5px] text-(--color-ink-2) leading-relaxed">{ex.humanGoal}</p>
+                <p className={`text-[12.5px] leading-relaxed ${!isVP ? "text-(--color-ink-1) font-medium" : "text-(--color-ink-3)"}`}>{ex.humanGoal}</p>
               </div>
               <div className="flex items-center gap-2 pt-2 border-t border-(--color-border-soft)">
                 <Sparkles className="h-3.5 w-3.5 text-(--color-signal) shrink-0" />
@@ -226,7 +254,7 @@ export function StrategicEcosystemScreen({
 
       {/* ---- Why it matters ---- */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-        <div className="glass rounded-xl p-5">
+        <div className="glass rounded-xl p-5 transition-all duration-500" style={{ opacity: isVP ? 1 : 0.72 }}>
           <div className="text-[11px] uppercase tracking-[0.12em] font-mono mb-3 font-semibold" style={{ color: mode.accentColor }}>
             Для организации
           </div>
@@ -239,7 +267,7 @@ export function StrategicEcosystemScreen({
             ))}
           </ul>
         </div>
-        <div className="glass rounded-xl p-5">
+        <div className="glass rounded-xl p-5 transition-all duration-500" style={{ opacity: !isVP ? 1 : 0.72 }}>
           <div className="text-[11px] uppercase tracking-[0.12em] font-mono mb-3 text-(--color-good) font-semibold">
             Для человека
           </div>
