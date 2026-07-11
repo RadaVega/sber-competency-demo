@@ -1,5 +1,6 @@
 import { ProblemScreen } from "@/screens/shared/ProblemScreen";
 import { ArchitectureScreen } from "@/screens/shared/ArchitectureScreen";
+import { RealityConvergenceScreen } from "@/screens/shared/RealityConvergenceScreen";
 import { StrategicEcosystemScreen } from "@/screens/shared/StrategicEcosystemScreen";
 import { StrategicInitiativeScreen } from "@/screens/shared/StrategicInitiativeScreen";
 import { DashboardScreen } from "@/screens/DashboardScreen";
@@ -24,8 +25,9 @@ export default function SberApp({ active, onChangeScreen }: {
   const go   = onChangeScreen;
   return (
     <>
-      {active === "problem"       && <ProblemScreen mode={mode} onNext={() => go("architecture")} />}
-      {active === "architecture"  && <ArchitectureScreen mode={mode} onBack={() => go("problem")} onNext={() => go("why")} />}
+      {active === "problem"       && <ProblemScreen mode={mode} onNext={() => go("convergence")} />}
+      {active === "convergence"   && <RealityConvergenceScreen mode={mode} onBack={() => go("problem")} onNext={() => go("architecture")} />}
+      {active === "architecture"  && <ArchitectureScreen mode={mode} onBack={() => go("convergence")} onNext={() => go("why")} />}
       {active === "why"           && <StrategicEcosystemScreen mode={mode} onBack={() => go("architecture")} onNext={() => go("initiative")} />}
       {active === "initiative"    && <StrategicInitiativeScreen mode={mode} onBack={() => go("why")} onNext={() => go("dashboard")} />}
       {active === "dashboard"     && <DashboardScreen onAnalyze={() => go("employee")} />}
