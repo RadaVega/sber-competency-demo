@@ -224,7 +224,7 @@ export function ExecutiveWalkthrough({
           {/* ---- Footer strip ---- */}
           <div className="px-8 py-2 border-t border-(--color-border-soft) flex items-center justify-between">
             <span className="text-[12px] font-mono text-(--color-ink-3)">
-              Executive Walkthrough · ~{totalMin} мин · {companyMode.toUpperCase()}
+              Демонстрация для руководителя · ~{totalMin} мин · {companyMode.toUpperCase()}
             </span>
             {allDone ? (
               <span className="text-[12px] font-mono text-(--color-good)">✓ Демонстрация завершена</span>

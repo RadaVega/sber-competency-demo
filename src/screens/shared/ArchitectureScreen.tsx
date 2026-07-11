@@ -1,5 +1,6 @@
 import { ArrowRight, ArrowLeft } from "lucide-react";
 import { ArchTerm } from "@/components/ArchTerm";
+import { bi } from "@/lib/bi";
 import { archTerms, applicableOrgs, BRAND_EN, BRAND_RU } from "@/data/branding";
 import type { ModeConfig } from "@/data/modes";
 
@@ -37,7 +38,7 @@ export function ArchitectureScreen({
         <button onClick={onBack} className="flex items-center gap-2 text-pres-sm text-(--color-ink-3) hover:text-(--color-ink-1) transition-colors mb-4 font-mono">
           <ArrowLeft className="h-4 w-4" /> Почему стратегии не реализуются?
         </button>
-        <div className="text-pres-label text-(--color-signal) mb-3">Enterprise Architecture</div>
+        <div className="text-pres-label text-(--color-signal) mb-3">{bi("Enterprise Architecture", "Архитектура платформы")}</div>
         <h1 className="font-display text-pres-h1 leading-tight max-w-[700px]">
           <span className="text-(--color-ink-1)">Архитектурная концепция: </span>
           <span className="text-gradient-accent">{BRAND_EN}</span>

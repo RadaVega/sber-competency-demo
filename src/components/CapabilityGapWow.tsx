@@ -13,7 +13,7 @@ export function CapabilityGapWow({ accentColor }: { accentColor: string }) {
       {/* Header */}
       <div className="px-6 pt-6 pb-4 border-b border-(--color-border-soft)">
         <div className="text-[11px] uppercase tracking-[0.14em] text-(--color-signal) font-mono mb-1">
-          {bi("Capability Gap", "Дефицит компетенций")} · WOW Demo
+          {bi("Capability Gap", "Дефицит компетенций")} · интерактивная демонстрация
         </div>
         <p className="text-[13px] text-(--color-ink-2)">
           Что происходит с покрытием компетенций при подключении внешней

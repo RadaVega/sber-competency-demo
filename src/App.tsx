@@ -5,7 +5,7 @@ import { LiveModeToggle } from "@/components/LiveModeToggle";
 import { ViewModeSwitcher } from "@/components/ViewModeSwitcher";
 import { ExecutiveWalkthrough } from "@/components/ExecutiveWalkthrough";
 import { modes, type ModeId } from "@/data/modes";
-import { BRAND_EN } from "@/data/branding";
+import { BRAND_RU } from "@/data/branding";
 import { bi } from "@/lib/bi";
 import { IntroScreen } from "@/screens/IntroScreen";
 
@@ -24,7 +24,7 @@ const YandexApp  = lazy(() => import("@/screens/yandex/YandexApp"));
 function ModeLoader() {
   return (
     <div className="min-h-[60vh] flex items-center justify-center">
-      <div className="text-pres-label text-(--color-ink-3) animate-pulse">Loading…</div>
+      <div className="text-pres-label text-(--color-ink-3) animate-pulse">Загрузка…</div>
     </div>
   );
 }
@@ -120,15 +120,15 @@ function TopBar({ mode, onModeChange, navItems, activeId, onNav, started, onHome
               {cfg.badgeLetter}
             </div>
             <div className="min-w-0 hidden sm:block">
-              <div className="text-pres-base font-semibold text-(--color-ink-1) leading-tight truncate">{BRAND_EN}</div>
-              <div className="text-pres-xs text-(--color-ink-3) font-mono mt-0.5 truncate">{cfg.org} · {cfg.scenarioName}</div>
+              <div className="text-pres-base font-semibold text-(--color-ink-1) leading-tight truncate">{BRAND_RU}</div>
+              <div className="text-pres-xs text-(--color-ink-3) font-mono mt-0.5 truncate">{cfg.org} · {cfg.scenarioNameRu}</div>
             </div>
           </button>
           <div className="flex items-center gap-2 shrink-0 flex-wrap justify-end">
             <button onClick={onWalkthrough}
               className={`hidden sm:flex items-center gap-2 rounded-xl px-4 py-2 text-pres-sm font-mono transition-all ${walkthroughActive ? "glass border-(--color-signal)/30 text-(--color-signal)" : "glass-subtle text-(--color-ink-3) hover:text-(--color-ink-2)"}`}
-              title="Auto-play executive walkthrough">
-              <Clapperboard className="h-4 w-4" /> Walkthrough
+              title="Автоматический показ демонстрации для руководителя">
+              <Clapperboard className="h-4 w-4" /> Демонстрация
             </button>
             <ViewModeSwitcher />
             <LiveModeToggle />
@@ -138,7 +138,7 @@ function TopBar({ mode, onModeChange, navItems, activeId, onNav, started, onHome
         <div className="flex items-center gap-1 overflow-x-auto -mx-6 px-6 sm:mx-0 sm:px-0">
           {!started ? (
             <div className="flex items-center gap-2 px-4 py-2 text-pres-sm font-mono text-(--color-signal)">
-              <Play className="h-3.5 w-3.5" /> Intro
+              <Play className="h-3.5 w-3.5" /> Вступление
             </div>
           ) : navItems.map(s => (
             <button key={s.id} onClick={() => onNav(s.id)}
@@ -147,7 +147,7 @@ function TopBar({ mode, onModeChange, navItems, activeId, onNav, started, onHome
                                   : "text-(--color-ink-3) hover:text-(--color-ink-2) hover:bg-(--color-surface)",
               ].join(" ")}
               title={bi(s.label, s.labelRu)}>
-              <span className="text-(--color-signal) mr-1.5">{s.number}</span>{s.label}
+              <span className="text-(--color-signal) mr-1.5">{s.number}</span>{s.labelRu}
             </button>
           ))}
         </div>

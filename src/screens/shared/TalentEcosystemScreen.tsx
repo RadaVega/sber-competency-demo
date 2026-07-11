@@ -9,7 +9,7 @@ import { cn } from "@/lib/cn";
 import type { ModeConfig } from "@/data/modes";
 
 const internalContour = [
-  { label: "Employees (Сотрудники)", count: 500 },
+  { label: "Сотрудники (Employees)", count: 500 },
   { label: "Managers (Руководители)", count: 48 },
   { label: "Experts (Эксперты)", count: 31 },
   { label: "Mentors (Наставники)", count: 19 },

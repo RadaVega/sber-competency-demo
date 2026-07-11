@@ -3,9 +3,9 @@ import { type TalentSourceMode } from "@/data/tochkaSborki";
 
 // Short labels for the compact toggle — full bilingual in tooltip only
 const labels: Record<TalentSourceMode, { short: string; full: string }> = {
-  internal: { short: "Internal",  full: "Internal Workforce (Внутренние сотрудники)" },
-  external: { short: "External",  full: "External Ecosystem (Внешняя экосистема)" },
-  hybrid:   { short: "Hybrid ✦", full: "Hybrid Talent Network (Гибридная сеть талантов)" },
+  internal: { short: "Внутренние",  full: "Внутренние сотрудники (Internal Workforce)" },
+  external: { short: "Внешние",     full: "Внешняя экосистема (External Ecosystem)" },
+  hybrid:   { short: "Гибрид ✦",    full: "Гибридная сеть талантов (Hybrid Talent Network)" },
 };
 
 const modes: TalentSourceMode[] = ["internal", "external", "hybrid"];

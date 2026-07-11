@@ -25,7 +25,7 @@ export function ViewModeSwitcher() {
         )}
       >
         <User className="h-4 w-4" />
-        Employee
+        Сотрудник
       </button>
     </div>
   );

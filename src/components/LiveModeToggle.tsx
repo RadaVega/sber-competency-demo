@@ -6,7 +6,7 @@ export function LiveModeToggle() {
   return (
     <button
       onClick={toggle}
-      title={isLive ? "Switch to Demo" : "Switch to Live (GigaChat)"}
+      title={isLive ? "Переключить в демо-режим" : "Переключить в живой режим (GigaChat)"}
       className={cn(
         "flex items-center gap-2 rounded-xl px-4 py-2 text-pres-sm font-mono font-medium transition-all duration-300",
         isLive ? "glass border-(--color-good)/30 text-(--color-good) glow-good"
