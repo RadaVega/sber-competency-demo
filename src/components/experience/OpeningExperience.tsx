@@ -1,64 +1,71 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { useViewMode } from "@/lib/ViewModeContext";
+import { TwoWorldsScene } from "./TwoWorldsScene";
 
 /**
- * The first 30 seconds of the product — an 8-act, wordless-where-possible
- * cinematic opening that establishes the core problem (strategy and people
- * live in two disconnected systems) before the viewer ever sees a menu.
+ * The first ~40 seconds of the product — a wordless-where-possible cinematic
+ * opening that establishes the core problem (strategy and people live in
+ * two disconnected systems) before the viewer ever sees a menu.
  *
- * Runs once per session, before IntroScreen. Auto-advances through Acts 1–7
- * on a timer; Act 8 (the perspective choice) waits for a click. Always
- * skippable, and honours prefers-reduced-motion by jumping straight to the
- * choice with no animated sequence at all.
+ * Built on Framer Motion throughout — not hand-rolled CSS keyframes —
+ * because the moments that matter (the two worlds converging) need genuine
+ * position tweening, not a slideshow of static frames. Paced deliberately
+ * slower than a typical product intro: each stage gets real time to land
+ * before the next begins.
+ *
+ * Stages: Question → Network forms → [TwoWorldsScene: establish → the line →
+ * converge] → Platform reveals → Value chain radiates → Perspective choice.
+ *
+ * Runs once per session. Always skippable. Honours prefers-reduced-motion
+ * by jumping straight to the choice with no animated sequence at all.
  */
 
-const ORG_TERMS = ["Стратегия", "Национальные проекты", "Приоритеты", "KPI", "Риски", "Компетенции", "Команды", "AI"];
-const HUMAN_TERMS = ["Любопытство", "Развитие", "Ошибки", "Наставники", "Обучение", "Опыт", "Карьера", "Самореализация"];
+type Stage = "question" | "network" | "worlds" | "reveal" | "chain" | "choice";
+
 const CHAIN = ["Стратегия", "Проекты", "Компетенции", "Наставники", "Практический опыт", "AI", "Команды", "Результат"];
 
-const ACT_DURATIONS = [0, 3200, 3800, 3400, 2600, 3600, 2800, 2600]; // index 1..7, ms until next act
+const EASE = [0.16, 1, 0.3, 1] as const;
+const stageVariants = {
+  initial: { opacity: 0, scale: 0.98 },
+  animate: { opacity: 1, scale: 1, transition: { duration: 1.3, ease: EASE } },
+  exit: { opacity: 0, scale: 1.01, transition: { duration: 0.9, ease: EASE } },
+};
 
 interface Particle { x: number; y: number; r: number; delay: number }
 interface Edge { a: number; b: number; delay: number }
 
 export function OpeningExperience({ onComplete }: { onComplete: (perspective: "vp" | "employee") => void }) {
-  const [act, setAct] = useState(1);
+  const [stage, setStage] = useState<Stage>("question");
   const [reduced, setReduced] = useState(false);
   const { toggle, isVP } = useViewMode();
-  const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
 
-  const particles = useMemo<Particle[]>(() => {
-    return Array.from({ length: 220 }, () => ({
-      x: Math.random() * 1000,
-      y: Math.random() * 560,
-      r: Math.random() * 1.4 + 0.5,
-      delay: Math.random() * 1800,
-    }));
-  }, []);
-
-  const edges = useMemo<Edge[]>(() => {
-    return Array.from({ length: 60 }, () => ({
-      a: Math.floor(Math.random() * particles.length),
-      b: Math.floor(Math.random() * particles.length),
-      delay: 1200 + Math.random() * 1600,
-    }));
-  }, [particles]);
+  const particles = useMemo<Particle[]>(() => Array.from({ length: 180 }, () => ({
+    x: Math.random() * 100, y: Math.random() * 100, r: Math.random() * 0.35 + 0.15,
+    delay: Math.random() * 2.6,
+  })), []);
+  const edges = useMemo<Edge[]>(() => Array.from({ length: 46 }, () => ({
+    a: Math.floor(Math.random() * particles.length), b: Math.floor(Math.random() * particles.length),
+    delay: 1.4 + Math.random() * 2.2,
+  })), [particles]);
 
   useEffect(() => {
-    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (prefersReduced) { setReduced(true); setAct(8); return; }
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) { setReduced(true); setStage("choice"); }
   }, []);
 
   useEffect(() => {
-    if (reduced || act >= 8) return;
-    const t = setTimeout(() => setAct((a) => Math.min(a + 1, 8)), ACT_DURATIONS[act]);
-    timers.current.push(t);
-    return () => clearTimeout(t);
-  }, [act, reduced]);
+    if (reduced) return;
+    const timers: ReturnType<typeof setTimeout>[] = [];
+    if (stage === "question") timers.push(setTimeout(() => setStage("network"), 5200));
+    if (stage === "network") timers.push(setTimeout(() => setStage("worlds"), 6200));
+    // "worlds" stage advances itself via TwoWorldsScene's onDone callback
+    if (stage === "reveal") timers.push(setTimeout(() => setStage("chain"), 6200));
+    if (stage === "chain") timers.push(setTimeout(() => setStage("choice"), 5400));
+    return () => timers.forEach(clearTimeout);
+  }, [stage, reduced]);
 
   function skip() {
-    timers.current.forEach(clearTimeout);
-    setAct(8);
+    setStage("choice");
   }
 
   function choose(perspective: "vp" | "employee") {
@@ -68,7 +75,7 @@ export function OpeningExperience({ onComplete }: { onComplete: (perspective: "v
 
   return (
     <div className="fixed inset-0 z-50 bg-(--color-canvas) overflow-hidden">
-      {act < 8 && (
+      {stage !== "choice" && (
         <button
           onClick={skip}
           className="absolute top-6 right-6 z-10 text-[12px] font-mono text-(--color-ink-3) hover:text-(--color-ink-1) transition-colors px-3 py-1.5 rounded-lg hover:bg-(--color-surface-raised)"
@@ -77,153 +84,134 @@ export function OpeningExperience({ onComplete }: { onComplete: (perspective: "v
         </button>
       )}
 
-      {act === 1 && (
-        <div key={1} className="absolute inset-0 flex items-center justify-center px-8 animate-act-in">
-          <p className="font-display text-[26px] md:text-[36px] text-(--color-ink-1) text-center leading-snug max-w-[760px]">
-            Почему даже лучшие стратегии
-            <br />
-            не всегда становятся реальностью?
-          </p>
-        </div>
-      )}
+      <AnimatePresence mode="wait">
+        {stage === "question" && (
+          <motion.div key="question" className="absolute inset-0 flex items-center justify-center px-8"
+            variants={stageVariants} initial="initial" animate="animate" exit="exit">
+            <motion.p
+              className="font-display text-[26px] md:text-[38px] text-(--color-ink-1) text-center leading-snug max-w-[760px]"
+              initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1.6, ease: EASE, delay: 0.4 }}
+            >
+              Почему даже лучшие стратегии
+              <br />
+              не всегда становятся реальностью?
+            </motion.p>
+          </motion.div>
+        )}
 
-      {act === 2 && (
-        <div key={2} className="absolute inset-0 animate-act-in">
-          <svg viewBox="0 0 1000 560" className="w-full h-full" preserveAspectRatio="xMidYMid slice">
-            {edges.map((e, i) => {
-              const pa = particles[e.a], pb = particles[e.b];
-              if (!pa || !pb) return null;
-              return (
-                <line
-                  key={i} x1={pa.x} y1={pa.y} x2={pb.x} y2={pb.y}
-                  stroke="var(--color-signal)" strokeWidth={0.5}
-                  className="opening-fade-in" style={{ animationDelay: `${e.delay}ms`, opacity: 0 }}
+        {stage === "network" && (
+          <motion.div key="network" className="absolute inset-0"
+            variants={stageVariants} initial="initial" animate="animate" exit="exit">
+            <svg viewBox="0 0 100 100" className="w-full h-full" preserveAspectRatio="xMidYMid slice">
+              {edges.map((e, i) => {
+                const pa = particles[e.a], pb = particles[e.b];
+                if (!pa || !pb) return null;
+                return (
+                  <motion.line
+                    key={i} x1={pa.x} y1={pa.y} x2={pb.x} y2={pb.y}
+                    stroke="var(--color-signal)" strokeWidth={0.06}
+                    initial={{ opacity: 0 }} animate={{ opacity: 0.35 }}
+                    transition={{ duration: 1.8, ease: EASE, delay: e.delay }}
+                  />
+                );
+              })}
+              {particles.map((p, i) => (
+                <motion.circle
+                  key={i} cx={p.x} cy={p.y} r={p.r} fill="var(--color-ink-2)"
+                  initial={{ opacity: 0 }} animate={{ opacity: 0.75 }}
+                  transition={{ duration: 1.4, ease: EASE, delay: p.delay }}
                 />
-              );
-            })}
-            {particles.map((p, i) => (
-              <circle
-                key={i} cx={p.x} cy={p.y} r={p.r} fill="var(--color-ink-2)"
-                className="opening-fade-in" style={{ animationDelay: `${p.delay}ms`, opacity: 0 }}
-              />
-            ))}
-          </svg>
-        </div>
-      )}
+              ))}
+            </svg>
+          </motion.div>
+        )}
 
-      {act === 3 && (
-        <div key={3} className="absolute inset-0 grid grid-cols-2 animate-act-in">
-          <div className="flex flex-col items-center justify-center gap-3 border-r border-(--color-border)">
-            {ORG_TERMS.map((t, i) => (
-              <span
-                key={t} className="text-[13px] font-mono text-(--color-ink-2) opening-fade-in"
-                style={{ animationDelay: `${i * 110}ms`, opacity: 0 }}
-              >
-                {t}
-              </span>
-            ))}
-          </div>
-          <div className="flex flex-col items-center justify-center gap-3">
-            {HUMAN_TERMS.map((t, i) => (
-              <span
-                key={t} className="text-[13px] font-mono text-(--color-ink-2) opening-fade-in"
-                style={{ animationDelay: `${i * 110}ms`, opacity: 0 }}
-              >
-                {t}
-              </span>
-            ))}
-          </div>
-        </div>
-      )}
+        {stage === "worlds" && (
+          <motion.div key="worlds" className="absolute inset-0"
+            variants={stageVariants} initial="initial" animate="animate" exit="exit">
+            <TwoWorldsScene onDone={() => setStage("reveal")} />
+          </motion.div>
+        )}
 
-      {act === 4 && (
-        <div key={4} className="absolute inset-0 flex items-center justify-center px-8 animate-act-in">
-          <p className="font-display text-[28px] md:text-[40px] text-(--color-ink-1) text-center leading-snug">
-            Они работают
-            <br />
-            в одной организации.
-            <br />
-            <br />
-            Но живут
-            <br />
-            в разных реальностях.
-          </p>
-        </div>
-      )}
-
-      {act === 5 && (
-        <div key={5} className="absolute inset-0 grid grid-cols-[1fr_auto_1fr] items-center px-10 animate-act-in">
-          <div className="flex flex-col items-end gap-3">
-            {ORG_TERMS.slice(0, 5).map((t, i) => (
-              <span key={t} className="text-[13px] font-mono text-(--color-ink-1) animate-row-in-left" style={{ animationDelay: `${i * 90}ms` }}>{t}</span>
-            ))}
-          </div>
-          <div className="w-24 h-24 rounded-full animate-converge-fade" style={{ background: "radial-gradient(circle, rgba(139,127,255,0.85) 0%, rgba(86,174,255,0.4) 60%, transparent 100%)", animationDelay: "1.2s" }} />
-          <div className="flex flex-col items-start gap-3">
-            {HUMAN_TERMS.slice(0, 5).map((t, i) => (
-              <span key={t} className="text-[13px] font-mono text-(--color-ink-1) animate-row-in-right" style={{ animationDelay: `${i * 90}ms` }}>{t}</span>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {act === 6 && (
-        <div key={6} className="absolute inset-0 flex flex-col items-center justify-center gap-6 px-8 animate-act-in">
-          <div className="w-28 h-28 rounded-full glow-signal" style={{ background: "radial-gradient(circle, rgba(139,127,255,0.9) 0%, rgba(86,174,255,0.5) 60%, transparent 100%)" }} />
-          <div className="text-center animate-converge-fade" style={{ animationDelay: "0.5s" }}>
-            <div className="font-display text-[28px] md:text-[34px] text-gradient-accent leading-tight">
-              Capability Intelligence Platform
-            </div>
-            <div className="text-[14px] text-(--color-ink-3) font-mono mt-2">
-              Платформа управления стратегическими компетенциями
-            </div>
-            <p className="text-[14px] text-(--color-ink-2) mt-5 max-w-[540px] mx-auto leading-relaxed">
-              Интеллектуальная инфраструктура, которая соединяет стратегию организации, развитие человека
-              и AI-поддержку принятия решений в единый непрерывный цикл.
-            </p>
-          </div>
-        </div>
-      )}
-
-      {act === 7 && (
-        <div key={7} className="absolute inset-0 flex flex-col items-center justify-center gap-3 animate-act-in">
-          {CHAIN.map((c, i) => (
-            <div key={c} className="flex items-center gap-3 animate-converge-fade" style={{ animationDelay: `${i * 160}ms` }}>
-              <span className="text-[14px] font-mono text-(--color-ink-1)">{c}</span>
-              {i < CHAIN.length - 1 && <span className="text-(--color-signal)">↓</span>}
-            </div>
-          ))}
-        </div>
-      )}
-
-      {act === 8 && (
-        <div key={8} className="absolute inset-0 flex items-center justify-center px-6 animate-act-in">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-[820px] w-full">
-            <button
-              onClick={() => choose("vp")}
-              className="glass rounded-2xl p-8 text-left hover:scale-[1.02] transition-all border-(--color-signal)/25 hover:border-(--color-signal)/50"
+        {stage === "reveal" && (
+          <motion.div key="reveal" className="absolute inset-0 flex flex-col items-center justify-center gap-6 px-8"
+            variants={stageVariants} initial="initial" animate="animate" exit="exit">
+            <motion.div
+              className="w-28 h-28 rounded-full"
+              style={{ background: "radial-gradient(circle, rgba(139,127,255,0.9) 0%, rgba(245,183,49,0.4) 55%, transparent 100%)" }}
+              initial={{ scale: 0.6, opacity: 0 }} animate={{ scale: [0.6, 1.08, 1], opacity: 1 }}
+              transition={{ duration: 1.8, ease: EASE }}
+            />
+            <motion.div className="text-center"
+              initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1.4, ease: EASE, delay: 1 }}
             >
-              <div className="text-[11px] font-mono uppercase tracking-[0.12em] text-(--color-signal) mb-3">
-                Реальность руководителя
+              <div className="font-display text-[28px] md:text-[34px] text-gradient-accent leading-tight">
+                Capability Intelligence Platform
               </div>
-              <p className="text-[16px] text-(--color-ink-1) leading-relaxed">
-                Помочь организации быстрее реализовать стратегию.
-              </p>
-            </button>
-            <button
-              onClick={() => choose("employee")}
-              className="glass rounded-2xl p-8 text-left hover:scale-[1.02] transition-all border-(--color-good)/25 hover:border-(--color-good)/50"
-            >
-              <div className="text-[11px] font-mono uppercase tracking-[0.12em] text-(--color-good) mb-3">
-                Реальность сотрудника
+              <div className="text-[14px] text-(--color-ink-3) font-mono mt-2">
+                Платформа управления стратегическими компетенциями
               </div>
-              <p className="text-[16px] text-(--color-ink-1) leading-relaxed">
-                Найти своё место. Развиваться. Стать ценнее.
+              <p className="text-[14px] text-(--color-ink-2) mt-5 max-w-[540px] mx-auto leading-relaxed">
+                Интеллектуальная инфраструктура, которая соединяет стратегию организации, развитие человека
+                и AI-поддержку принятия решений в единый непрерывный цикл.
               </p>
-            </button>
-          </div>
-        </div>
-      )}
+            </motion.div>
+          </motion.div>
+        )}
+
+        {stage === "chain" && (
+          <motion.div key="chain" className="absolute inset-0 flex flex-col items-center justify-center gap-3"
+            variants={stageVariants} initial="initial" animate="animate" exit="exit">
+            {CHAIN.map((c, i) => (
+              <motion.div key={c} className="flex items-center gap-3"
+                initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.9, ease: EASE, delay: 0.3 + i * 0.32 }}
+              >
+                <span className="text-[14px] font-mono text-(--color-ink-1)">{c}</span>
+                {i < CHAIN.length - 1 && <span className="text-(--color-signal)">↓</span>}
+              </motion.div>
+            ))}
+          </motion.div>
+        )}
+
+        {stage === "choice" && (
+          <motion.div key="choice" className="absolute inset-0 flex items-center justify-center px-6"
+            variants={stageVariants} initial="initial" animate="animate" exit="exit">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-[820px] w-full">
+              <motion.button
+                onClick={() => choose("vp")}
+                className="glass rounded-2xl p-8 text-left border-(--color-signal)/25 hover:border-(--color-signal)/50"
+                whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.99 }}
+                initial={{ opacity: 0, x: -16 }} animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 1, ease: EASE, delay: reduced ? 0 : 0.3 }}
+              >
+                <div className="text-[11px] font-mono uppercase tracking-[0.12em] text-(--color-signal) mb-3">
+                  Реальность руководителя
+                </div>
+                <p className="text-[16px] text-(--color-ink-1) leading-relaxed">
+                  Помочь организации быстрее реализовать стратегию.
+                </p>
+              </motion.button>
+              <motion.button
+                onClick={() => choose("employee")}
+                className="glass rounded-2xl p-8 text-left border-(--color-good)/25 hover:border-(--color-good)/50"
+                whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.99 }}
+                initial={{ opacity: 0, x: 16 }} animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 1, ease: EASE, delay: reduced ? 0 : 0.45 }}
+              >
+                <div className="text-[11px] font-mono uppercase tracking-[0.12em] text-(--color-good) mb-3">
+                  Реальность сотрудника
+                </div>
+                <p className="text-[16px] text-(--color-ink-1) leading-relaxed">
+                  Найти своё место. Развиваться. Стать ценнее.
+                </p>
+              </motion.button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
