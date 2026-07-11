@@ -117,12 +117,43 @@
 }
 .animate-wt-pulse { animation: walkthrough-pulse 2s ease-in-out infinite; }
 
+/* Converging dual-perspective entrance (StrategicEcosystemScreen).
+   Rows slide in from opposite sides toward the centre, one at a time,
+   finite (not looping) — a one-time "coming together" beat rather than
+   a decorative loop. */
+@keyframes row-in-left {
+  from { opacity: 0; transform: translateX(-24px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes row-in-right {
+  from { opacity: 0; transform: translateX(24px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes converge-line {
+  from { opacity: 0; transform: scaleX(0.3); }
+  to   { opacity: 1; transform: scaleX(1); }
+}
+@keyframes converge-fade {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-row-in-left  { opacity: 0; animation: row-in-left 0.5s ease-out forwards; }
+.animate-row-in-right { opacity: 0; animation: row-in-right 0.5s ease-out forwards; }
+.animate-converge-line { opacity: 0; animation: converge-line 0.8s ease-out 1.1s forwards; }
+.animate-converge-fade { opacity: 0; animation: converge-fade 0.6s ease-out 1.25s forwards; }
+
 @media (prefers-reduced-motion: reduce) {
   .animate-screen-in,
   .animate-gradient,
   .animate-glow,
-  .animate-wt-pulse {
+  .animate-wt-pulse,
+  .animate-row-in-left,
+  .animate-row-in-right,
+  .animate-converge-line,
+  .animate-converge-fade {
     animation: none;
+    opacity: 1;
+    transform: none;
   }
 }
 

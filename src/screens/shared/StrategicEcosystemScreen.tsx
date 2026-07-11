@@ -2,28 +2,30 @@ import { ArrowRight, ArrowLeft, ArrowDown } from "lucide-react";
 import { bi } from "@/lib/bi";
 import type { ModeConfig } from "@/data/modes";
 
+// Paired rows: orgFlow[i] aligns conceptually with humanFlow[i] — this pairing
+// is what the converging connector lines visually link together.
 const orgFlow = [
-  { en: "Vision",                ru: "Видение" },
-  { en: "Strategy",              ru: "Стратегия" },
-  { en: "Strategic Initiatives", ru: "Стратегические инициативы" },
-  { en: "Required Capabilities", ru: "Необходимые компетенции" },
-  { en: "Capability Gaps",       ru: "Дефицит компетенций" },
-  { en: "Experts & Mentors",     ru: "Эксперты и наставники" },
-  { en: "Teams",                 ru: "Команды" },
-  { en: "Execution",             ru: "Реализация" },
-  { en: "Outcomes",              ru: "Результаты" },
+  { ru: "Видение",                     en: "Vision" },
+  { ru: "Стратегия",                   en: "Strategy" },
+  { ru: "Стратегические инициативы",   en: "Strategic Initiatives" },
+  { ru: "Необходимые компетенции",     en: "Required Capabilities" },
+  { ru: "Дефицит компетенций",         en: "Capability Gaps" },
+  { ru: "Эксперты и наставники",       en: "Experts & Mentors" },
+  { ru: "Команды",                     en: "Teams" },
+  { ru: "Реализация",                  en: "Execution" },
+  { ru: "Результаты",                  en: "Outcomes" },
 ];
 
 const humanFlow = [
-  { en: "Strengths",           ru: "Сильные стороны" },
-  { en: "Interests",           ru: "Интересы" },
-  { en: "Growth Goals",        ru: "Цели развития" },
-  { en: "Capabilities",        ru: "Компетенции" },
-  { en: "Mentors",             ru: "Наставники" },
-  { en: "Projects",            ru: "Проекты" },
-  { en: "Community",           ru: "Сообщество" },
-  { en: "Mastery",             ru: "Мастерство" },
-  { en: "Impact",              ru: "Влияние" },
+  { ru: "Сильные стороны",   en: "Strengths" },
+  { ru: "Интересы",          en: "Interests" },
+  { ru: "Цели развития",     en: "Growth Goals" },
+  { ru: "Компетенции",       en: "Capabilities" },
+  { ru: "Наставники",        en: "Mentors" },
+  { ru: "Проекты",           en: "Projects" },
+  { ru: "Сообщество",        en: "Community" },
+  { ru: "Мастерство",        en: "Mastery" },
+  { ru: "Влияние",           en: "Impact" },
 ];
 
 const ciprStats = [
@@ -64,7 +66,7 @@ export function StrategicEcosystemScreen({
     <div className="mx-auto max-w-[1280px] px-8 py-10">
 
       {/* ---- Header ---- */}
-      <div className="mb-10 border-b border-(--color-border) pb-8">
+      <div className="mb-8 border-b border-(--color-border) pb-8">
         <button onClick={onBack} className="flex items-center gap-1.5 text-[12px] text-(--color-ink-3) hover:text-(--color-ink-1) transition-colors mb-3 font-mono">
           <ArrowLeft className="h-3.5 w-3.5" />
           Назад
@@ -88,6 +90,19 @@ export function StrategicEcosystemScreen({
         </div>
       </div>
 
+      {/* ---- Catchphrase — comes first, on its own, before the picture below ---- */}
+      <div className="mb-10 rounded-2xl glass px-8 py-10 text-center animate-screen-in">
+        <p className="font-display text-[26px] md:text-[32px] text-(--color-ink-1) leading-snug max-w-[820px] mx-auto">
+          Организация и человек работают в одной компании.
+          <br />
+          Но смотрят на неё{" "}
+          <span className="text-gradient-accent">совершенно по-разному</span>.
+        </p>
+        <p className="text-[13px] text-(--color-ink-3) font-mono mt-4 uppercase tracking-[0.1em]">
+          {bi("Two points of view, one organization", "Два взгляда, одна организация")}
+        </p>
+      </div>
+
       {/* ---- CIPR-2026 context ---- */}
       <div className="mb-8 grid grid-cols-2 sm:grid-cols-4 gap-3">
         {ciprStats.map((s) => (
@@ -98,7 +113,7 @@ export function StrategicEcosystemScreen({
         ))}
       </div>
 
-      {/* ---- Dual model ---- */}
+      {/* ---- Dual model — rows enter from opposite sides and converge on the centre ---- */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
 
         {/* Left — Organisation */}
@@ -108,10 +123,13 @@ export function StrategicEcosystemScreen({
           </div>
           <div className="flex flex-col gap-1.5">
             {orgFlow.map((item, i) => (
-              <div key={item.en}>
-                <div className="rounded-lg px-3 py-2 text-[12.5px] font-medium text-(--color-ink-1) bg-(--color-surface-raised) border border-(--color-border-soft)">
-                  <span className="text-(--color-ink-1)">{item.en}</span>
-                  <span className="text-(--color-ink-3) ml-1.5">({item.ru})</span>
+              <div key={item.ru}>
+                <div
+                  className="rounded-lg px-3 py-2 text-[12.5px] font-medium text-(--color-ink-1) bg-(--color-surface-raised) border border-(--color-border-soft) animate-row-in-left"
+                  style={{ animationDelay: `${i * 70}ms` }}
+                >
+                  <span className="text-(--color-ink-1)">{item.ru}</span>
+                  <span className="text-(--color-ink-3) ml-1.5">({item.en})</span>
                 </div>
                 {i < orgFlow.length - 1 && (
                   <div className="flex justify-center my-0.5">
@@ -123,21 +141,23 @@ export function StrategicEcosystemScreen({
           </div>
         </div>
 
-        {/* Centre — Platform */}
+        {/* Centre — Platform, arrival animates in after both sides have converged */}
         <div className="flex flex-col items-center justify-center gap-6 py-8 relative">
-          {/* Connecting line */}
-          <div className="hidden lg:block absolute top-1/2 left-0 right-0 h-px bg-gradient-to-r from-transparent via-(--color-signal)/30 to-transparent" />
-          <div className="relative z-10 text-center">
-            <div className="w-24 h-24 rounded-full glass glow-signal flex flex-col items-center justify-center mx-auto mb-4" style={{ background: "rgba(124,110,255,0.15)" }}>
+          {/* Connecting line — draws in after the row entrance finishes */}
+          <div
+            className="hidden lg:block absolute top-1/2 left-0 right-0 h-px bg-gradient-to-r from-transparent via-(--color-signal)/40 to-transparent animate-converge-line"
+          />
+          <div className="relative z-10 text-center animate-converge-fade">
+            <div className="w-24 h-24 rounded-full glass glow-signal flex flex-col items-center justify-center mx-auto mb-4" style={{ background: "rgba(124,110,255,0.18)" }}>
               <span className="text-[28px]">🧠</span>
             </div>
-            <div className="text-[11px] font-mono uppercase tracking-[0.14em] text-(--color-signal) mb-2">Agentic AI</div>
-            <div className="font-display text-[18px] text-gradient-accent mb-3">Orchestrator</div>
-            <p className="text-[12px] text-(--color-ink-3) max-w-[180px] leading-relaxed mx-auto">
+            <div className="text-[11px] font-mono uppercase tracking-[0.14em] text-(--color-signal) mb-2">{bi("Agentic AI", "Агентный AI")}</div>
+            <div className="font-display text-[18px] text-gradient-accent mb-3">{bi("Orchestrator", "Оркестратор")}</div>
+            <p className="text-[12px] text-(--color-ink-3) max-w-[190px] leading-relaxed mx-auto">
               Соединяет стратегию организации с потенциалом людей
             </p>
           </div>
-          <div className="text-center">
+          <div className="text-center animate-converge-fade" style={{ animationDelay: "150ms" }}>
             <div className="text-[11px] text-(--color-ink-3) font-mono mb-2">Источники экспертизы</div>
             <div className="flex flex-col gap-1.5 text-[11.5px]">
               {["Внутренние эксперты", "Наставники", "Сообщества практиков", "Точка Сборки ✦"].map((s) => (
@@ -154,10 +174,13 @@ export function StrategicEcosystemScreen({
           </div>
           <div className="flex flex-col gap-1.5">
             {humanFlow.map((item, i) => (
-              <div key={item.en}>
-                <div className="rounded-lg px-3 py-2 text-[12.5px] font-medium bg-(--color-surface-raised) border border-(--color-border-soft)">
-                  <span className="text-(--color-ink-1)">{item.en}</span>
-                  <span className="text-(--color-ink-3) ml-1.5">({item.ru})</span>
+              <div key={item.ru}>
+                <div
+                  className="rounded-lg px-3 py-2 text-[12.5px] font-medium bg-(--color-surface-raised) border border-(--color-border-soft) animate-row-in-right"
+                  style={{ animationDelay: `${i * 70}ms` }}
+                >
+                  <span className="text-(--color-ink-1)">{item.ru}</span>
+                  <span className="text-(--color-ink-3) ml-1.5">({item.en})</span>
                 </div>
                 {i < humanFlow.length - 1 && (
                   <div className="flex justify-center my-0.5">
