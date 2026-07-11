@@ -1,13 +1,14 @@
 import { useState } from "react";
-import { ArrowLeft, ArrowRight, Check, X } from "lucide-react";
+import { ArrowLeft, ArrowRight, Check, X, Sparkles, TrendingUp } from "lucide-react";
 import { Card } from "@/components/Card";
 import { RiskBadge } from "@/components/RiskBadge";
 import { bi } from "@/lib/bi";
-import { missionPrograms } from "@/data/rosatomData";
+import { useViewMode } from "@/lib/ViewModeContext";
+import { missionPrograms, employeeMatches } from "@/data/rosatomData";
 
 export function TeamBuilderScreen({ onBack, onNext }: { onBack: () => void; onNext: () => void }) {
+  const { isVP } = useViewMode();
   const [selected, setSelected] = useState(0);
-  const program = missionPrograms[selected];
 
   return (
     <div className="mx-auto max-w-[1280px] px-8 py-10">
@@ -17,10 +18,12 @@ export function TeamBuilderScreen({ onBack, onNext }: { onBack: () => void; onNe
             <ArrowLeft className="h-3.5 w-3.5" /> Сеть экспертов
           </button>
           <div className="text-[11px] uppercase tracking-[0.14em] text-(--color-signal) font-mono mb-3">
-            {bi("Mission Team Builder", "Формирование проектной команды")}
+            {isVP
+              ? bi("Mission Team Builder", "Формирование проектной команды")
+              : bi("Which Mission Needs Me", "Какой программе я нужен")}
           </div>
           <h1 className="font-display text-[34px] text-(--color-ink-1) leading-tight">
-            Выберите программу — AI соберёт команду
+            {isVP ? "Выберите программу — AI соберёт команду" : "Выберите свой профиль — AI найдёт вашу программу"}
           </h1>
         </div>
         <button onClick={onNext} className="group flex items-center gap-2 rounded-md bg-(--color-signal) px-5 py-3 text-[13px] font-medium text-(--color-canvas) hover:brightness-110 transition-all shrink-0">
@@ -29,6 +32,19 @@ export function TeamBuilderScreen({ onBack, onNext }: { onBack: () => void; onNe
         </button>
       </div>
 
+      {isVP ? (
+        <VPView selected={selected} setSelected={setSelected} />
+      ) : (
+        <EmployeeView selected={selected} setSelected={setSelected} />
+      )}
+    </div>
+  );
+}
+
+function VPView({ selected, setSelected }: { selected: number; setSelected: (i: number) => void }) {
+  const program = missionPrograms[selected];
+  return (
+    <>
       <div className="flex flex-wrap gap-2 mb-8">
         {missionPrograms.map((p, i) => (
           <button
@@ -96,6 +112,62 @@ export function TeamBuilderScreen({ onBack, onNext }: { onBack: () => void; onNe
           </div>
         </Card>
       </div>
-    </div>
+    </>
+  );
+}
+
+function EmployeeView({ selected, setSelected }: { selected: number; setSelected: (i: number) => void }) {
+  const persona = employeeMatches[selected] ?? employeeMatches[0];
+  const linkedProgram = missionPrograms.find((p) => p.name === persona.matchedProgram);
+
+  return (
+    <>
+      <div className="flex flex-wrap gap-2 mb-8">
+        {employeeMatches.map((m, i) => (
+          <button
+            key={m.persona}
+            onClick={() => setSelected(i)}
+            className={`rounded-full border px-4 py-2 text-[13px] transition-all ${
+              i === selected
+                ? "bg-(--color-good) text-(--color-canvas) border-(--color-good)"
+                : "border-(--color-border) text-(--color-ink-2) hover:text-(--color-ink-1)"
+            }`}
+          >
+            {m.persona}
+          </button>
+        ))}
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <Card className="p-5">
+          <div className="text-[11px] text-(--color-ink-3) font-mono uppercase tracking-[0.08em] mb-3">
+            Ваш профиль
+          </div>
+          <p className="text-[13px] text-(--color-ink-1) leading-relaxed">{persona.expertise}</p>
+        </Card>
+
+        <Card className="p-5 border-(--color-good)/25">
+          <div className="flex items-center gap-2 mb-3 text-[11px] text-(--color-good) font-mono uppercase tracking-[0.08em]">
+            <Sparkles className="h-3.5 w-3.5" />
+            Программа, которой вы нужны
+          </div>
+          <div className="text-[15px] text-(--color-ink-1) font-medium mb-2">{persona.matchedProgram}</div>
+          <p className="text-[12.5px] text-(--color-ink-2) leading-relaxed mb-3">{persona.fitReason}</p>
+          {linkedProgram && (
+            <div className="pt-3 border-t border-(--color-border-soft)">
+              <RiskBadge risk={{ name: linkedProgram.name, severity: linkedProgram.riskForecast }} />
+            </div>
+          )}
+        </Card>
+
+        <Card className="p-5">
+          <div className="flex items-center gap-2 mb-3 text-[11px] text-(--color-ink-3) font-mono uppercase tracking-[0.08em]">
+            <TrendingUp className="h-3.5 w-3.5 text-(--color-signal)" />
+            Что вы получите
+          </div>
+          <p className="text-[13px] text-(--color-ink-1) leading-relaxed">{persona.growthOffer}</p>
+        </Card>
+      </div>
+    </>
   );
 }

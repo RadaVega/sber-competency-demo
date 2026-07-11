@@ -1,12 +1,19 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ArrowLeft, ArrowRight, Sparkles } from "lucide-react";
 import { Card } from "@/components/Card";
 import { bi } from "@/lib/bi";
-import { aiCenterQuestions } from "@/data/rosatomData";
+import { useViewMode } from "@/lib/ViewModeContext";
+import { aiCenterQuestions, aiCenterEmployeeQuestions } from "@/data/rosatomData";
 
 export function AICenterScreen({ onBack, onNext }: { onBack: () => void; onNext: () => void }) {
+  const { isVP } = useViewMode();
+  const questions = isVP ? aiCenterQuestions : aiCenterEmployeeQuestions;
   const [selected, setSelected] = useState(0);
-  const qa = aiCenterQuestions[selected];
+
+  // Reset selection when perspective flips — the two question sets don't correspond 1:1
+  useEffect(() => { setSelected(0); }, [isVP]);
+
+  const qa = questions[selected];
   const maxVal = qa.chartData ? Math.max(...qa.chartData.map((d) => d.value)) : 100;
 
   return (
@@ -17,10 +24,12 @@ export function AICenterScreen({ onBack, onNext }: { onBack: () => void; onNext:
             <ArrowLeft className="h-3.5 w-3.5" /> Формирование команды
           </button>
           <div className="text-[11px] uppercase tracking-[0.14em] text-(--color-signal) font-mono mb-3">
-            {bi("AI Strategic Execution Center", "Центр управления стратегической реализацией")}
+            {isVP
+              ? bi("AI Strategic Execution Center", "Центр управления стратегической реализацией")
+              : bi("Personal AI Advisor", "Персональный AI-советник")}
           </div>
           <h1 className="font-display text-[34px] text-(--color-ink-1) leading-tight">
-            Задайте вопрос — AI отвечает на основе данных платформы
+            {isVP ? "Задайте вопрос — AI отвечает на основе данных платформы" : "Задайте вопрос о своём пути — AI отвечает на основе данных платформы"}
           </h1>
         </div>
         <button onClick={onNext} className="group flex items-center gap-2 rounded-md bg-(--color-signal) px-5 py-3 text-[13px] font-medium text-(--color-canvas) hover:brightness-110 transition-all shrink-0">
@@ -31,7 +40,7 @@ export function AICenterScreen({ onBack, onNext }: { onBack: () => void; onNext:
 
       <div className="grid grid-cols-1 lg:grid-cols-[320px_1fr] gap-6">
         <div className="flex flex-col gap-2">
-          {aiCenterQuestions.map((q, i) => (
+          {questions.map((q, i) => (
             <button
               key={q.question}
               onClick={() => setSelected(i)}
