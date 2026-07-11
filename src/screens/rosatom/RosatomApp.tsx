@@ -1,5 +1,6 @@
 import { ProblemScreen } from "@/screens/shared/ProblemScreen";
 import { ArchitectureScreen } from "@/screens/shared/ArchitectureScreen";
+import { StrategicEcosystemScreen } from "@/screens/shared/StrategicEcosystemScreen";
 import { FutureScreen } from "@/screens/shared/FutureScreen";
 import { RosatomDashboardScreen } from "@/screens/rosatom/DashboardScreen";
 import { CapabilityMapScreen } from "@/screens/rosatom/CapabilityMapScreen";
@@ -17,7 +18,8 @@ export default function RosatomApp({ active, onChangeScreen }: { active: Rosatom
   const mode = modes.rosatom; const go = onChangeScreen;
   return (<>
     {active === "problem"       && <ProblemScreen mode={mode} onNext={() => go("architecture")} />}
-    {active === "architecture"  && <ArchitectureScreen mode={mode} onBack={() => go("problem")} onNext={() => go("dashboard")} />}
+    {active === "architecture"  && <ArchitectureScreen mode={mode} onBack={() => go("problem")} onNext={() => go("why")} />}
+    {active === "why"           && <StrategicEcosystemScreen mode={mode} onBack={() => go("architecture")} onNext={() => go("dashboard")} />}
     {active === "dashboard"     && <RosatomDashboardScreen onNext={() => go("map")} />}
     {active === "map"           && <CapabilityMapScreen onBack={() => go("dashboard")} onNext={() => go("knowledgeRisk")} />}
     {active === "knowledgeRisk" && <KnowledgeRiskScreen onBack={() => go("map")} onNext={() => go("graph")} />}

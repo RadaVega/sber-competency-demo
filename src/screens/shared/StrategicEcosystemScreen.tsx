@@ -1,5 +1,6 @@
 import { ArrowRight, ArrowLeft, ArrowDown, Building2, User, Sparkles } from "lucide-react";
 import { bi } from "@/lib/bi";
+import { alignmentExamples } from "@/data/alignmentExamples";
 import type { ModeConfig } from "@/data/modes";
 
 // Paired rows: orgFlow[i] aligns conceptually with humanFlow[i] — this pairing
@@ -51,27 +52,6 @@ const whyHuman = [
   "Профессиональное сообщество",
   "Экспертный статус",
   "Реальное влияние",
-];
-
-const alignmentExamples = [
-  {
-    orgNeed: "Дефицит компетенций в приоритетном направлении",
-    humanGoal: "Хочет развиваться в новой, более сложной области",
-    aiAction: "AI находит совпадение и предлагает наставника",
-    outcome: "Сотрудник закрывает дефицит, получая рост — не по приказу, а по интересу",
-  },
-  {
-    orgNeed: "Критическая экспертиза уходит вместе с уходящими на пенсию",
-    humanGoal: "Опытный эксперт хочет передать знания, а не просто завершить карьеру",
-    aiAction: "AI назначает его наставником и фиксирует методику в базе знаний",
-    outcome: "Знания остаются в организации, эксперт получает новую значимую роль",
-  },
-  {
-    orgNeed: "Стратегическая инициатива требует немедленного усиления команды",
-    humanGoal: "Сотрудник ищет проект, где его вклад будет заметен",
-    aiAction: "AI подбирает его в команду по совпадению компетенций и интересов",
-    outcome: "Команда укомплектована быстрее, сотрудник получает видимость и влияние",
-  },
 ];
 
 export function StrategicEcosystemScreen({
@@ -220,7 +200,7 @@ export function StrategicEcosystemScreen({
           {bi("Alignment in practice", "Как это работает на практике")}
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
-          {alignmentExamples.map((ex, i) => (
+          {alignmentExamples[mode.id].map((ex, i) => (
             <div
               key={ex.orgNeed}
               className="glass rounded-xl p-5 flex flex-col gap-3 animate-converge-fade"
