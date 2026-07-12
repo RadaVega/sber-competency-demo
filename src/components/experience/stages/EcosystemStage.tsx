@@ -129,7 +129,7 @@ export function EcosystemStage({ onDone }: { onDone: () => void }) {
         transition={{ duration: 1.4, ease: EASE, delay: 3.6 }}
       >
         <p className="font-display text-[24px] md:text-[30px] text-(--color-ink-1) leading-snug mb-4">
-          Живая экосистема, которая балансирует себя сама
+          От двух разных миров — к одной живой системе
         </p>
         <p className="text-[14.5px] md:text-[15.5px] text-(--color-ink-2) leading-relaxed">
           Как грибница связывает деревья в лесу — питание само находит того, кому нужнее.

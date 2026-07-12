@@ -226,11 +226,11 @@ export function WorldsStage({ onDone }: { onDone: () => void }) {
         >
           <div className="absolute inset-0 bg-(--color-canvas)" style={{ opacity: phase === "line" ? 0.68 : 0 }} />
           <p className="relative font-display text-[28px] md:text-[42px] text-(--color-ink-1) text-center leading-snug">
-            Они работают
-            <br />в одной организации.
+            У организации — стратегия.
+            <br />У человека — жизнь.
             <br /><br />
-            Но живут
-            <br />в разных реальностях.
+            Одна компания.
+            <br />Два разных мира.
           </p>
         </motion.div>
       )}
