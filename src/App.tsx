@@ -87,6 +87,7 @@ function App() {
         onHome={() => { setStarted(false); setWalkthrough(false); }}
         onWalkthrough={() => { setStarted(true); setWalkthrough(true); }}
         walkthroughActive={walkthrough}
+        onReplayExperience={() => setOpeningDone(false)}
       />
       <main key={started ? `${mode}-${activeId}` : `${mode}-intro`} className="animate-screen-in">
         {!started && <IntroScreen mode={modes[mode]} onStart={() => setStarted(true)} />}
@@ -107,12 +108,13 @@ function App() {
   );
 }
 
-function TopBar({ mode, onModeChange, navItems, activeId, onNav, started, onHome, onWalkthrough, walkthroughActive }: {
+function TopBar({ mode, onModeChange, navItems, activeId, onNav, started, onHome, onWalkthrough, walkthroughActive, onReplayExperience }: {
   mode: ModeId; onModeChange: (id: ModeId) => void;
   navItems: readonly { id: string; label: string; labelRu: string; number: string }[];
   activeId: string; onNav: (id: string) => void;
   started: boolean; onHome: () => void;
   onWalkthrough: () => void; walkthroughActive: boolean;
+  onReplayExperience: () => void;
 }) {
   const cfg = modes[mode];
   return (
@@ -130,6 +132,11 @@ function TopBar({ mode, onModeChange, navItems, activeId, onNav, started, onHome
             </div>
           </button>
           <div className="flex items-center gap-2 shrink-0 flex-wrap justify-end">
+            <button onClick={onReplayExperience}
+              className="hidden sm:flex items-center gap-2 rounded-xl px-4 py-2 text-pres-sm font-mono transition-all glass-subtle text-(--color-ink-3) hover:text-(--color-ink-2)"
+              title="Пережить интерактивный опыт заново, без перезагрузки страницы">
+              Пережить опыт заново
+            </button>
             <button onClick={onWalkthrough}
               className={`hidden sm:flex items-center gap-2 rounded-xl px-4 py-2 text-pres-sm font-mono transition-all ${walkthroughActive ? "glass border-(--color-signal)/30 text-(--color-signal)" : "glass-subtle text-(--color-ink-3) hover:text-(--color-ink-2)"}`}
               title="Автоматический показ демонстрации для руководителя">
