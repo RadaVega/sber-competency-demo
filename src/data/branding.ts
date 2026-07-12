@@ -7,6 +7,17 @@
 export const BRAND_EN = "Enterprise Capability Intelligence";
 export const BRAND_RU = "Интеллект стратегической реализации";
 
+/**
+ * Category positioning — deliberately broader than the product name itself.
+ * The brand name (BRAND_RU) stays short and memorable for day-to-day use;
+ * this line exists to set the category in the viewer's mind before they
+ * see a single screen — "not HR-tech, a new class of management system."
+ * Introduced gradually alongside the existing brand name rather than
+ * replacing it outright.
+ */
+export const CATEGORY_RU = "Интеллектуальная система управления стратегическим развитием организации";
+export const CATEGORY_EN = "Intelligent Strategic Execution System";
+
 export const TAGLINE_RU = "От стратегии — к результату.";
 export const TAGLINE_STEPS_RU = [
   "Находим компетенции.",

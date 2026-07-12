@@ -1,6 +1,6 @@
 import { useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
-import { BRAND_RU, BRAND_EN } from "@/data/branding";
+import { BRAND_RU, BRAND_EN, CATEGORY_RU } from "@/data/branding";
 
 /**
  * Act 4 — the platform reveals itself as a living network: nodes fade in
@@ -100,6 +100,9 @@ export function CapabilityCoreStage({ onDone }: { onDone: () => void }) {
         </div>
         <div className="text-[14px] text-(--color-ink-3) font-mono mt-2">
           ({BRAND_EN})
+        </div>
+        <div className="text-[11px] text-(--color-signal) font-mono uppercase tracking-[0.1em] mt-3">
+          {CATEGORY_RU}
         </div>
         <p className="text-[14px] text-(--color-ink-2) mt-5 max-w-[540px] mx-auto leading-relaxed">
           Не отдельные люди. Не отдельная стратегия. Единая живая сеть, которая
