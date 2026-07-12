@@ -166,27 +166,27 @@ export function AlignmentStage({ onDone }: { onDone: () => void }) {
           >
             {node.kind === "org" ? (
               <div
-                className="h-4 w-4 border-2 rotate-45 transition-all duration-300"
+                className="h-6 w-6 border-2 rotate-45 transition-all duration-300"
                 style={{
                   borderColor: "var(--color-signal)",
                   background: isConnected ? "rgba(139,127,255,0.5)" : isSelected ? "rgba(139,127,255,0.35)" : "rgba(139,127,255,0.12)",
-                  boxShadow: isConnected || isSelected ? "0 0 10px rgba(139,127,255,0.5)" : "none",
+                  boxShadow: isConnected || isSelected ? "0 0 12px rgba(139,127,255,0.5)" : "none",
                 }}
               />
             ) : (
               <div
-                className="h-4 w-4 rounded-full transition-all duration-300"
+                className="h-6 w-6 rounded-full transition-all duration-300"
                 style={{
                   background: isConnected
                     ? "radial-gradient(circle, rgba(245,183,49,0.9) 0%, transparent 100%)"
                     : isSelected
                       ? "radial-gradient(circle, rgba(245,183,49,0.6) 0%, transparent 100%)"
                       : "radial-gradient(circle, rgba(245,183,49,0.35) 0%, transparent 100%)",
-                  boxShadow: isConnected || isSelected ? "0 0 10px rgba(245,183,49,0.5)" : "none",
+                  boxShadow: isConnected || isSelected ? "0 0 12px rgba(245,183,49,0.5)" : "none",
                 }}
               />
             )}
-            <span className="text-[10.5px] font-mono text-(--color-ink-3) group-hover:text-(--color-ink-1) transition-colors max-w-[130px] text-center leading-tight">
+            <span className="text-[13px] font-medium font-mono text-(--color-ink-2) group-hover:text-(--color-ink-1) transition-colors max-w-[160px] text-center leading-tight">
               {node.label}
             </span>
           </motion.button>

@@ -17,6 +17,7 @@ export const STAGE_ORDER = [
   "people",
   "strategy",
   "alignment",
+  "activation",
   "core",
   "roleSelection",
 ] as const;

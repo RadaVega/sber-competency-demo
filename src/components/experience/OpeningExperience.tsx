@@ -5,6 +5,7 @@ import { useExperienceMachine } from "./useExperienceMachine";
 import { QuestionStage } from "./stages/QuestionStage";
 import { InteractiveField } from "./stages/InteractiveField";
 import { AlignmentStage } from "./stages/AlignmentStage";
+import { ActivationStage } from "./stages/ActivationStage";
 import { CapabilityCoreStage } from "./stages/CapabilityCoreStage";
 import { RoleSelectionStage } from "./stages/RoleSelectionStage";
 
@@ -91,6 +92,12 @@ export function OpeningExperience({ onComplete }: { onComplete: (perspective: "v
         {stage === "alignment" && (
           <motion.div key="alignment" className="absolute inset-0" variants={stageVariants} initial="initial" animate="animate" exit="exit">
             <AlignmentStage onDone={next} />
+          </motion.div>
+        )}
+
+        {stage === "activation" && (
+          <motion.div key="activation" className="absolute inset-0" variants={stageVariants} initial="initial" animate="animate" exit="exit">
+            <ActivationStage onDone={next} />
           </motion.div>
         )}
 

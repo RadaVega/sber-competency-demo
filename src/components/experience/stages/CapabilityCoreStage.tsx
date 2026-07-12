@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { motion } from "framer-motion";
+import { BRAND_RU, BRAND_EN } from "@/data/branding";
 
 /** Act 6. The core appears — it's now clear it coordinates everything the
  *  user just watched connect. */
@@ -24,10 +25,10 @@ export function CapabilityCoreStage({ onDone }: { onDone: () => void }) {
         transition={{ duration: 1.4, ease: EASE, delay: 1 }}
       >
         <div className="font-display text-[28px] md:text-[34px] text-gradient-accent leading-tight">
-          Платформа управления стратегическими компетенциями
+          {BRAND_RU}
         </div>
         <div className="text-[14px] text-(--color-ink-3) font-mono mt-2">
-          (Capability Intelligence Platform)
+          ({BRAND_EN})
         </div>
         <p className="text-[14px] text-(--color-ink-2) mt-5 max-w-[540px] mx-auto leading-relaxed">
           Вы только что соединили людей и стратегию. Именно это система делает
