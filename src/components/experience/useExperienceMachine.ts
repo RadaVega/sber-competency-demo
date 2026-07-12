@@ -13,11 +13,7 @@ import { useCallback, useReducer } from "react";
 export const STAGE_ORDER = [
   "idle",
   "question",
-  "firstInteraction",
-  "people",
-  "strategy",
-  "alignment",
-  "activation",
+  "worlds",
   "core",
   "roleSelection",
 ] as const;
