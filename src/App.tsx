@@ -1,14 +1,16 @@
-import { lazy, Suspense, useState } from "react";
-import { Play, Clapperboard } from "lucide-react";
+import { lazy, Suspense, useEffect, useState } from "react";
+import { Play, Clapperboard, Sparkles } from "lucide-react";
 import { ModeSwitcher } from "@/components/ModeSwitcher";
 import { LiveModeToggle } from "@/components/LiveModeToggle";
 import { ViewModeSwitcher } from "@/components/ViewModeSwitcher";
 import { ExecutiveWalkthrough } from "@/components/ExecutiveWalkthrough";
+import { useViewMode } from "@/lib/ViewModeContext";
 import { modes, type ModeId } from "@/data/modes";
 import { BRAND_RU } from "@/data/branding";
 import { bi } from "@/lib/bi";
 import { IntroScreen } from "@/screens/IntroScreen";
 import { OpeningExperience } from "@/components/experience/OpeningExperience";
+import { OrganizationIntelligenceScreen } from "@/screens/shared/OrganizationIntelligenceScreen";
 
 // Meta (screen lists + hooks) — tiny, always bundled
 import { sberScreens, useSberScreenState } from "@/screens/sber/meta";
@@ -35,6 +37,20 @@ function App() {
   const [started, setStarted]       = useState(false);
   const [openingDone, setOpeningDone] = useState(false);
   const [walkthrough, setWalkthrough] = useState(false);
+  const [orgIntelOpen, setOrgIntelOpen] = useState(false);
+
+  // The hidden third perspective unlocks only once the viewer has actually
+  // been in both roles this session — not just clicked a toggle once.
+  const { isVP } = useViewMode();
+  const [seenRoles, setSeenRoles] = useState<Set<"vp" | "employee">>(new Set());
+  useEffect(() => {
+    setSeenRoles((prev) => {
+      const role = isVP ? "vp" : "employee";
+      if (prev.has(role)) return prev;
+      return new Set(prev).add(role);
+    });
+  }, [isVP]);
+  const orgIntelUnlocked = seenRoles.has("vp") && seenRoles.has("employee");
 
   const [sberScreen,    setSberScreen]    = useSberScreenState();
   const [vkScreen,      setVkScreen]      = useVKScreenState();
@@ -79,6 +95,7 @@ function App() {
   return (
     <>
       {!openingDone && <OpeningExperience onComplete={() => setOpeningDone(true)} />}
+      {orgIntelOpen && <OrganizationIntelligenceScreen onClose={() => setOrgIntelOpen(false)} />}
       <div className="min-h-screen bg-(--color-canvas)">
       <TopBar
         mode={mode} onModeChange={changeMode}
@@ -88,6 +105,8 @@ function App() {
         onWalkthrough={() => { setStarted(true); setWalkthrough(true); }}
         walkthroughActive={walkthrough}
         onReplayExperience={() => setOpeningDone(false)}
+        orgIntelUnlocked={orgIntelUnlocked}
+        onOpenOrgIntel={() => setOrgIntelOpen(true)}
       />
       <main key={started ? `${mode}-${activeId}` : `${mode}-intro`} className="animate-screen-in">
         {!started && <IntroScreen mode={modes[mode]} onStart={() => setStarted(true)} />}
@@ -108,13 +127,14 @@ function App() {
   );
 }
 
-function TopBar({ mode, onModeChange, navItems, activeId, onNav, started, onHome, onWalkthrough, walkthroughActive, onReplayExperience }: {
+function TopBar({ mode, onModeChange, navItems, activeId, onNav, started, onHome, onWalkthrough, walkthroughActive, onReplayExperience, orgIntelUnlocked, onOpenOrgIntel }: {
   mode: ModeId; onModeChange: (id: ModeId) => void;
   navItems: readonly { id: string; label: string; labelRu: string; number: string }[];
   activeId: string; onNav: (id: string) => void;
   started: boolean; onHome: () => void;
   onWalkthrough: () => void; walkthroughActive: boolean;
   onReplayExperience: () => void;
+  orgIntelUnlocked: boolean; onOpenOrgIntel: () => void;
 }) {
   const cfg = modes[mode];
   return (
@@ -132,6 +152,13 @@ function TopBar({ mode, onModeChange, navItems, activeId, onNav, started, onHome
             </div>
           </button>
           <div className="flex items-center gap-2 shrink-0 flex-wrap justify-end">
+            {orgIntelUnlocked && (
+              <button onClick={onOpenOrgIntel}
+                className="hidden sm:flex items-center gap-1.5 rounded-xl px-4 py-2 text-pres-sm font-mono transition-all glass border-(--color-signal)/30 text-(--color-signal) hover:border-(--color-signal)/60 glow-signal"
+                title="Скрытая третья точка зрения, открытая после Руководителя и Сотрудника">
+                <Sparkles className="h-3.5 w-3.5" /> Интеллект организации
+              </button>
+            )}
             <button onClick={onReplayExperience}
               className="hidden sm:flex items-center gap-2 rounded-xl px-4 py-2 text-pres-sm font-mono transition-all glass-subtle text-(--color-ink-3) hover:text-(--color-ink-2)"
               title="Пережить интерактивный опыт заново, без перезагрузки страницы">
