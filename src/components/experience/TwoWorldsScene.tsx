@@ -2,38 +2,53 @@ import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
 /**
- * The emotional core of the opening: one continuously-mounted scene that
- * moves through three phases without ever unmounting its nodes, so Framer
- * Motion can genuinely tween their positions (not cut between static
- * screens). This is what makes the "two worlds becoming one" moment read
- * as fluid rather than a slideshow.
+ * The emotional core of the opening. One continuously-mounted scene moving
+ * through three phases — never unmounting its nodes — so Framer Motion can
+ * genuinely tween positions rather than cut between static frames.
  *
- * Visual language is deliberately non-verbal first, verbal second:
- * — Organisation = a blueprint: rigid squares, straight elbow connectors,
- *   cool signal-purple. Reads as "engineered system" on sight.
- * — Human = organic blooms: soft breathing circles, curved connections,
- *   warm amber. Reads as "living, growing" on sight.
- * The contrast (straight vs curved, cool vs warm, static vs breathing) is
- * legible before anyone reads a single label.
+ * THE IDEA: this is not "everything drifts into a blob." Alignment means
+ * specific things find their specific match. A handful of named pairs
+ * (an organisational need, a human goal) light up one at a time, connected
+ * by a single drawn thread — that's what AI actually does here: matching,
+ * not merging. Only once every pair has connected does a shared core form,
+ * literally built from the accumulated light of those threads.
+ *
+ * Visual identity of each world is atmospheric, not just five small icons:
+ * — Organisation = blueprint. Faint drafting grid, cool violet glow, rigid
+ *   square nodes, straight elbow connectors. Reads as "engineered system."
+ * — Human = living field. Soft warm glow, drifting unlabelled bokeh in the
+ *   background, breathing circular nodes, curved connections. Reads as
+ *   "alive" before a single word is read.
  */
 
-type Phase = "establish" | "line" | "converge";
+type Phase = "establish" | "line" | "match";
 
 const ORG_TERMS = ["Стратегия", "Приоритеты", "KPI", "Риски", "Компетенции"];
 const HUMAN_TERMS = ["Любопытство", "Развитие", "Наставники", "Опыт", "Карьера"];
 
-// Positions as % of container — establish (worlds apart) vs converge (worlds meeting)
-const ORG_ESTABLISH = [
-  { x: 14, y: 22 }, { x: 30, y: 16 }, { x: 12, y: 48 }, { x: 30, y: 55 }, { x: 18, y: 74 },
+// [orgIndex, humanIndex] — the pairs AI actually connects, in the order
+// their threads draw. Index 2 (org "KPI") and index 0 (human "Любопытство")
+// are deliberately left unmatched — not everything aligns at once.
+const MATCHES: [number, number][] = [
+  [4, 1], // Компетенции ↔ Развитие
+  [3, 2], // Риски ↔ Наставники
+  [0, 4], // Стратегия ↔ Карьера
+  [1, 3], // Приоритеты ↔ Опыт
 ];
-const ORG_CONVERGE = [
-  { x: 32, y: 38 }, { x: 40, y: 30 }, { x: 34, y: 50 }, { x: 42, y: 58 }, { x: 38, y: 66 },
+
+const ORG_POS = [
+  { x: 16, y: 24 }, { x: 32, y: 18 }, { x: 14, y: 50 }, { x: 32, y: 56 }, { x: 20, y: 76 },
 ];
-const HUMAN_ESTABLISH = [
-  { x: 86, y: 20 }, { x: 70, y: 30 }, { x: 88, y: 46 }, { x: 72, y: 60 }, { x: 84, y: 76 },
+const HUMAN_POS = [
+  { x: 84, y: 22 }, { x: 68, y: 30 }, { x: 86, y: 48 }, { x: 70, y: 62 }, { x: 82, y: 78 },
 ];
-const HUMAN_CONVERGE = [
-  { x: 68, y: 36 }, { x: 60, y: 28 }, { x: 66, y: 50 }, { x: 58, y: 60 }, { x: 62, y: 68 },
+
+// A few soft, unlabelled bokeh circles drifting in the human half — pure
+// atmosphere, not data, giving that side a "living field" feel at a glance.
+const BOKEH = [
+  { x: 92, y: 12, r: 3.2, dur: 9 }, { x: 76, y: 8, r: 2.2, dur: 11 },
+  { x: 94, y: 62, r: 2.6, dur: 8 }, { x: 60, y: 48, r: 1.8, dur: 12 },
+  { x: 90, y: 90, r: 2.4, dur: 10 }, { x: 66, y: 86, r: 1.6, dur: 13 },
 ];
 
 const EASE = [0.16, 1, 0.3, 1] as const;
@@ -42,104 +57,204 @@ export function TwoWorldsScene({ onDone }: { onDone: () => void }) {
   const [phase, setPhase] = useState<Phase>("establish");
 
   useEffect(() => {
-    const t1 = setTimeout(() => setPhase("line"), 4600);
-    const t2 = setTimeout(() => setPhase("converge"), 4600 + 4200);
-    const t3 = setTimeout(() => onDone(), 4600 + 4200 + 5200);
+    const t1 = setTimeout(() => setPhase("line"), 6500);
+    const t2 = setTimeout(() => setPhase("match"), 6500 + 5500);
+    const t3 = setTimeout(() => onDone(), 6500 + 5500 + 10000);
     return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
   }, [onDone]);
 
-  const orgPos = phase === "establish" ? ORG_ESTABLISH : ORG_CONVERGE;
-  const humanPos = phase === "establish" ? HUMAN_ESTABLISH : HUMAN_CONVERGE;
-
   return (
     <div className="relative w-full h-full">
-      {/* Divider — present while worlds are apart, dissolves as they converge */}
+      {/* ---- Atmosphere: blueprint grid (left) ---- */}
+      <motion.svg
+        className="absolute inset-0 w-1/2 h-full" viewBox="0 0 50 100" preserveAspectRatio="none"
+        initial={{ opacity: 0 }} animate={{ opacity: phase === "match" ? 0.35 : 0.55 }}
+        transition={{ duration: 2, ease: EASE }}
+      >
+        {Array.from({ length: 11 }).map((_, i) => (
+          <line key={`v${i}`} x1={i * 5} y1={0} x2={i * 5} y2={100} stroke="var(--color-signal)" strokeWidth={0.04} />
+        ))}
+        {Array.from({ length: 21 }).map((_, i) => (
+          <line key={`h${i}`} x1={0} y1={i * 5} x2={50} y2={i * 5} stroke="var(--color-signal)" strokeWidth={0.04} />
+        ))}
+      </motion.svg>
+      <motion.div
+        className="absolute -left-[10%] top-1/2 -translate-y-1/2 w-[55%] h-[70%] rounded-full pointer-events-none"
+        style={{ background: "radial-gradient(circle, rgba(139,127,255,0.16) 0%, transparent 70%)", filter: "blur(40px)" }}
+        initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 2.4, ease: EASE }}
+      />
+
+      {/* ---- Atmosphere: warm living field (right) ---- */}
+      <motion.div
+        className="absolute -right-[10%] top-1/2 -translate-y-1/2 w-[55%] h-[70%] rounded-full pointer-events-none"
+        style={{ background: "radial-gradient(circle, rgba(245,183,49,0.16) 0%, transparent 70%)", filter: "blur(40px)" }}
+        initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 2.4, ease: EASE }}
+      />
+      {BOKEH.map((b, i) => (
+        <motion.div
+          key={`bokeh-${i}`}
+          className="absolute rounded-full pointer-events-none"
+          style={{
+            left: `${b.x}%`, top: `${b.y}%`, width: `${b.r}%`, height: `${b.r}%`,
+            background: "radial-gradient(circle, rgba(245,183,49,0.5) 0%, transparent 75%)",
+          }}
+          initial={{ opacity: 0, scale: 0.6 }}
+          animate={{ opacity: [0, 0.6, 0.3, 0.6], scale: [0.6, 1, 0.9, 1], y: [0, -6, 0, 4, 0] }}
+          transition={{ duration: b.dur, repeat: Infinity, ease: "easeInOut", delay: i * 0.5 }}
+        />
+      ))}
+
+      {/* ---- World titles — the explicit definition the icons alone can't carry ---- */}
+      <motion.div
+        className="absolute left-[6%] top-[6%] max-w-[280px]"
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: phase === "establish" ? 1 : 0.25, y: 0 }}
+        transition={{ duration: 1.6, ease: EASE, delay: 0.3 }}
+      >
+        <div className="text-[20px] md:text-[24px] font-display text-(--color-ink-1) leading-tight">Мир системы</div>
+        <div className="text-[12.5px] text-(--color-ink-3) mt-1.5 leading-relaxed">
+          Управляемый. Измеримый. Спроектированный.
+        </div>
+      </motion.div>
+      <motion.div
+        className="absolute right-[6%] top-[6%] max-w-[280px] text-right"
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: phase === "establish" ? 1 : 0.25, y: 0 }}
+        transition={{ duration: 1.6, ease: EASE, delay: 0.6 }}
+      >
+        <div className="text-[20px] md:text-[24px] font-display text-(--color-ink-1) leading-tight">Мир человека</div>
+        <div className="text-[12.5px] text-(--color-ink-3) mt-1.5 leading-relaxed">
+          Живой. Развивающийся. Непредсказуемый.
+        </div>
+      </motion.div>
+
+      {/* ---- Divider — present while worlds are apart, fades as they connect ---- */}
       <motion.div
         className="absolute top-0 bottom-0 left-1/2 w-px bg-(--color-border)"
         initial={{ opacity: 0 }}
-        animate={{ opacity: phase === "establish" ? 0.6 : 0 }}
-        transition={{ duration: 1.2, ease: EASE }}
+        animate={{ opacity: phase === "establish" ? 0.5 : 0 }}
+        transition={{ duration: 1.6, ease: EASE }}
       />
 
-      {/* Connectors — straight elbows for org, soft curves for human */}
+      {/* ---- Internal connectors within each world (always straight/curved per its own language) ---- */}
       <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-        {orgPos.slice(1).map((p, i) => {
-          const from = orgPos[0];
-          return (
-            <motion.line
-              key={`org-line-${i}`}
-              x1={from.x} y1={from.y} x2={p.x} y2={p.y}
-              stroke="var(--color-signal)" strokeWidth={0.15}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 0.4, x1: from.x, y1: from.y, x2: p.x, y2: p.y }}
-              transition={{ duration: 1.6, ease: EASE, delay: 0.3 + i * 0.15 }}
-            />
-          );
-        })}
-        {humanPos.slice(1).map((p, i) => {
-          const from = humanPos[0];
+        {ORG_POS.slice(1).map((p, i) => (
+          <motion.line
+            key={`org-line-${i}`}
+            x1={ORG_POS[0].x} y1={ORG_POS[0].y} x2={p.x} y2={p.y}
+            stroke="var(--color-signal)" strokeWidth={0.15}
+            initial={{ opacity: 0 }} animate={{ opacity: phase === "establish" ? 0.4 : 0.15 }}
+            transition={{ duration: 1.6, ease: EASE, delay: 0.6 + i * 0.25 }}
+          />
+        ))}
+        {HUMAN_POS.slice(1).map((p, i) => {
+          const from = HUMAN_POS[0];
           const mx = (from.x + p.x) / 2, my = (from.y + p.y) / 2 - 4;
           return (
             <motion.path
               key={`human-line-${i}`}
               d={`M ${from.x} ${from.y} Q ${mx} ${my} ${p.x} ${p.y}`}
               fill="none" stroke="var(--color-warn)" strokeWidth={0.15}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 0.35 }}
-              transition={{ duration: 1.6, ease: EASE, delay: 0.5 + i * 0.15 }}
+              initial={{ opacity: 0 }} animate={{ opacity: phase === "establish" ? 0.35 : 0.12 }}
+              transition={{ duration: 1.6, ease: EASE, delay: 0.9 + i * 0.25 }}
             />
           );
         })}
+
+        {/* ---- The matching threads — the actual idea of alignment ---- */}
+        {phase === "match" && MATCHES.map(([oi, hi], i) => {
+          const from = ORG_POS[oi], to = HUMAN_POS[hi];
+          const mx = (from.x + to.x) / 2, my = (from.y + to.y) / 2;
+          return (
+            <motion.path
+              key={`match-${i}`}
+              d={`M ${from.x} ${from.y} Q ${mx} ${my - 6} ${to.x} ${to.y}`}
+              fill="none" stroke="url(#matchGradient)" strokeWidth={0.35}
+              strokeLinecap="round"
+              initial={{ pathLength: 0, opacity: 0 }}
+              animate={{ pathLength: 1, opacity: 0.9 }}
+              transition={{ duration: 1.4, ease: EASE, delay: 0.5 + i * 1.5 }}
+            />
+          );
+        })}
+        <defs>
+          <linearGradient id="matchGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="var(--color-signal)" />
+            <stop offset="100%" stopColor="var(--color-warn)" />
+          </linearGradient>
+        </defs>
       </svg>
 
-      {/* Organisation nodes — rigid, geometric, cool */}
-      {ORG_TERMS.map((term, i) => (
-        <motion.div
-          key={`org-${i}`}
-          className="absolute flex flex-col items-center gap-2 -translate-x-1/2 -translate-y-1/2"
-          initial={{ left: `${ORG_ESTABLISH[i].x}%`, top: `${ORG_ESTABLISH[i].y}%`, opacity: 0, scale: 0.4, rotate: 45 }}
-          animate={{ left: `${orgPos[i].x}%`, top: `${orgPos[i].y}%`, opacity: 1, scale: 1, rotate: 45 }}
-          transition={{ duration: phase === "converge" ? 2.6 : 1.1, ease: EASE, delay: phase === "establish" ? 0.15 * i : 0 }}
-        >
-          <div
-            className="h-5 w-5 border-2"
-            style={{ borderColor: "var(--color-signal)", background: "rgba(139,127,255,0.12)" }}
-          />
-          <span className="text-[11px] font-mono text-(--color-ink-2) -rotate-45 whitespace-nowrap">{term}</span>
-        </motion.div>
-      ))}
+      {/* ---- Organisation nodes — rigid, geometric, cool ---- */}
+      {ORG_TERMS.map((term, i) => {
+        const isMatched = phase === "match" && MATCHES.some(([oi]) => oi === i);
+        const matchDelay = 0.5 + MATCHES.findIndex(([oi]) => oi === i) * 1.5;
+        return (
+          <motion.div
+            key={`org-${i}`}
+            className="absolute flex flex-col items-center gap-2 -translate-x-1/2 -translate-y-1/2"
+            style={{ left: `${ORG_POS[i].x}%`, top: `${ORG_POS[i].y}%` }}
+            initial={{ opacity: 0, scale: 0.4, rotate: 45 }}
+            animate={{ opacity: 1, scale: isMatched ? [1, 1.35, 1] : 1, rotate: 45 }}
+            transition={{
+              opacity: { duration: 1, ease: EASE, delay: 0.2 * i },
+              scale: isMatched ? { duration: 0.9, ease: EASE, delay: matchDelay + 1.2 } : { duration: 1, delay: 0.2 * i },
+            }}
+          >
+            <div
+              className="h-5 w-5 border-2 transition-all duration-700"
+              style={{
+                borderColor: "var(--color-signal)",
+                background: isMatched ? "rgba(139,127,255,0.4)" : "rgba(139,127,255,0.12)",
+                boxShadow: isMatched ? "0 0 16px rgba(139,127,255,0.6)" : "none",
+              }}
+            />
+            <span className="text-[11px] font-mono text-(--color-ink-2) -rotate-45 whitespace-nowrap">{term}</span>
+          </motion.div>
+        );
+      })}
 
-      {/* Human nodes — soft, organic, warm, breathing */}
-      {HUMAN_TERMS.map((term, i) => (
-        <motion.div
-          key={`human-${i}`}
-          className="absolute flex flex-col items-center gap-2 -translate-x-1/2 -translate-y-1/2"
-          initial={{ left: `${HUMAN_ESTABLISH[i].x}%`, top: `${HUMAN_ESTABLISH[i].y}%`, opacity: 0, scale: 0.4 }}
-          animate={{ left: `${humanPos[i].x}%`, top: `${humanPos[i].y}%`, opacity: 1, scale: [1, 1.12, 1] }}
-          transition={{
-            left: { duration: phase === "converge" ? 2.6 : 1.1, ease: EASE, delay: phase === "establish" ? 0.15 * i : 0 },
-            top: { duration: phase === "converge" ? 2.6 : 1.1, ease: EASE, delay: phase === "establish" ? 0.15 * i : 0 },
-            opacity: { duration: 1, delay: phase === "establish" ? 0.15 * i : 0 },
-            scale: { duration: 3.2, repeat: Infinity, ease: "easeInOut", delay: i * 0.3 },
-          }}
-        >
-          <div
-            className="h-6 w-6 rounded-full"
-            style={{ background: "radial-gradient(circle, rgba(245,183,49,0.55) 0%, rgba(245,183,49,0.15) 70%, transparent 100%)", boxShadow: "0 0 14px rgba(245,183,49,0.35)" }}
-          />
-          <span className="text-[11px] font-mono text-(--color-ink-2) whitespace-nowrap">{term}</span>
-        </motion.div>
-      ))}
+      {/* ---- Human nodes — soft, organic, warm, breathing ---- */}
+      {HUMAN_TERMS.map((term, i) => {
+        const isMatched = phase === "match" && MATCHES.some(([, hi]) => hi === i);
+        const matchDelay = 0.5 + MATCHES.findIndex(([, hi]) => hi === i) * 1.5;
+        return (
+          <motion.div
+            key={`human-${i}`}
+            className="absolute flex flex-col items-center gap-2 -translate-x-1/2 -translate-y-1/2"
+            style={{ left: `${HUMAN_POS[i].x}%`, top: `${HUMAN_POS[i].y}%` }}
+            initial={{ opacity: 0, scale: 0.4 }}
+            animate={{ opacity: 1, scale: isMatched ? [1, 1.35, 1.08, 1.15, 1.08] : [1, 1.1, 1] }}
+            transition={{
+              opacity: { duration: 1, ease: EASE, delay: 0.2 * i + 0.1 },
+              scale: isMatched
+                ? { duration: 0.9, ease: EASE, delay: matchDelay + 1.2 }
+                : { duration: 3.4, repeat: Infinity, ease: "easeInOut", delay: i * 0.3 },
+            }}
+          >
+            <div
+              className="h-6 w-6 rounded-full transition-all duration-700"
+              style={{
+                background: isMatched
+                  ? "radial-gradient(circle, rgba(245,183,49,0.85) 0%, rgba(245,183,49,0.3) 70%, transparent 100%)"
+                  : "radial-gradient(circle, rgba(245,183,49,0.55) 0%, rgba(245,183,49,0.15) 70%, transparent 100%)",
+                boxShadow: isMatched ? "0 0 20px rgba(245,183,49,0.6)" : "0 0 14px rgba(245,183,49,0.35)",
+              }}
+            />
+            <span className="text-[11px] font-mono text-(--color-ink-2) whitespace-nowrap">{term}</span>
+          </motion.div>
+        );
+      })}
 
-      {/* The single line — appears over the (now paused) scene, not replacing it */}
+      {/* ---- The single line — appears over the (now dimmed, still visible) scene ---- */}
       {phase !== "establish" && (
         <motion.div
           className="absolute inset-0 flex items-center justify-center px-8 pointer-events-none"
           initial={{ opacity: 0 }}
           animate={{ opacity: phase === "line" ? 1 : 0 }}
-          transition={{ duration: 1.4, ease: EASE }}
+          transition={{ duration: 1.8, ease: EASE }}
         >
-          <div className="absolute inset-0 bg-(--color-canvas)" style={{ opacity: phase === "line" ? 0.72 : 0 }} />
+          <div className="absolute inset-0 bg-(--color-canvas)" style={{ opacity: phase === "line" ? 0.68 : 0 }} />
           <p className="relative font-display text-[28px] md:text-[42px] text-(--color-ink-1) text-center leading-snug">
             Они работают
             <br />
@@ -153,14 +268,25 @@ export function TwoWorldsScene({ onDone }: { onDone: () => void }) {
         </motion.div>
       )}
 
-      {/* Converging core — appears as both worlds meet */}
-      {phase === "converge" && (
+      {/* ---- Caption naming what matching means, shown briefly as threads begin ---- */}
+      {phase === "match" && (
+        <motion.p
+          className="absolute bottom-[8%] left-1/2 -translate-x-1/2 text-[13px] text-(--color-ink-3) font-mono text-center px-6"
+          initial={{ opacity: 0 }} animate={{ opacity: [0, 1, 1, 0] }}
+          transition={{ duration: 6, times: [0, 0.15, 0.75, 1], ease: EASE, delay: 0.3 }}
+        >
+          AI находит не общие категории — конкретные совпадения.
+        </motion.p>
+      )}
+
+      {/* ---- Shared core — forms only once every thread has connected ---- */}
+      {phase === "match" && (
         <motion.div
-          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 rounded-full"
+          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 rounded-full"
           initial={{ opacity: 0, scale: 0.3 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1.8, ease: EASE, delay: 2.4 }}
-          style={{ background: "radial-gradient(circle, rgba(139,127,255,0.85) 0%, rgba(245,183,49,0.35) 55%, transparent 100%)" }}
+          transition={{ duration: 2, ease: EASE, delay: 0.5 + MATCHES.length * 1.5 + 0.8 }}
+          style={{ background: "radial-gradient(circle, rgba(139,127,255,0.8) 0%, rgba(245,183,49,0.45) 55%, transparent 100%)" }}
         />
       )}
     </div>

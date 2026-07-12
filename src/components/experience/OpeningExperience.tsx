@@ -4,7 +4,7 @@ import { useViewMode } from "@/lib/ViewModeContext";
 import { TwoWorldsScene } from "./TwoWorldsScene";
 
 /**
- * The first ~40 seconds of the product — a wordless-where-possible cinematic
+ * The first ~55 seconds of the product — a wordless-where-possible cinematic
  * opening that establishes the core problem (strategy and people live in
  * two disconnected systems) before the viewer ever sees a menu.
  *
@@ -56,11 +56,11 @@ export function OpeningExperience({ onComplete }: { onComplete: (perspective: "v
   useEffect(() => {
     if (reduced) return;
     const timers: ReturnType<typeof setTimeout>[] = [];
-    if (stage === "question") timers.push(setTimeout(() => setStage("network"), 5200));
-    if (stage === "network") timers.push(setTimeout(() => setStage("worlds"), 6200));
+    if (stage === "question") timers.push(setTimeout(() => setStage("network"), 7000));
+    if (stage === "network") timers.push(setTimeout(() => setStage("worlds"), 9500));
     // "worlds" stage advances itself via TwoWorldsScene's onDone callback
-    if (stage === "reveal") timers.push(setTimeout(() => setStage("chain"), 6200));
-    if (stage === "chain") timers.push(setTimeout(() => setStage("choice"), 5400));
+    if (stage === "reveal") timers.push(setTimeout(() => setStage("chain"), 8000));
+    if (stage === "chain") timers.push(setTimeout(() => setStage("choice"), 7200));
     return () => timers.forEach(clearTimeout);
   }, [stage, reduced]);
 
@@ -124,6 +124,19 @@ export function OpeningExperience({ onComplete }: { onComplete: (perspective: "v
                 />
               ))}
             </svg>
+            <motion.div
+              className="absolute inset-0 flex flex-col items-center justify-center gap-2 px-8 pointer-events-none text-center"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: [0, 0, 1, 1, 0] }}
+              transition={{ duration: 9.5, times: [0, 0.32, 0.42, 0.8, 1], ease: EASE }}
+            >
+              <p className="font-display text-[20px] md:text-[26px] text-(--color-ink-1) leading-snug">
+                Тысячи специалистов по всей стране.
+              </p>
+              <p className="text-[15px] md:text-[18px] text-(--color-ink-3)">
+                Но связи между ними — случайны.
+              </p>
+            </motion.div>
           </motion.div>
         )}
 
@@ -167,7 +180,7 @@ export function OpeningExperience({ onComplete }: { onComplete: (perspective: "v
             {CHAIN.map((c, i) => (
               <motion.div key={c} className="flex items-center gap-3"
                 initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.9, ease: EASE, delay: 0.3 + i * 0.32 }}
+                transition={{ duration: 0.9, ease: EASE, delay: 0.4 + i * 0.5 }}
               >
                 <span className="text-[14px] font-mono text-(--color-ink-1)">{c}</span>
                 {i < CHAIN.length - 1 && <span className="text-(--color-signal)">↓</span>}
@@ -179,35 +192,45 @@ export function OpeningExperience({ onComplete }: { onComplete: (perspective: "v
         {stage === "choice" && (
           <motion.div key="choice" className="absolute inset-0 flex items-center justify-center px-6"
             variants={stageVariants} initial="initial" animate="animate" exit="exit">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-[820px] w-full">
-              <motion.button
-                onClick={() => choose("vp")}
-                className="glass rounded-2xl p-8 text-left border-(--color-signal)/25 hover:border-(--color-signal)/50"
-                whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.99 }}
-                initial={{ opacity: 0, x: -16 }} animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 1, ease: EASE, delay: reduced ? 0 : 0.3 }}
+            <div className="flex flex-col items-center gap-10 max-w-[860px] w-full">
+              <motion.p
+                className="font-display text-[22px] md:text-[28px] text-(--color-ink-1) text-center leading-snug max-w-[620px]"
+                initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1.4, ease: EASE, delay: reduced ? 0 : 0.3 }}
               >
-                <div className="text-[11px] font-mono uppercase tracking-[0.12em] text-(--color-signal) mb-3">
-                  Реальность руководителя
-                </div>
-                <p className="text-[16px] text-(--color-ink-1) leading-relaxed">
-                  Помочь организации быстрее реализовать стратегию.
-                </p>
-              </motion.button>
-              <motion.button
-                onClick={() => choose("employee")}
-                className="glass rounded-2xl p-8 text-left border-(--color-good)/25 hover:border-(--color-good)/50"
-                whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.99 }}
-                initial={{ opacity: 0, x: 16 }} animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 1, ease: EASE, delay: reduced ? 0 : 0.45 }}
-              >
-                <div className="text-[11px] font-mono uppercase tracking-[0.12em] text-(--color-good) mb-3">
-                  Реальность сотрудника
-                </div>
-                <p className="text-[16px] text-(--color-ink-1) leading-relaxed">
-                  Найти своё место. Развиваться. Стать ценнее.
-                </p>
-              </motion.button>
+                С какой точки зрения вы хотите продолжить исследование этой организации?
+              </motion.p>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full">
+                <motion.button
+                  onClick={() => choose("vp")}
+                  className="glass rounded-2xl p-8 text-left border-(--color-signal)/25 hover:border-(--color-signal)/50"
+                  whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.99 }}
+                  initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 1, ease: EASE, delay: reduced ? 0 : 2.1 }}
+                >
+                  <div className="text-[11px] font-mono uppercase tracking-[0.12em] text-(--color-signal) mb-3">
+                    Руководитель
+                  </div>
+                  <p className="text-[16px] text-(--color-ink-1) leading-relaxed">
+                    Как реализовать стратегию быстрее и эффективнее?
+                  </p>
+                </motion.button>
+                <motion.button
+                  onClick={() => choose("employee")}
+                  className="glass rounded-2xl p-8 text-left border-(--color-good)/25 hover:border-(--color-good)/50"
+                  whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.99 }}
+                  initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 1, ease: EASE, delay: reduced ? 0 : 2.4 }}
+                >
+                  <div className="text-[11px] font-mono uppercase tracking-[0.12em] text-(--color-good) mb-3">
+                    Сотрудник
+                  </div>
+                  <p className="text-[16px] text-(--color-ink-1) leading-relaxed">
+                    Как найти своё место, развиваться и влиять на результат?
+                  </p>
+                </motion.button>
+              </div>
             </div>
           </motion.div>
         )}
