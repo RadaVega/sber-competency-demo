@@ -24,10 +24,10 @@ export function CapabilityCoreStage({ onDone }: { onDone: () => void }) {
         transition={{ duration: 1.4, ease: EASE, delay: 1 }}
       >
         <div className="font-display text-[28px] md:text-[34px] text-gradient-accent leading-tight">
-          Capability Intelligence Platform
+          Платформа управления стратегическими компетенциями
         </div>
         <div className="text-[14px] text-(--color-ink-3) font-mono mt-2">
-          Платформа управления стратегическими компетенциями
+          (Capability Intelligence Platform)
         </div>
         <p className="text-[14px] text-(--color-ink-2) mt-5 max-w-[540px] mx-auto leading-relaxed">
           Вы только что соединили людей и стратегию. Именно это система делает
