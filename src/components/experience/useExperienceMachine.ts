@@ -14,6 +14,7 @@ export const STAGE_ORDER = [
   "idle",
   "question",
   "worlds",
+  "ecosystem",
   "core",
   "roleSelection",
 ] as const;

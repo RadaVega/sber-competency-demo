@@ -4,6 +4,7 @@ import { useViewMode } from "@/lib/ViewModeContext";
 import { useExperienceMachine } from "./useExperienceMachine";
 import { QuestionStage } from "./stages/QuestionStage";
 import { WorldsStage } from "./stages/WorldsStage";
+import { EcosystemStage } from "./stages/EcosystemStage";
 import { CapabilityCoreStage } from "./stages/CapabilityCoreStage";
 import { RoleSelectionStage } from "./stages/RoleSelectionStage";
 
@@ -69,6 +70,12 @@ export function OpeningExperience({ onComplete }: { onComplete: (perspective: "v
         {stage === "worlds" && (
           <motion.div key="worlds" className="absolute inset-0" variants={stageVariants} initial="initial" animate="animate" exit="exit">
             <WorldsStage onDone={next} />
+          </motion.div>
+        )}
+
+        {stage === "ecosystem" && (
+          <motion.div key="ecosystem" className="absolute inset-0" variants={stageVariants} initial="initial" animate="animate" exit="exit">
+            <EcosystemStage onDone={next} />
           </motion.div>
         )}
 

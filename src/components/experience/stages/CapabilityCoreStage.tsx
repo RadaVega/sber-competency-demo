@@ -3,53 +3,82 @@ import { motion } from "framer-motion";
 import { BRAND_RU, BRAND_EN } from "@/data/branding";
 
 /**
- * Act 3 — the platform reveals itself not as a static logo-like orb, but as
- * a living network: small nodes fade in around a core and connect into it,
- * one at a time. This is the visual definition of "organizational
- * intelligence" — many points becoming one coordinated system — folded
- * directly into the intro instead of living behind a separate unlockable
- * screen.
+ * Act 4 — the platform reveals itself as a living network: nodes fade in
+ * across two loosely-staggered waves (inner ring, then outer ring) and
+ * connect into a central core, with small pulses of energy continuously
+ * traveling inward along a handful of the connections — meant to read as
+ * an active, breathing system, not a static logo mark.
  *
- * Ends with an explicit bridge line so the viewer knows what the rest of
- * the product actually does about the problem they just watched — the
- * "Aha" only lands if it's immediately followed by "...and here's how."
+ * Ends on the bridge line at deliberately large size with generous dwell
+ * time — this is the single most important sentence in the whole intro
+ * (it's the answer to the Aha moment the viewer just had), so it gets the
+ * most visual weight and the most time, not the least.
  */
 const EASE = [0.16, 1, 0.3, 1] as const;
-const NODE_COUNT = 22;
+const INNER_COUNT = 10;
+const OUTER_COUNT = 14;
 
 export function CapabilityCoreStage({ onDone }: { onDone: () => void }) {
   useEffect(() => {
-    const t = setTimeout(onDone, 8200);
+    const t = setTimeout(onDone, 13500);
     return () => clearTimeout(t);
   }, [onDone]);
 
-  const nodes = useMemo(() => Array.from({ length: NODE_COUNT }, (_, i) => {
-    const angle = (i / NODE_COUNT) * Math.PI * 2 + Math.random() * 0.3;
-    const r = 14 + Math.random() * 12;
-    return {
-      x: 50 + Math.cos(angle) * r,
-      y: 50 + Math.sin(angle) * r,
-      delay: 0.2 + Math.random() * 1.4,
-      color: Math.random() > 0.5 ? "var(--color-signal)" : "var(--color-warn)",
-    };
-  }), []);
+  const nodes = useMemo(() => {
+    const inner = Array.from({ length: INNER_COUNT }, (_, i) => {
+      const angle = (i / INNER_COUNT) * Math.PI * 2 + Math.random() * 0.25;
+      const r = 12 + Math.random() * 6;
+      return {
+        x: 50 + Math.cos(angle) * r, y: 50 + Math.sin(angle) * r,
+        delay: 0.1 + Math.random() * 0.8, wave: 0,
+        color: Math.random() > 0.5 ? "var(--color-signal)" : "var(--color-warn)",
+        size: 1.1 + Math.random() * 0.6,
+      };
+    });
+    const outer = Array.from({ length: OUTER_COUNT }, (_, i) => {
+      const angle = (i / OUTER_COUNT) * Math.PI * 2 + Math.random() * 0.25;
+      const r = 22 + Math.random() * 10;
+      return {
+        x: 50 + Math.cos(angle) * r, y: 50 + Math.sin(angle) * r,
+        delay: 1.1 + Math.random() * 1.1, wave: 1,
+        color: Math.random() > 0.5 ? "var(--color-signal)" : "var(--color-warn)",
+        size: 0.8 + Math.random() * 0.5,
+      };
+    });
+    return [...inner, ...outer];
+  }, []);
+
+  // a handful of connections carry a continuously-flowing pulse toward the core
+  const flowing = useMemo(() => nodes.filter((_, i) => i % 4 === 0), [nodes]);
 
   return (
-    <div className="absolute inset-0 flex flex-col items-center justify-center gap-6 px-8">
-      <div className="relative w-[280px] h-[220px] md:w-[340px] md:h-[260px]">
+    <div className="absolute inset-0 flex flex-col items-center justify-center gap-8 px-8">
+      <motion.div
+        className="relative w-[280px] h-[220px] md:w-[360px] md:h-[280px]"
+        animate={{ rotate: 360 }}
+        transition={{ duration: 90, repeat: Infinity, ease: "linear" }}
+      >
         <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet">
           {nodes.map((n, i) => (
             <motion.line
               key={`line-${i}`} x1={50} y1={50} x2={n.x} y2={n.y}
-              stroke={n.color} strokeWidth={0.25}
-              initial={{ pathLength: 0, opacity: 0 }} animate={{ pathLength: 1, opacity: 0.5 }}
+              stroke={n.color} strokeWidth={0.2}
+              initial={{ pathLength: 0, opacity: 0 }} animate={{ pathLength: 1, opacity: 0.4 }}
               transition={{ duration: 1, ease: EASE, delay: n.delay }}
+            />
+          ))}
+          {flowing.map((n, i) => (
+            <motion.circle key={`flow-${i}`} r={0.5} fill={n.color}
+              initial={{ cx: n.x, cy: n.y, opacity: 0 }}
+              animate={{ cx: [n.x, 50], cy: [n.y, 50], opacity: [0, 1, 0] }}
+              transition={{ duration: 1.8, repeat: Infinity, ease: "easeIn", delay: n.delay + 1.5 + i * 0.3 }}
             />
           ))}
           {nodes.map((n, i) => (
             <motion.circle
-              key={`node-${i}`} cx={n.x} cy={n.y} r={1.4} fill={n.color}
-              initial={{ opacity: 0, scale: 0 }} animate={{ opacity: 0.9, scale: [0, 1.4, 1] }}
+              key={`node-${i}`} cx={n.x} cy={n.y} r={n.size} fill={n.color}
+              initial={{ opacity: 0, scale: 0 }}
+              animate={{ opacity: 0.9, scale: [0, 1.5, 1] }}
               transition={{ duration: 0.8, ease: EASE, delay: n.delay }}
             />
           ))}
@@ -60,11 +89,11 @@ export function CapabilityCoreStage({ onDone }: { onDone: () => void }) {
           initial={{ scale: 0.6, opacity: 0 }} animate={{ scale: [0.6, 1.1, 1], opacity: 1 }}
           transition={{ duration: 1.6, ease: EASE }}
         />
-      </div>
+      </motion.div>
 
       <motion.div className="text-center"
         initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1.4, ease: EASE, delay: 1.6 }}
+        transition={{ duration: 1.4, ease: EASE, delay: 2.4 }}
       >
         <div className="font-display text-[28px] md:text-[34px] text-gradient-accent leading-tight">
           {BRAND_RU}
@@ -77,14 +106,15 @@ export function CapabilityCoreStage({ onDone }: { onDone: () => void }) {
           видит оба мира сразу — и соединяет их быстрее, чем это может сделать
           любой человек в одиночку.
         </p>
-        <motion.p
-          className="text-[13px] text-(--color-signal) font-mono mt-6"
-          initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-          transition={{ duration: 1.2, ease: EASE, delay: 3.2 }}
-        >
-          Дальше — как именно это работает для вашей организации.
-        </motion.p>
       </motion.div>
+
+      <motion.p
+        className="font-display text-[24px] md:text-[32px] text-(--color-ink-1) text-center leading-snug max-w-[680px]"
+        initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1.4, ease: EASE, delay: 5.4 }}
+      >
+        Дальше — как именно это работает для вашей организации.
+      </motion.p>
     </div>
   );
 }
