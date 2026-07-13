@@ -90,23 +90,61 @@ export function FutureScreen({
         <p className="text-pres-xl text-(--color-ink-1) font-medium leading-relaxed max-w-[680px] mx-auto">
           Современные Enterprise AI-платформы дают организации интеллект.
           <br />
-          <span className="text-gradient-accent">{BRAND_RU}</span> даёт организации скорость —
-          от стратегии к результату.
+          <span className="text-gradient-accent">{BRAND_RU}</span> даёт организации способность
+          становиться умнее после каждого проекта.
+        </p>
+      </div>
+
+      {/* The second metaphor, carried through quietly: not an archive, a school */}
+      <div className="glass rounded-2xl border border-(--color-border) p-8 text-center mb-6">
+        <p className="text-pres-lg text-(--color-ink-2) leading-relaxed max-w-[700px] mx-auto">
+          Россия всегда развивалась через научные школы — Курчатова, Королёва, Ландау, Капицы.
+          Основатель уходил, но мышление школы продолжало жить в учениках, потому что оно было
+          передано, а не заперто в одной голове.
+        </p>
+        <p className="text-pres-lg text-(--color-ink-1) font-medium leading-relaxed max-w-[700px] mx-auto mt-4">
+          <span className="text-gradient-accent">{BRAND_RU}</span> делает то же самое частью
+          инфраструктуры организации — не архив и не база знаний, а живая школа, которая становится
+          сильнее после каждого завершённого проекта.
         </p>
       </div>
 
       {/* The Aha moment — the emotional climax of the whole scenario */}
-      <div className="glass rounded-2xl border border-(--color-signal)/25 p-10 text-center mb-10">
-        <p className="text-pres-xl text-(--color-ink-1) leading-relaxed max-w-[680px] mx-auto">
-          Каждый день миллионы людей делают свою работу.
+      <div className="glass rounded-2xl border border-(--color-signal)/25 p-10 text-center mb-6">
+        <p className="text-pres-xl text-(--color-ink-1) leading-relaxed max-w-[700px] mx-auto">
+          После каждого завершённого проекта организация либо становится умнее —
           <br />
-          Но очень немногие понимают,
-          <br />
-          как именно их работа меняет организацию.
+          либо начинает следующий проект заново.
         </p>
-        <p className="font-display text-pres-h2 text-gradient-accent leading-tight mt-6">
-          {BRAND_RU} делает эту связь видимой.
+        <p className="font-display text-pres-h2 text-gradient-accent leading-tight mt-6 max-w-[720px] mx-auto">
+          {BRAND_RU} делает интеллект организации не побочным результатом работы,
+          а её главным стратегическим активом.
         </p>
+      </div>
+
+      {/* Человек / Организация / Россия — the three levels answered in one chain */}
+      <div className="glass rounded-2xl border border-(--color-border) p-8 mb-10">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-center">
+          <div>
+            <div className="text-pres-label text-(--color-signal) mb-2">Человек</div>
+            <p className="text-pres-sm text-(--color-ink-2) leading-relaxed">
+              получает работу, которая не исчезает бесследно
+            </p>
+          </div>
+          <div>
+            <div className="text-pres-label text-(--color-signal) mb-2">Организация</div>
+            <p className="text-pres-sm text-(--color-ink-2) leading-relaxed">
+              получает интеллект, который растёт с каждым проектом, а не теряется вместе с людьми
+            </p>
+          </div>
+          <div>
+            <div className="text-pres-label text-(--color-signal) mb-2">Россия</div>
+            <p className="text-pres-sm text-(--color-ink-2) leading-relaxed">
+              получает организации, способные реализовывать стратегические приоритеты быстрее,
+              чем раньше казалось возможным
+            </p>
+          </div>
+        </div>
       </div>
 
       <div className="flex justify-center">
