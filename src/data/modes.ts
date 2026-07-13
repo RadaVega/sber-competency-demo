@@ -63,12 +63,12 @@ export const modes: Record<ModeId, ModeConfig> = {
     org: "Яндекс",
     platformName: PLATFORM_NAME,
     platformNameRu: PLATFORM_NAME_RU,
-    scenarioName: "Capability Acceleration Platform",
-    scenarioNameRu: "Платформа ускоренного развития компетенций",
-    mainQuestion: "Как быстрее запускать новые технологические направления?",
+    scenarioName: "Knowledge-to-Product Acceleration",
+    scenarioNameRu: "Ускорение превращения знаний в продукты",
+    mainQuestion: "Как сделать так, чтобы любая идея максимально быстро проходила путь от исследования до продукта?",
     accentColor: "#FFCC00",
     badgeLetter: "Я",
-    hybridMessage: "Внутренняя мобильность + Точка Сборки → скорость развития компетенций",
+    hybridMessage: "Граф знаний + AI-оркестрация → быстрее от идеи к продукту",
   },
 };
 
