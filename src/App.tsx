@@ -15,12 +15,14 @@ import { sberScreens, useSberScreenState } from "@/screens/sber/meta";
 import { vkScreens, useVKScreenState } from "@/screens/vk/meta";
 import { rosatomScreens, useRosatomScreenState } from "@/screens/rosatom/meta";
 import { yandexScreens, useYandexScreenState } from "@/screens/yandex/meta";
+import { future2035Screens, useFuture2035ScreenState } from "@/screens/future2035/meta";
 
 // Mode apps — lazy-loaded, each in its own chunk
 const SberApp    = lazy(() => import("@/screens/sber/SberApp"));
 const VKApp      = lazy(() => import("@/screens/vk/VKApp"));
 const RosatomApp = lazy(() => import("@/screens/rosatom/RosatomApp"));
 const YandexApp  = lazy(() => import("@/screens/yandex/YandexApp"));
+const Future2035App = lazy(() => import("@/screens/future2035/Future2035App"));
 
 function ModeLoader() {
   return (
@@ -40,40 +42,44 @@ function App() {
   const [vkScreen,      setVkScreen]      = useVKScreenState();
   const [rosatomScreen, setRosatomScreen] = useRosatomScreenState();
   const [yandexScreen,  setYandexScreen]  = useYandexScreenState();
+  const [future2035Screen, setFuture2035Screen] = useFuture2035ScreenState();
 
   function changeMode(id: ModeId) {
     setMode(id); setWalkthrough(false);
     if (started) {
-      if (id === "sber")    setSberScreen("problem");
-      if (id === "vk")      setVkScreen("problem");
-      if (id === "rosatom") setRosatomScreen("problem");
-      if (id === "yandex")  setYandexScreen("problem");
+      if (id === "sber")       setSberScreen("problem");
+      if (id === "vk")         setVkScreen("problem");
+      if (id === "rosatom")    setRosatomScreen("problem");
+      if (id === "yandex")     setYandexScreen("problem");
+      if (id === "future2035") setFuture2035Screen("problem");
     }
   }
 
   const navItems =
     mode === "sber" ? sberScreens : mode === "vk" ? vkScreens :
-    mode === "rosatom" ? rosatomScreens : yandexScreens;
+    mode === "rosatom" ? rosatomScreens : mode === "yandex" ? yandexScreens : future2035Screens;
 
   const activeId =
     mode === "sber" ? sberScreen : mode === "vk" ? vkScreen :
-    mode === "rosatom" ? rosatomScreen : yandexScreen;
+    mode === "rosatom" ? rosatomScreen : mode === "yandex" ? yandexScreen : future2035Screen;
 
   function nav(id: string) {
     if (!started) setStarted(true);
     setWalkthrough(false);
-    if (mode === "sber")    setSberScreen(id as never);
-    if (mode === "vk")      setVkScreen(id as never);
-    if (mode === "rosatom") setRosatomScreen(id as never);
-    if (mode === "yandex")  setYandexScreen(id as never);
+    if (mode === "sber")       setSberScreen(id as never);
+    if (mode === "vk")         setVkScreen(id as never);
+    if (mode === "rosatom")    setRosatomScreen(id as never);
+    if (mode === "yandex")     setYandexScreen(id as never);
+    if (mode === "future2035") setFuture2035Screen(id as never);
   }
 
   function wtNav(id: string) {
     if (!started) setStarted(true);
-    if (mode === "sber")    setSberScreen(id as never);
-    if (mode === "vk")      setVkScreen(id as never);
-    if (mode === "rosatom") setRosatomScreen(id as never);
-    if (mode === "yandex")  setYandexScreen(id as never);
+    if (mode === "sber")       setSberScreen(id as never);
+    if (mode === "vk")         setVkScreen(id as never);
+    if (mode === "rosatom")    setRosatomScreen(id as never);
+    if (mode === "yandex")     setYandexScreen(id as never);
+    if (mode === "future2035") setFuture2035Screen(id as never);
   }
 
   return (
@@ -97,6 +103,7 @@ function App() {
             {mode === "vk"      && <VKApp      active={vkScreen}      onChangeScreen={setVkScreen} />}
             {mode === "rosatom" && <RosatomApp active={rosatomScreen} onChangeScreen={setRosatomScreen} />}
             {mode === "yandex"  && <YandexApp  active={yandexScreen}  onChangeScreen={setYandexScreen} />}
+            {mode === "future2035" && <Future2035App active={future2035Screen} onChangeScreen={setFuture2035Screen} />}
           </Suspense>
         )}
       </main>

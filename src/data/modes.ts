@@ -1,4 +1,4 @@
-export type ModeId = "sber" | "vk" | "rosatom" | "yandex";
+export type ModeId = "sber" | "vk" | "rosatom" | "yandex" | "future2035";
 
 export interface ModeConfig {
   id: ModeId;
@@ -70,6 +70,18 @@ export const modes: Record<ModeId, ModeConfig> = {
     badgeLetter: "Я",
     hybridMessage: "Граф знаний + AI-оркестрация → быстрее от идеи к продукту",
   },
+  future2035: {
+    id: "future2035",
+    org: "Организация 2035",
+    platformName: PLATFORM_NAME,
+    platformNameRu: PLATFORM_NAME_RU,
+    scenarioName: "Universal Strategic Execution Model",
+    scenarioNameRu: "Универсальная модель стратегической реализации",
+    mainQuestion: "Как любая крупная организация связывает стратегию и людей — независимо от отрасли?",
+    accentColor: "#C9B8FF",
+    badgeLetter: "∞",
+    hybridMessage: "Не кастомная демонстрация под заказчика — единая модель, применимая к любой организации",
+  },
 };
 
-export const modeOrder: ModeId[] = ["sber", "vk", "rosatom", "yandex"];
+export const modeOrder: ModeId[] = ["sber", "vk", "rosatom", "yandex", "future2035"];
