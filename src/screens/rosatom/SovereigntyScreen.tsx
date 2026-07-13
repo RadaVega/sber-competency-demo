@@ -54,6 +54,18 @@ export function SovereigntyScreen({ onBack, onNext }: { onBack: () => void; onNe
           ))}
         </div>
       </Card>
+
+      <div className="glass rounded-xl mt-6 p-8 text-center border border-(--color-signal)/25">
+        <p className="text-[19px] text-(--color-ink-1) font-medium leading-relaxed max-w-[760px] mx-auto">
+          Раньше критическая инженерная экспертиза уходила из организации вместе с человеком —
+          тихо, необратимо, и обычно раньше, чем кто-то успевал заметить риск.
+          <br />
+          <span className="text-gradient-accent">
+            Теперь организация видит, кто уйдёт и кто должен стать следующим носителем знания —
+            за годы до того, как это станет кризисом.
+          </span>
+        </p>
+      </div>
     </div>
   );
 }

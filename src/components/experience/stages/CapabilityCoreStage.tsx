@@ -20,7 +20,7 @@ const OUTER_COUNT = 14;
 
 export function CapabilityCoreStage({ onDone }: { onDone: () => void }) {
   useEffect(() => {
-    const t = setTimeout(onDone, 13500);
+    const t = setTimeout(onDone, 17000);
     return () => clearTimeout(t);
   }, [onDone]);
 
@@ -112,11 +112,15 @@ export function CapabilityCoreStage({ onDone }: { onDone: () => void }) {
       </motion.div>
 
       <motion.p
-        className="font-display text-[24px] md:text-[32px] text-(--color-ink-1) text-center leading-snug max-w-[680px]"
+        className="font-display text-[24px] md:text-[32px] text-(--color-ink-1) text-center leading-snug max-w-[720px]"
         initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1.4, ease: EASE, delay: 5.4 }}
+        transition={{ duration: 1.4, ease: EASE, delay: 6.2 }}
       >
-        Дальше — как именно это работает для вашей организации.
+        Раньше стратегию реализовывали вопреки организации.
+        <br />
+        <span className="text-gradient-accent">Теперь организация реализует стратегию сама —</span>
+        <br />
+        потому что каждый в ней уже на своём месте.
       </motion.p>
     </div>
   );

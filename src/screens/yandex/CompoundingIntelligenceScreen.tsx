@@ -35,13 +35,21 @@ export function CompoundingIntelligenceScreen({ onBack, onNext }: { onBack: () =
       </div>
 
       {/* Feel first: the consequence, before any explanation */}
-      <Card className="mb-8 p-8 text-center border-(--color-good)/25">
+      <Card className="mb-4 p-8 text-center border-(--color-good)/25">
         <p className="text-[22px] md:text-[26px] text-(--color-ink-1) font-medium leading-snug max-w-[760px] mx-auto">
           Следующая команда открывает граф —
           <br />
           <span className="text-gradient-accent">и стартует так, будто этот проект уже кто-то сделал за них.</span>
         </p>
       </Card>
+
+      <div className="mb-8 text-center">
+        <p className="text-[14px] text-(--color-ink-3) max-w-[680px] mx-auto leading-relaxed">
+          Раньше каждая команда начинала с нуля, даже если похожий эксперимент кто-то уже провёл в
+          соседнем продукте. Теперь ни одно исследование не исчезает — оно становится стартовой
+          точкой для следующего.
+        </p>
+      </div>
 
       {/* Then understand: how, via the AI copilot timeline */}
       <Card className="mb-8 p-6">

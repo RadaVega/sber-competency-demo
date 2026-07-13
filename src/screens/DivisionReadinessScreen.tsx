@@ -77,6 +77,18 @@ export function DivisionReadinessScreen({ onBack }: { onBack: () => void }) {
           AI-трансформации группы: именно оно отвечает за AI Governance на уровне группы.
         </p>
       </div>
+
+      <div className="glass rounded-xl mt-6 p-8 text-center border border-(--color-signal)/25">
+        <p className="text-[19px] text-(--color-ink-1) font-medium leading-relaxed max-w-[760px] mx-auto">
+          Раньше AI-трансформация масштаба группы зависела от того, кто из руководителей лично знал,
+          кому позвонить.
+          <br />
+          <span className="text-gradient-accent">
+            Теперь любой руководитель видит готовность каждого дивизиона в реальном времени —
+            без единого совещания, чтобы просто понять, где мы сейчас.
+          </span>
+        </p>
+      </div>
     </div>
   );
 }

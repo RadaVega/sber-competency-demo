@@ -52,9 +52,9 @@ export function WorldsStage({ onDone }: { onDone: () => void }) {
   const [phase, setPhase] = useState<Phase>("establish");
 
   useEffect(() => {
-    const t1 = setTimeout(() => setPhase("line"), 6500);
-    const t2 = setTimeout(() => setPhase("match"), 6500 + 5500);
-    const t3 = setTimeout(onDone, 6500 + 5500 + 10000);
+    const t1 = setTimeout(() => setPhase("line"), 8200);
+    const t2 = setTimeout(() => setPhase("match"), 8200 + 6800);
+    const t3 = setTimeout(onDone, 8200 + 6800 + 11500);
     return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
   }, [onDone]);
 

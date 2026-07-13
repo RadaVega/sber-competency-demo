@@ -53,6 +53,18 @@ export function VKExecutiveScreen({ onBack }: { onBack: () => void }) {
           </p>
         </div>
       </Card>
+
+      <div className="glass rounded-xl mt-6 p-8 text-center border border-(--color-signal)/25">
+        <p className="text-[19px] text-(--color-ink-1) font-medium leading-relaxed max-w-[760px] mx-auto">
+          Раньше команду под новый продукт собирали по знакомству — кто на слуху,
+          кто свободен, кто ответит на сообщение первым.
+          <br />
+          <span className="text-gradient-accent">
+            Теперь команда собирается по реальному совпадению компетенций —
+            и запускает продукт на 40% быстрее, чем раньше могла бы.
+          </span>
+        </p>
+      </div>
     </div>
   );
 }
