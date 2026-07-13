@@ -1,5 +1,5 @@
 import { ArrowRight, ArrowDown } from "lucide-react";
-import { problemCascade, BRAND_RU } from "@/data/branding";
+import { problemCascade, nationalPriorityChain, nationalPrioritiesDetail, BRAND_RU } from "@/data/branding";
 import type { ModeConfig } from "@/data/modes";
 
 export function ProblemScreen({
@@ -20,6 +20,29 @@ export function ProblemScreen({
         <h1 className="font-display text-pres-hero text-(--color-ink-1) leading-tight max-w-[720px] mx-auto text-balance">
           Почему стратегии не реализуются?
         </h1>
+      </div>
+
+      {/* Broader context: the organisation sits inside a national system,
+          not the other way around — shown once, quietly, before anything
+          organisation-specific begins. No slogans, no named officials. */}
+      <div className="flex flex-col items-center gap-2 mb-8">
+        {nationalPriorityChain.map((step, i) => (
+          <div key={step} className="flex flex-col items-center gap-2">
+            <span className="text-pres-sm text-(--color-ink-3) font-mono uppercase tracking-[0.08em]">{step}</span>
+            {i < nationalPriorityChain.length - 1 && <ArrowDown className="h-4 w-4 text-(--color-ink-3)" />}
+          </div>
+        ))}
+        <p className="text-[12px] text-(--color-ink-3) text-center max-w-[600px] leading-relaxed mt-1">
+          {nationalPrioritiesDetail}
+        </p>
+        <ArrowDown className="h-4 w-4 text-(--color-ink-3) mt-1" />
+        <div className="glass-subtle rounded-xl px-6 py-4 text-center max-w-[620px] mt-1">
+          <div className="text-[11px] text-(--color-signal) font-mono uppercase tracking-[0.08em] mb-1.5">
+            Наша миссия · {mode.org}
+          </div>
+          <p className="text-[13.5px] text-(--color-ink-2) leading-relaxed">{mode.missionRu}</p>
+        </div>
+        <ArrowDown className="h-5 w-5 text-(--color-ink-3) mt-2" />
       </div>
 
       {/* Cascade */}

@@ -20,7 +20,7 @@ export const CATEGORY_EN = "Intelligent Strategic Execution System";
 
 export const TAGLINE_RU = "От стратегии — к результату.";
 export const TAGLINE_STEPS_RU = [
-  "Находим компетенции.",
+  "Находим критическую экспертизу.",
   "Объединяем экспертов.",
   "Формируем команды.",
   "Ускоряем реализацию стратегических инициатив.",
@@ -29,10 +29,10 @@ export const TAGLINE_STEPS_RU = [
 export const HERO_DESCRIPTION_RU =
   "Сегодня большинство крупных организаций умеют разрабатывать стратегии. " +
   "Но реализация стратегических инициатив всё чаще ограничивается нехваткой " +
-  "компетенций, экспертов, знаний и готовых команд. " +
+  "критически важных знаний, экспертов и готовых команд. " +
   BRAND_RU +
-  " помогает организации быстрее находить необходимые компетенции, формировать " +
-  "команды, развивать экспертизу и использовать возможности Enterprise AI для " +
+  " помогает организации быстрее находить нужные способности и экспертизу, формировать " +
+  "команды, развивать потенциал людей и использовать возможности Enterprise AI для " +
   "успешной реализации стратегических инициатив.";
 
 /**
@@ -50,7 +50,7 @@ export const archTerms: Record<string, ArchTermPair> = {
   agentRuntime:           { ru: "Среда выполнения ИИ-агентов",         en: "Agent Runtime" },
   knowledgeGraph:         { ru: "Граф знаний",                          en: "Knowledge Graph" },
   expertGraph:            { ru: "Граф экспертов",                      en: "Expert Graph" },
-  capabilityGraph:        { ru: "Граф компетенций",                    en: "Capability Graph" },
+  capabilityGraph:        { ru: "Граф критической экспертизы",           en: "Capability Graph" },
   teamIntelligence:       { ru: "Интеллект формирования команд",       en: "Team Intelligence" },
   knowledgeServices:      { ru: "Сервисы управления знаниями",         en: "Knowledge Services" },
   businessOutcomes:       { ru: "Бизнес-результаты",                   en: "Business Outcomes" },
@@ -72,13 +72,28 @@ export const architectureLayers: ArchTermPair[] = [
 export const problemCascade = [
   "Стратегическая инициатива",
   "Недостаточно специалистов",
-  "Компетенции распределены по организации",
+  "Критическая экспертиза распределена по организации",
   "Эксперты неизвестны",
   "Знания находятся в разных системах",
   "Команды собираются слишком долго",
   "Проект задерживается",
   "Бизнес теряет скорость",
 ];
+
+/**
+ * The broader context above any single organisation — country, national
+ * priorities, mission — shown once at the very top of ProblemScreen before
+ * the organisation-level cascade begins. Deliberately generic (no politics,
+ * no named officials): the point is that a large organisation's strategy
+ * sits inside a wider system of national development, not that any
+ * specific priority matters more than another.
+ */
+export const nationalPriorityChain = [
+  "Россия",
+  "Национальные стратегические приоритеты",
+];
+export const nationalPrioritiesDetail =
+  "Цифровая трансформация · Развитие ИИ · Технологический суверенитет · Подготовка кадров · Повышение производительности · Внедрение науки";
 
 /** Organisations the architecture applies to — no logos, no comparison. */
 export const applicableOrgs = ["Сбер", "VK Tech", "Яндекс", "Росатом"];

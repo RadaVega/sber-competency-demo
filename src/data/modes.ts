@@ -10,16 +10,20 @@ export interface ModeConfig {
   scenarioName: string;
   scenarioNameRu: string;
   mainQuestion: string;
+  // Short, public-strategy-aligned mission statement — "Наша миссия"
+  missionRu: string;
   accentColor: string;
   badgeLetter: string;
   // Tochka Sborki integration tagline per mode
   hybridMessage: string;
 }
 
+// Kept for architectural/API contexts only — the primary name everywhere
+// user-facing is BRAND_RU ("Интеллект стратегической реализации").
 export const PLATFORM_NAME = "Capability Intelligence Platform";
-export const PLATFORM_NAME_RU = "Платформа управления стратегическими компетенциями";
+export const PLATFORM_NAME_RU = "Интеллект стратегической реализации";
 export const PLATFORM_TAGLINE = "Strategy → Capabilities → People → Teams → Results";
-export const PLATFORM_TAGLINE_RU = "Стратегия → Компетенции → Люди → Команды → Результат";
+export const PLATFORM_TAGLINE_RU = "Стратегия → Критическая экспертиза → Люди → Команды → Результат";
 
 export const modes: Record<ModeId, ModeConfig> = {
   sber: {
@@ -29,7 +33,8 @@ export const modes: Record<ModeId, ModeConfig> = {
     platformNameRu: PLATFORM_NAME_RU,
     scenarioName: "Workforce Intelligence Layer",
     scenarioNameRu: "Интеллектуальный слой управления персоналом",
-    mainQuestion: "Есть ли у организации компетенции для масштабной AI-трансформации?",
+    mainQuestion: "Хватит ли у организации критической экспертизы для масштабной AI-трансформации?",
+    missionRu: "Экосистема сервисов, меняющая жизнь людей и бизнеса к лучшему через технологии.",
     accentColor: "#21A038",
     badgeLetter: "С",
     hybridMessage: "Внутренние AI Champions + внешние эксперты Agentic AI → ускорение AI-трансформации",
@@ -42,6 +47,7 @@ export const modes: Record<ModeId, ModeConfig> = {
     scenarioName: "Team Intelligence Engine",
     scenarioNameRu: "Система интеллектуальной сборки команд",
     mainQuestion: "Как быстрее собирать команды для новых продуктов и инициатив?",
+    missionRu: "Объединять людей и сообщества через технологии, делая общение и жизнь в интернете лучше.",
     accentColor: "#0077FF",
     badgeLetter: "VK",
     hybridMessage: "Внутренние сотрудники VK + эксперты Точки Сборки → сокращение Time-to-Market",
@@ -52,11 +58,12 @@ export const modes: Record<ModeId, ModeConfig> = {
     platformName: PLATFORM_NAME,
     platformNameRu: PLATFORM_NAME_RU,
     scenarioName: "Critical Capability Platform",
-    scenarioNameRu: "Платформа критических компетенций",
-    mainQuestion: "Есть ли у организации компетенции для реализации стратегических проектов России?",
+    scenarioNameRu: "Платформа критической экспертизы",
+    mainQuestion: "Хватит ли у организации критической экспертизы для реализации стратегических проектов России?",
+    missionRu: "Обеспечивать технологический суверенитет и лидерство России в атомной и смежных отраслях.",
     accentColor: "#6BC4E8",
     badgeLetter: "Р",
-    hybridMessage: "Внутренние эксперты + внешний кадровый резерв → передача критических компетенций",
+    hybridMessage: "Внутренние эксперты + внешний кадровый резерв → передача критической экспертизы",
   },
   yandex: {
     id: "yandex",
@@ -66,6 +73,7 @@ export const modes: Record<ModeId, ModeConfig> = {
     scenarioName: "Knowledge-to-Product Acceleration",
     scenarioNameRu: "Ускорение превращения знаний в продукты",
     mainQuestion: "Как сделать так, чтобы любая идея максимально быстро проходила путь от исследования до продукта?",
+    missionRu: "Помогать людям решать задачи и достигать целей в жизни с помощью технологий.",
     accentColor: "#FFCC00",
     badgeLetter: "Я",
     hybridMessage: "Граф знаний + AI-оркестрация → быстрее от идеи к продукту",
@@ -78,6 +86,7 @@ export const modes: Record<ModeId, ModeConfig> = {
     scenarioName: "Universal Strategic Execution Model",
     scenarioNameRu: "Универсальная модель стратегической реализации",
     mainQuestion: "Как любая крупная организация связывает стратегию и людей — независимо от отрасли?",
+    missionRu: "Реализовывать стратегию так же естественно, как растёт живой организм — без разрыва между целями и людьми.",
     accentColor: "#C9B8FF",
     badgeLetter: "∞",
     hybridMessage: "Не кастомная демонстрация под заказчика — единая модель, применимая к любой организации",

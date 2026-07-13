@@ -11,7 +11,7 @@ const ecosystemLayers = [
 
 const futurePoints = [
   "От разовых пилотов — к постоянной операционной модели реализации стратегии.",
-  "От ручного поиска экспертов — к графу компетенций, обновляемому в реальном времени.",
+  "От ручного поиска экспертов — к живому графу критической экспертизы, обновляемому в реальном времени.",
   "От отдельных AI-инструментов — к единому слою, работающему поверх любой Enterprise AI Platform.",
   "От реакции на дефицит — к управлению готовностью организации заранее.",
 ];
@@ -86,12 +86,26 @@ export function FutureScreen({
       </div>
 
       {/* Closing statement */}
-      <div className="glass rounded-2xl border border-(--color-good)/20 p-8 text-center mb-10">
+      <div className="glass rounded-2xl border border-(--color-good)/20 p-8 text-center mb-6">
         <p className="text-pres-xl text-(--color-ink-1) font-medium leading-relaxed max-w-[680px] mx-auto">
           Современные Enterprise AI-платформы дают организации интеллект.
           <br />
           <span className="text-gradient-accent">{BRAND_RU}</span> даёт организации скорость —
           от стратегии к результату.
+        </p>
+      </div>
+
+      {/* The Aha moment — the emotional climax of the whole scenario */}
+      <div className="glass rounded-2xl border border-(--color-signal)/25 p-10 text-center mb-10">
+        <p className="text-pres-xl text-(--color-ink-1) leading-relaxed max-w-[680px] mx-auto">
+          Каждый день миллионы людей делают свою работу.
+          <br />
+          Но очень немногие понимают,
+          <br />
+          как именно их работа меняет организацию.
+        </p>
+        <p className="font-display text-pres-h2 text-gradient-accent leading-tight mt-6">
+          {BRAND_RU} делает эту связь видимой.
         </p>
       </div>
 
