@@ -84,7 +84,11 @@ function App() {
 
   return (
     <>
-      {!openingDone && <OpeningExperience onComplete={() => setOpeningDone(true)} />}
+      {!openingDone && (
+        <OpeningExperience
+          onComplete={(_perspective, company) => { setMode(company); setOpeningDone(true); }}
+        />
+      )}
       <div className="min-h-screen bg-(--color-canvas)">
       <TopBar
         mode={mode} onModeChange={changeMode}

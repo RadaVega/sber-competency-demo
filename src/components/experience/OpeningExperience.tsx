@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useViewMode } from "@/lib/ViewModeContext";
-import { useExperienceMachine } from "./useExperienceMachine";
+import { useExperienceMachine, type Company } from "./useExperienceMachine";
 import { QuestionStage } from "./stages/QuestionStage";
 import { WorldsStage } from "./stages/WorldsStage";
 import { EcosystemStage } from "./stages/EcosystemStage";
@@ -28,8 +28,8 @@ const stageVariants = {
   exit: { opacity: 0, scale: 1.01, transition: { duration: 0.9, ease: EASE } },
 };
 
-export function OpeningExperience({ onComplete }: { onComplete: (perspective: "vp" | "employee") => void }) {
-  const { stage, role, next, selectRole, skipToRoleSelection } = useExperienceMachine();
+export function OpeningExperience({ onComplete }: { onComplete: (perspective: "vp" | "employee", company: Company) => void }) {
+  const { stage, role, company, next, selectRole, skipToRoleSelection } = useExperienceMachine();
   const { toggle, isVP } = useViewMode();
 
   useEffect(() => {
@@ -42,10 +42,10 @@ export function OpeningExperience({ onComplete }: { onComplete: (perspective: "v
   useEffect(() => {
     if (stage === "companyFlow" || stage === "employeeFlow") {
       if (role && (role === "vp") !== isVP) toggle();
-      if (role) onComplete(role);
+      if (role && company) onComplete(role, company);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [stage, role]);
+  }, [stage, role, company]);
 
   const showSkip = stage !== "roleSelection" && stage !== "companyFlow" && stage !== "employeeFlow";
 
