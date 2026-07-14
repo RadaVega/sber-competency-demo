@@ -17,9 +17,8 @@ import type { RosatomScreenId } from "@/screens/rosatom/meta";
 export default function RosatomApp({ active, onChangeScreen }: { active: RosatomScreenId; onChangeScreen: (id: RosatomScreenId) => void }) {
   const mode = modes.rosatom; const go = onChangeScreen;
   return (<>
-    {active === "problem"       && <ProblemScreen mode={mode} onNext={() => go("architecture")} />}
-    {active === "architecture"  && <ArchitectureScreen mode={mode} onBack={() => go("problem")} onNext={() => go("why")} />}
-    {active === "why"           && <StrategicEcosystemScreen mode={mode} onBack={() => go("architecture")} onNext={() => go("dashboard")} />}
+    {active === "problem"       && <ProblemScreen mode={mode} onNext={() => go("why")} />}
+    {active === "why"           && <StrategicEcosystemScreen mode={mode} onBack={() => go("problem")} onNext={() => go("dashboard")} />}
     {active === "dashboard"     && <RosatomDashboardScreen onNext={() => go("map")} />}
     {active === "map"           && <CapabilityMapScreen onBack={() => go("dashboard")} onNext={() => go("knowledgeRisk")} />}
     {active === "knowledgeRisk" && <KnowledgeRiskScreen onBack={() => go("map")} onNext={() => go("graph")} />}
@@ -28,7 +27,8 @@ export default function RosatomApp({ active, onChangeScreen }: { active: Rosatom
     {active === "teamBuilder"   && <TeamBuilderScreen onBack={() => go("experts")} onNext={() => go("aiCenter")} />}
     {active === "aiCenter"      && <AICenterScreen onBack={() => go("teamBuilder")} onNext={() => go("forecast")} />}
     {active === "forecast"      && <ForecastScreen onBack={() => go("aiCenter")} onNext={() => go("sovereignty")} />}
-    {active === "sovereignty"   && <SovereigntyScreen onBack={() => go("forecast")} onNext={() => go("future")} />}
-    {active === "future"        && <FutureScreen mode={mode} onBack={() => go("sovereignty")} onRestart={() => go("problem")} />}
+    {active === "sovereignty"   && <SovereigntyScreen onBack={() => go("forecast")} onNext={() => go("architecture")} />}
+    {active === "architecture"  && <ArchitectureScreen mode={mode} onBack={() => go("sovereignty")} onNext={() => go("future")} />}
+    {active === "future"        && <FutureScreen mode={mode} onBack={() => go("architecture")} onRestart={() => go("problem")} />}
   </>);
 }

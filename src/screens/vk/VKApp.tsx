@@ -15,9 +15,8 @@ import type { VKScreenId } from "@/screens/vk/meta";
 export default function VKApp({ active, onChangeScreen }: { active: VKScreenId; onChangeScreen: (id: VKScreenId) => void }) {
   const mode = modes.vk; const go = onChangeScreen;
   return (<>
-    {active === "problem"      && <ProblemScreen mode={mode} onNext={() => go("architecture")} />}
-    {active === "architecture" && <ArchitectureScreen mode={mode} onBack={() => go("problem")} onNext={() => go("why")} />}
-    {active === "why"          && <StrategicEcosystemScreen mode={mode} onBack={() => go("architecture")} onNext={() => go("initiative")} />}
+    {active === "problem"      && <ProblemScreen mode={mode} onNext={() => go("why")} />}
+    {active === "why"          && <StrategicEcosystemScreen mode={mode} onBack={() => go("problem")} onNext={() => go("initiative")} />}
     {active === "initiative"   && <StrategicInitiativeScreen mode={mode} onBack={() => go("why")} onNext={() => go("team-build")} />}
     {active === "team-build"   && <VKInitiativeScreen onNext={() => go("talent")} />}
     {active === "talent"       && <VKTalentDiscoveryScreen onBack={() => go("team-build")} onNext={() => go("simulator")} />}
@@ -26,6 +25,7 @@ export default function VKApp({ active, onChangeScreen }: { active: VKScreenId; 
     {active === "external"     && <ExternalTalentDiscoveryScreen onBack={() => go("ecosystem")} onNext={() => go("pipeline")} />}
     {active === "pipeline"     && <TalentPipelineScreen mode={mode} onBack={() => go("external")} onNext={() => go("executive")} />}
     {active === "executive"    && <VKExecutiveScreen onBack={() => go("pipeline")} />}
-    {active === "future"       && <FutureScreen mode={mode} onBack={() => go("executive")} onRestart={() => go("problem")} />}
+    {active === "architecture" && <ArchitectureScreen mode={mode} onBack={() => go("executive")} onNext={() => go("future")} />}
+    {active === "future"       && <FutureScreen mode={mode} onBack={() => go("architecture")} onRestart={() => go("problem")} />}
   </>);
 }

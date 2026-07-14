@@ -13,14 +13,14 @@ import type { YandexScreenId } from "@/screens/yandex/meta";
 export default function YandexApp({ active, onChangeScreen }: { active: YandexScreenId; onChangeScreen: (id: YandexScreenId) => void }) {
   const mode = modes.yandex; const go = onChangeScreen;
   return (<>
-    {active === "problem"        && <ProblemScreen mode={mode} onNext={() => go("architecture")} />}
-    {active === "architecture"   && <ArchitectureScreen mode={mode} onBack={() => go("problem")} onNext={() => go("why")} />}
-    {active === "why"            && <StrategicEcosystemScreen mode={mode} onBack={() => go("architecture")} onNext={() => go("initiative")} />}
+    {active === "problem"        && <ProblemScreen mode={mode} onNext={() => go("why")} />}
+    {active === "why"            && <StrategicEcosystemScreen mode={mode} onBack={() => go("problem")} onNext={() => go("initiative")} />}
     {active === "initiative"     && <StrategicInitiativeScreen mode={mode} onBack={() => go("why")} onNext={() => go("knowledgeGraph")} />}
     {active === "knowledgeGraph" && <KnowledgeGraphScreen onBack={() => go("initiative")} onNext={() => go("opportunityMap")} />}
     {active === "opportunityMap" && <OpportunityMapScreen onBack={() => go("knowledgeGraph")} onNext={() => go("builder")} />}
     {active === "builder"        && <ProductTeamBuilderScreen onNext={() => go("compounding")} />}
-    {active === "compounding"    && <CompoundingIntelligenceScreen onBack={() => go("builder")} onNext={() => go("future")} />}
-    {active === "future"         && <FutureScreen mode={mode} onBack={() => go("compounding")} onRestart={() => go("problem")} />}
+    {active === "compounding"    && <CompoundingIntelligenceScreen onBack={() => go("builder")} onNext={() => go("architecture")} />}
+    {active === "architecture"   && <ArchitectureScreen mode={mode} onBack={() => go("compounding")} onNext={() => go("future")} />}
+    {active === "future"         && <FutureScreen mode={mode} onBack={() => go("architecture")} onRestart={() => go("problem")} />}
   </>);
 }

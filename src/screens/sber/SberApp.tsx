@@ -24,9 +24,8 @@ export default function SberApp({ active, onChangeScreen }: {
   const go   = onChangeScreen;
   return (
     <>
-      {active === "problem"       && <ProblemScreen mode={mode} onNext={() => go("architecture")} />}
-      {active === "architecture"  && <ArchitectureScreen mode={mode} onBack={() => go("problem")} onNext={() => go("why")} />}
-      {active === "why"           && <StrategicEcosystemScreen mode={mode} onBack={() => go("architecture")} onNext={() => go("initiative")} />}
+      {active === "problem"       && <ProblemScreen mode={mode} onNext={() => go("why")} />}
+      {active === "why"           && <StrategicEcosystemScreen mode={mode} onBack={() => go("problem")} onNext={() => go("initiative")} />}
       {active === "initiative"    && <StrategicInitiativeScreen mode={mode} onBack={() => go("why")} onNext={() => go("dashboard")} />}
       {active === "dashboard"     && <DashboardScreen onAnalyze={() => go("employee")} />}
       {active === "employee"      && <EmployeeScreen onBack={() => go("dashboard")} onNext={() => go("mentor")} />}
@@ -38,7 +37,8 @@ export default function SberApp({ active, onChangeScreen }: {
       {active === "orchestration" && <OrchestrationScreen onBack={() => go("external")} onNext={() => go("executive")} accentColor={mode.accentColor} />}
       {active === "executive"     && <ExecutiveScreen onBack={() => go("orchestration")} onNext={() => go("division")} />}
       {active === "division"      && <DivisionReadinessScreen onBack={() => go("executive")} />}
-      {active === "future"        && <FutureScreen mode={mode} onBack={() => go("division")} onRestart={() => go("problem")} />}
+      {active === "architecture"  && <ArchitectureScreen mode={mode} onBack={() => go("division")} onNext={() => go("future")} />}
+      {active === "future"        && <FutureScreen mode={mode} onBack={() => go("architecture")} onRestart={() => go("problem")} />}
     </>
   );
 }

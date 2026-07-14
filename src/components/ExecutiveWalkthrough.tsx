@@ -5,12 +5,11 @@ import { useViewMode } from "@/lib/ViewModeContext";
 
 const STEP_DURATION = 20_000; // 20s per screen
 
-interface Step { screenId: string; title: string; narration: string; employeeNarration?: string; }
+interface Step { screenId: string; title: string; narration: string; employeeNarration?: string; duration?: number; }
 
 const steps: Record<ModeId, Step[]> = {
   sber: [
     { screenId: "problem",       title: "Проблема",                     narration: "Стратегия есть. Команды нет. Критическая экспертиза распределена по организации, эксперты неизвестны, проект задерживается — бизнес теряет скорость." },
-    { screenId: "architecture",  title: "Архитектура",                  narration: "Enterprise Capability Intelligence — слой между стратегией и Enterprise AI Platform. Граф критической экспертизы, граф экспертов, граф знаний." },
     { screenId: "why",           title: "Почему это важно",             narration: "ЦИПР-2026 поставил главный вопрос эпохи. 13 000 участников, 350 соглашений — и ни одного ответа на вопрос: кто реализует стратегию?" },
     { screenId: "initiative",    title: "Стратегическая инициатива",    narration: "Начинаем не с сотрудника. Начинаем со стратегической задачи директора. AI анализирует, что нужно для её реализации — за секунды." },
     { screenId: "dashboard",     title: "Готовность организации",       narration: "Сводный индекс готовности — 54%. Три критических риска. Это реальная картина, а не HR-отчёт. Это данные для совета директоров." },
@@ -23,11 +22,11 @@ const steps: Record<ModeId, Step[]> = {
     { screenId: "orchestration", title: "Agentic AI",                   narration: "7 специализированных агентов работают параллельно. Это не один AI. Это оркестр — как авиадиспетчерская система для стратегии." },
     { screenId: "executive",     title: "Рекомендация руководителю",   narration: "12 AI Champions, 90 дней, +27% готовности. Одна страница. Всё необходимое для принятия решения." },
     { screenId: "division",      title: "Готовность подразделений",     narration: "Последний экран — тот, которого нет ни в одной HR-системе. Готовность каждого подразделения к реализации стратегии." },
+    { screenId: "architecture",  title: "Архитектура",                  narration: "Enterprise Capability Intelligence — слой между стратегией и Enterprise AI Platform. Граф критической экспертизы, граф экспертов, граф знаний.", duration: 32_000 },
     { screenId: "future",        title: "Будущее",                      narration: "Это не отдельный продукт — это слой архитектуры поверх существующей Enterprise AI Platform. От стратегии к результату." },
   ],
   vk: [
     { screenId: "problem",    title: "Проблема",                narration: "Продукт нужен быстро. Команды нет. Экспертиза разбросана, эксперты неизвестны — запуск задерживается." },
-    { screenId: "architecture", title: "Архитектура",           narration: "Enterprise Capability Intelligence связывает стратегию VK с Enterprise AI Platform через граф экспертов и граф критической экспертизы." },
     { screenId: "why",        title: "Знания в сообществах",   narration: "Знания не живут в оргструктуре. Они живут в людях, сообществах, экспертных сетях. Платформа делает это видимым." },
     { screenId: "initiative", title: "Продуктовая инициатива", narration: "Выберите инициативу VK. AI покажет, какие люди нужны и кто из них уже внутри компании." },
     { screenId: "team-build", title: "Сборка команды",         narration: "Роли, экспертиза, покрытие — за секунды. Больше не нужно месяцами искать нужного человека." },
@@ -37,14 +36,13 @@ const steps: Record<ModeId, Step[]> = {
     { screenId: "external",   title: "Внешний резерв",         narration: "Профили студентов, специалистов и экспертов Точки Сборки — с оценкой готовности и потенциала для конкретной роли." },
     { screenId: "pipeline",   title: "Конвейер талантов",      narration: "Студент → Специалист → Эксперт → Наставник. Непрерывный поток роста, а не разовый найм под конкретную вакансию." },
     { screenId: "executive",  title: "Рекомендация",           narration: "8 специалистов. 2 наставника. 3 закрытых дефицита. 40% быстрее. Вот что получает VP после этого демо." },
+    { screenId: "architecture", title: "Архитектура",           narration: "Enterprise Capability Intelligence связывает стратегию VK с Enterprise AI Platform через граф экспертов и граф критической экспертизы.", duration: 32_000 },
     { screenId: "future",     title: "Будущее",                 narration: "Архитектурный слой поверх Enterprise AI Platform VK. От разовых пилотов — к постоянной операционной модели." },
   ],
   rosatom: [
     { screenId: "problem",       title: "Проблема",
       narration: "У организации — стратегия. У человека — жизнь. Пять стратегических программ Росатома нуждаются в специалистах, которых не хватает, а знания уходят вместе с уходящими на пенсию экспертами.",
       employeeNarration: "У организации — стратегия. У человека — жизнь. Где-то рядом есть программа, которой вы нужны прямо сейчас, — но узнать об этом до сих пор можно было только случайно." },
-    { screenId: "architecture",  title: "Архитектура",
-      narration: "Enterprise Capability Intelligence сохраняет граф экспертов и граф знаний — поверх существующей Enterprise AI Platform." },
     { screenId: "why",           title: "Два взгляда",
       narration: "Директор программы видит: не хватает специалистов по SMR и литиевым технологиям. Инженер видит: не понимаю, как здесь вырасти. Платформа не выбирает одну сторону — она соединяет обе конкретными парами «потребность программы ↔ цель специалиста».",
       employeeNarration: "Директор программы видит дефицит специалистов. Вы видите вопрос: где я могу вырасти? Платформа не заставляет выбирать между этими двумя взглядами — она превращает их в одну общую задачу." },
@@ -70,6 +68,8 @@ const steps: Record<ModeId, Step[]> = {
       narration: "Сегодня, через 3, 5 и 10 лет — сколько специалистов есть и сколько понадобится. Подготовку нужно начинать заранее, не в момент кризиса.",
       employeeNarration: "Та же кривая роста — но теперь это ответ на вопрос, куда расти, пока конкурентов ещё мало. Спрос виден на годы вперёд." },
     { screenId: "sovereignty",   title: "Технологический суверенитет", narration: "Доля отечественных технологий, уровень импортозамещения, критические зависимости — платформа поддерживает задачи технологической независимости." },
+    { screenId: "architecture",  title: "Архитектура",
+      narration: "Enterprise Capability Intelligence сохраняет граф экспертов и граф знаний — поверх существующей Enterprise AI Platform.", duration: 32_000 },
     { screenId: "future",        title: "Живая система",
       narration: "Вот путь от двух разных миров к одной живой системе: стратегия видит людей, люди видят свой путь, а баланс между ними поддерживается непрерывно — как в живой экосистеме, а не отчётом раз в квартал. Это и есть инструмент стратегического управления организацией, а не ещё одна HR-система.",
       employeeNarration: "Вот путь от двух разных миров к одной живой системе: организация наконец видит вас, а вы наконец видите свой путь — не по приказу и не случайно, а потому что система непрерывно находит, где вы нужны больше всего." },
@@ -78,8 +78,6 @@ const steps: Record<ModeId, Step[]> = {
     { screenId: "problem",        title: "Проблема",
       narration: "Новая идея — генеративный поиск, голосовой интерфейс, автономный транспорт. Но похожие исследования уже идут в трёх командах, и никто об этом не знает.",
       employeeNarration: "У вас есть идея. Но вы не знаете, кто в компании уже решал похожую задачу — и чему у них можно научиться за неделю, а не за квартал." },
-    { screenId: "architecture",   title: "Архитектура",
-      narration: "Enterprise Capability Intelligence — связующий слой между стратегией и Enterprise AI Platform Яндекса." },
     { screenId: "why",            title: "Два взгляда",
       narration: "Руководитель видит скорость запуска продуктов. Инженер видит, куда перейти и чему научиться. Платформа соединяет оба взгляда — не выбирая между ними." },
     { screenId: "initiative",     title: "Новая возможность",
@@ -94,6 +92,8 @@ const steps: Record<ModeId, Step[]> = {
       narration: "Продуктовая команда собирается не вручную. AI предлагает лучшее сочетание людей — кто готов сейчас, кто через 2 недели, где реальный дефицит." },
     { screenId: "compounding",    title: "Накопление интеллекта",
       narration: "Проект заканчивается — знания остаются. AI подсказывал команде на каждом шаге, а после завершения методика становится частью графа: следующая команда стартует на 38% быстрее. Самая ценная технология Яндекса — не отдельный AI, а организация, которая после каждого проекта становится умнее." },
+    { screenId: "architecture",   title: "Архитектура",
+      narration: "Enterprise Capability Intelligence — связующий слой между стратегией и Enterprise AI Platform Яндекса.", duration: 32_000 },
     { screenId: "future",         title: "Будущее",
       narration: "Каждый новый проект увеличивает интеллектуальный капитал организации. Capability Intelligence Platform превращает этот процесс в непрерывный цикл." },
   ],
@@ -101,13 +101,13 @@ const steps: Record<ModeId, Step[]> = {
     { screenId: "problem",      title: "Проблема",
       narration: "Это не Сбер, не Росатом, не VK и не Яндекс. Это любая крупная организация — стратегия и люди существуют раздельно, независимо от отрасли.",
       employeeNarration: "Это не конкретная компания. Это про любое место, где стратегия и жизнь человека пока не связаны напрямую — включая, возможно, вашу собственную." },
-    { screenId: "architecture", title: "Архитектура",
-      narration: "Один и тот же архитектурный слой — Enterprise Capability Intelligence — работает поверх любой Enterprise AI Platform, в любой отрасли." },
     { screenId: "why",          title: "Два взгляда",
       narration: "Руководитель видит стратегию. Сотрудник видит жизнь. Это не особенность банка, госкорпорации или технологической компании — это структура любой организации.",
       employeeNarration: "Где бы вы ни работали, этот разрыв — не исключение, а норма. Платформа устраняет его не потому, что знает вашу отрасль, а потому что понимает саму структуру организации." },
     { screenId: "initiative",   title: "Инициатива",
       narration: "Новое направление, выход на рынок, слияние культур — неважно, какая именно стратегическая задача. Логика поиска экспертизы и сборки команды универсальна." },
+    { screenId: "architecture", title: "Архитектура",
+      narration: "Один и тот же архитектурный слой — Enterprise Capability Intelligence — работает поверх любой Enterprise AI Platform, в любой отрасли.", duration: 32_000 },
     { screenId: "future",       title: "Будущее",
       narration: "Это не набор кастомных демонстраций под четырёх заказчиков. Это одна модель — единая концепция стратегической реализации, применимая к любой крупной организации." },
   ],
@@ -143,11 +143,12 @@ export function ExecutiveWalkthrough({
   useEffect(() => {
     if (!playing) { if (timerRef.current) clearInterval(timerRef.current); return; }
     startRef.current = Date.now();
+    const stepDuration = modeSteps[idx].duration ?? STEP_DURATION;
     timerRef.current = setInterval(() => {
       const elapsed = Date.now() - startRef.current;
-      const pct = Math.min(100, (elapsed / STEP_DURATION) * 100);
+      const pct = Math.min(100, (elapsed / stepDuration) * 100);
       setProg(pct);
-      if (elapsed >= STEP_DURATION) {
+      if (elapsed >= stepDuration) {
         if (idx < modeSteps.length - 1) { goTo(idx + 1); }
         else { setPlaying(false); if (timerRef.current) clearInterval(timerRef.current); }
       }
@@ -157,7 +158,7 @@ export function ExecutiveWalkthrough({
   }, [playing, idx]);
 
   const current   = modeSteps[idx];
-  const totalMin  = Math.round((modeSteps.length * STEP_DURATION) / 60000);
+  const totalMin  = Math.round(modeSteps.reduce((s, st) => s + (st.duration ?? STEP_DURATION), 0) / 60000);
   const allDone   = !playing && idx === modeSteps.length - 1;
 
   return (
