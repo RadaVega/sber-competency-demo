@@ -22,7 +22,7 @@ export function ForecastScreen({ onBack, onNext }: { onBack: () => void; onNext:
           </button>
           <div className="text-[11px] uppercase tracking-[0.14em] text-(--color-signal) font-mono mb-3">
             {isVP
-              ? bi("Capability Forecast 2035", "Прогноз компетенций 2035")
+              ? bi("Capability Forecast 2035", "Прогноз экспертизы 2035")
               : bi("Where Demand Is Heading", "Куда будет расти спрос")}
           </div>
           <h1 className="font-display text-[34px] text-(--color-ink-1) leading-tight">

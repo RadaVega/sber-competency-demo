@@ -33,7 +33,7 @@ export function CapabilityMapScreen({ onBack, onNext }: { onBack?: () => void; o
           )}
           <div className="text-[11px] uppercase tracking-[0.14em] text-(--color-signal) font-mono mb-3">
             {isVP
-              ? bi("Critical Capability Heat Map", "Карта критических компетенций")
+              ? bi("Critical Capability Heat Map", "Карта критической экспертизы")
               : bi("Where Opportunity Is Highest", "Карта возможностей роста")}
           </div>
           <h1 className="font-display text-[34px] text-(--color-ink-1) leading-tight max-w-[700px]">
