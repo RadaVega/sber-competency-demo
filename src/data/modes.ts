@@ -10,6 +10,10 @@ export interface ModeConfig {
   scenarioName: string;
   scenarioNameRu: string;
   mainQuestion: string;
+  // The opening line of the whole scenario — a question that keeps this
+  // specific VP up at night, not a description of what the platform does.
+  // Deliberately personal and uncomfortable, not a feature summary.
+  hookQuestion: string;
   // Short, public-strategy-aligned mission statement — "Наша миссия"
   missionRu: string;
   accentColor: string;
@@ -34,6 +38,7 @@ export const modes: Record<ModeId, ModeConfig> = {
     scenarioName: "Workforce Intelligence Layer",
     scenarioNameRu: "Интеллектуальный слой управления персоналом",
     mainQuestion: "Хватит ли у организации критической экспертизы для масштабной AI-трансформации?",
+    hookQuestion: "Совет директоров снова спросит, почему трансформация буксует. На какие цифры вы будете опираться?",
     missionRu: "Экосистема сервисов, меняющая жизнь людей и бизнеса к лучшему через технологии.",
     accentColor: "#21A038",
     badgeLetter: "С",
@@ -47,6 +52,7 @@ export const modes: Record<ModeId, ModeConfig> = {
     scenarioName: "Team Intelligence Engine",
     scenarioNameRu: "Система интеллектуальной сборки команд",
     mainQuestion: "Как быстрее собирать команды для новых продуктов и инициатив?",
+    hookQuestion: "Почему две одинаково талантливые команды делают продукты с разницей в полгода?",
     missionRu: "Объединять людей и сообщества через технологии, делая общение и жизнь в интернете лучше.",
     accentColor: "#0077FF",
     badgeLetter: "VK",
@@ -60,6 +66,7 @@ export const modes: Record<ModeId, ModeConfig> = {
     scenarioName: "Critical Capability Platform",
     scenarioNameRu: "Платформа критической экспертизы",
     mainQuestion: "Хватит ли у организации критической экспертизы для реализации стратегических проектов России?",
+    hookQuestion: "Через пять лет уйдут люди, которые знают то, чего никто больше не знает. Что вы будете делать сегодня?",
     missionRu: "Обеспечивать технологический суверенитет и лидерство России в атомной и смежных отраслях.",
     accentColor: "#6BC4E8",
     badgeLetter: "Р",
@@ -73,6 +80,7 @@ export const modes: Record<ModeId, ModeConfig> = {
     scenarioName: "Knowledge-to-Product Acceleration",
     scenarioNameRu: "Ускорение превращения знаний в продукты",
     mainQuestion: "Как сделать так, чтобы любая идея максимально быстро проходила путь от исследования до продукта?",
+    hookQuestion: "Почему одна команда каждый раз начинает исследования заново — как будто до неё никто этого не делал?",
     missionRu: "Помогать людям решать задачи и достигать целей в жизни с помощью технологий.",
     accentColor: "#FFCC00",
     badgeLetter: "Я",
@@ -86,6 +94,7 @@ export const modes: Record<ModeId, ModeConfig> = {
     scenarioName: "Universal Strategic Execution Model",
     scenarioNameRu: "Универсальная модель стратегической реализации",
     mainQuestion: "Как любая крупная организация связывает стратегию и людей — независимо от отрасли?",
+    hookQuestion: "Как понять, где именно организация теряет скорость реализации стратегии — до того, как это станет кризисом на совете директоров?",
     missionRu: "Реализовывать стратегию так же естественно, как растёт живой организм — без разрыва между целями и людьми.",
     accentColor: "#C9B8FF",
     badgeLetter: "∞",

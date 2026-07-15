@@ -15,11 +15,14 @@ export function ProblemScreen({
       {/* Header */}
       <div className="text-center mb-12">
         <div className="text-pres-label text-(--color-signal) mb-4">
-          {mode.org} · Enterprise Architecture
+          {mode.org} · Диагностика
         </div>
-        <h1 className="font-display text-pres-hero text-(--color-ink-1) leading-tight max-w-[720px] mx-auto text-balance">
-          Почему стратегии не реализуются?
+        <h1 className="font-display text-pres-hero text-(--color-ink-1) leading-tight max-w-[760px] mx-auto text-balance">
+          {mode.hookQuestion}
         </h1>
+        <p className="text-[13.5px] text-(--color-ink-3) mt-5 max-w-[520px] mx-auto leading-relaxed">
+          За 30 минут — то, чего вы пока не видите в собственной организации.
+        </p>
       </div>
 
       {/* Broader context: the organisation sits inside a national system,

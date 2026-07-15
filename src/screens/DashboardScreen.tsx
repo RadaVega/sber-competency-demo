@@ -16,7 +16,7 @@ export function DashboardScreen({ onAnalyze }: { onAnalyze: () => void }) {
       <div className="mb-12 flex flex-col sm:flex-row sm:items-end justify-between gap-6 border-b border-(--color-border) pb-10">
         <div>
           <div className="text-pres-label text-(--color-signal) mb-4">
-            {bi("Capability Readiness Dashboard", "Готовность компетенций")}
+            {bi("Capability Readiness Dashboard", "Готовность организации")}
           </div>
           <h1 className="font-display text-pres-hero leading-tight text-balance max-w-[640px]">
             Готовность к{" "}
