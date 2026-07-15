@@ -54,6 +54,17 @@ export function KnowledgeGraphScreen({ onBack, onNext }: { onBack: () => void; o
         </button>
       </div>
 
+      <div className="glass-subtle rounded-xl px-6 py-4 mb-6 max-w-[820px]">
+        <p className="text-[13.5px] text-(--color-ink-2) leading-relaxed">
+          {isVP
+            ? <>Найдите узел «О. Денисов» на графе — это единственный человек в организации,
+                который знает литиевую металлургию так, как нужно программе. Если он уйдёт
+                до того, как появится узел-преемник, эта ветка графа обрывается навсегда.</>
+            : <>Найдите узел «О. Денисов» — единственный носитель этой экспертизы в организации.
+                Учиться у него сейчас значит занять место в графе, которое иначе просто исчезнет.</>}
+        </p>
+      </div>
+
       <Card className="mb-6 p-6">
         <svg viewBox="0 0 960 460" className="w-full h-auto">
           {knowledgeGraphEdges.map((edge, i) => {

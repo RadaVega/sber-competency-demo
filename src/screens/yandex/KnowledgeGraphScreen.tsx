@@ -84,7 +84,7 @@ export function KnowledgeGraphScreen({ onBack, onNext }: { onBack: () => void; o
 
       {/* The cycle, stated plainly, before the graph itself — this is what
           makes the graph a flow rather than a static object */}
-      <div className="flex items-center gap-2 mb-6 overflow-x-auto pb-1">
+      <div className="flex items-center gap-2 mb-4 overflow-x-auto pb-1">
         {FLOW_STEPS.map((step, i) => (
           <div key={step} className="flex items-center gap-2 shrink-0">
             <span className="text-[12px] font-mono text-(--color-ink-3) whitespace-nowrap">{step}</span>
@@ -93,6 +93,19 @@ export function KnowledgeGraphScreen({ onBack, onNext }: { onBack: () => void; o
         ))}
         <span className="text-(--color-signal)">→</span>
         <span className="text-[12px] font-mono text-(--color-ink-2) whitespace-nowrap italic">следующая идея начинается здесь же</span>
+      </div>
+
+      <div className="glass-subtle rounded-xl px-6 py-4 mb-6 max-w-[820px]">
+        <p className="text-[13.5px] text-(--color-ink-2) leading-relaxed">
+          {isVP
+            ? <>«Исследование: генеративный поиск» и «Маркет: генеративный поиск» выглядят
+                как одна связная линия. Но рядом, невидимо для этого графа, ещё две команды
+                ведут те же эксперименты — граф показывает то, что уже стало видимым,
+                а не то, чего в нём пока нет.</>
+            : <>Если вы начинаете что-то похожее на «Исследование: генеративный поиск» —
+                нажмите на узел и посмотрите, кто уже прошёл этот путь. Возможно, неделя
+                работы уже сделана за вас.</>}
+        </p>
       </div>
 
       <Card className="mb-6 p-6">

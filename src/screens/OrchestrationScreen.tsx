@@ -86,12 +86,13 @@ export function OrchestrationScreen({
           <div className="text-[11px] uppercase tracking-[0.14em] text-(--color-signal) font-mono mb-3">
             {bi("Agentic AI Orchestration", "Оркестрация агентного ИИ")}
           </div>
-          <h1 className="font-display text-[30px] text-(--color-ink-1) leading-tight">
-            Оркестрация агентов
+          <h1 className="font-display text-[30px] text-(--color-ink-1) leading-tight max-w-[600px]">
+            Один ответ вместо четырёх систем и трёх недель ожидания
           </h1>
-          <p className="text-[13px] text-(--color-ink-2) mt-2 max-w-[500px]">
-            AI не заменяет человека — AI координирует специализированных агентов,
-            чтобы ускорить принятие стратегических решений.
+          <p className="text-[13px] text-(--color-ink-2) mt-2 max-w-[560px] leading-relaxed">
+            Раньше ответ на кадровый вопрос собирали вручную — из HR, финансов,
+            проектного офиса и линейных руководителей. Здесь семь специализированных
+            агентов делают то же самое за минуты. Решение всё равно принимает человек — не AI.
           </p>
         </div>
         <div className="flex items-center gap-3 shrink-0">
@@ -347,7 +348,7 @@ export function OrchestrationScreen({
             <div className="px-5 py-4 border-t border-(--color-border-soft) bg-(--color-good-soft) rounded-b-lg">
               <div className="text-[12px] text-(--color-good) flex items-center gap-2 font-medium">
                 <Check className="h-4 w-4" />
-                Рекомендация руководителю готова
+                Готово за 40 секунд — раньше это занимало три недели согласований
               </div>
             </div>
           )}
