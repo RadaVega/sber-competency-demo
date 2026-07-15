@@ -64,10 +64,12 @@ export function TalentPipelineScreen({
   mode,
   onBack,
   onNext,
+  nextLabel = "Далее",
 }: {
   mode: ModeConfig;
   onBack: () => void;
   onNext: () => void;
+  nextLabel?: string;
 }) {
   return (
     <div className="mx-auto max-w-[1280px] px-8 py-10">
@@ -83,19 +85,20 @@ export function TalentPipelineScreen({
           <div className="text-[11px] uppercase tracking-[0.14em] text-(--color-signal) font-mono mb-3">
             {bi("Talent Pipeline", "Конвейер развития талантов")}
           </div>
-          <h1 className="font-display text-[34px] text-(--color-ink-1) leading-tight">
-            От студента до стратегической инициативы
+          <h1 className="font-display text-[34px] text-(--color-ink-1) leading-tight max-w-[680px]">
+            Найм закрывает вакансию. Конвейер закрывает разрыв на годы вперёд
           </h1>
-          <p className="text-[13px] text-(--color-ink-2) mt-3 max-w-[560px]">
-            Точка Сборки обеспечивает непрерывный поток талантов на всех уровнях —
-            от первого курса до ведущего эксперта.
+          <p className="text-[13px] text-(--color-ink-2) mt-3 max-w-[560px] leading-relaxed">
+            {mode.org} каждый раз ищет специалиста с нуля — вместо того чтобы вырастить
+            его из тех, кто уже в экосистеме. Это карта, по которой видно, кто станет
+            экспертом через год, а не только кто свободен сегодня.
           </p>
         </div>
         <button
           onClick={onNext}
           className="group flex items-center gap-2 rounded-md bg-(--color-signal) px-5 py-3 text-[13px] font-medium text-(--color-canvas) hover:brightness-110 transition-all shrink-0"
         >
-          {bi("Orchestration", "Оркестрация")}
+          {nextLabel}
           <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
         </button>
       </div>
@@ -144,11 +147,9 @@ export function TalentPipelineScreen({
       {/* Bottom message */}
       <Card className="mt-8">
         <div className="p-6 text-center">
-          <p className="text-[14px] text-(--color-ink-1) font-medium leading-relaxed max-w-[600px] mx-auto">
-            "Организация больше не ограничена только внутренними ресурсами.
-            Система объединяет внутренние и внешние источники компетенций.
-            Стратегические инициативы обеспечиваются необходимыми людьми
-            независимо от их текущего местоположения."
+          <p className="text-[14px] text-(--color-ink-1) font-medium leading-relaxed max-w-[640px] mx-auto">
+            Это не отчёт о найме. Это программа развития — кого готовить наставником
+            уже сейчас, чтобы через год не искать его на рынке.
           </p>
         </div>
       </Card>

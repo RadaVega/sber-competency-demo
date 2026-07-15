@@ -33,7 +33,7 @@ export default function SberApp({ active, onChangeScreen }: {
       {active === "plan"          && <PlanScreen onBack={() => go("mentor")} onNext={() => go("team")} />}
       {active === "team"          && <TeamScreen onBack={() => go("plan")} onNext={() => go("ecosystem")} />}
       {active === "ecosystem"     && <TalentEcosystemScreen mode={mode} onBack={() => go("team")} onNext={() => go("external")} />}
-      {active === "external"      && <ExternalTalentDiscoveryScreen onBack={() => go("ecosystem")} onNext={() => go("orchestration")} />}
+      {active === "external"      && <ExternalTalentDiscoveryScreen mode={mode} onBack={() => go("ecosystem")} onNext={() => go("orchestration")} />}
       {active === "orchestration" && <OrchestrationScreen onBack={() => go("external")} onNext={() => go("executive")} accentColor={mode.accentColor} />}
       {active === "executive"     && <ExecutiveScreen onBack={() => go("orchestration")} onNext={() => go("division")} />}
       {active === "division"      && <DivisionReadinessScreen onBack={() => go("executive")} />}

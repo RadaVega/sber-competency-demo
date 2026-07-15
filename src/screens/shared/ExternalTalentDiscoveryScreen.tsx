@@ -2,6 +2,7 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import { Card } from "@/components/Card";
 import { externalTalent, externalTeams, type TalentCategory } from "@/data/tochkaSborki";
 import { bi } from "@/lib/bi";
+import type { ModeConfig } from "@/data/modes";
 
 const categoryMeta: Record<TalentCategory, { label: string; color: string; bg: string }> = {
   student: { label: bi("Student", "Студент"), color: "text-(--color-warn)", bg: "bg-(--color-warn-soft)" },
@@ -18,9 +19,11 @@ const potentialMeta = {
 };
 
 export function ExternalTalentDiscoveryScreen({
+  mode,
   onBack,
   onNext,
 }: {
+  mode: ModeConfig;
   onBack: () => void;
   onNext: () => void;
 }) {
@@ -38,12 +41,13 @@ export function ExternalTalentDiscoveryScreen({
           <div className="text-[11px] uppercase tracking-[0.14em] text-(--color-signal) font-mono mb-3">
             {bi("External Talent Discovery", "Поиск внешних талантов")}
           </div>
-          <h1 className="font-display text-[34px] text-(--color-ink-1) leading-tight">
-            Точка Сборки — внешний контур
+          <h1 className="font-display text-[34px] text-(--color-ink-1) leading-tight max-w-[680px]">
+            Дефицит внутри не значит дефицит вообще
           </h1>
-          <p className="text-[13px] text-(--color-ink-2) mt-3">
-            Студенты, специалисты, эксперты и команды, готовые к участию в
-            стратегических инициативах.
+          <p className="text-[13px] text-(--color-ink-2) mt-3 max-w-[600px] leading-relaxed">
+            Прежде чем открывать вакансию на три месяца в {mode.org} — посмотрите,
+            кто уже готов войти в проект на этой неделе. Это не список резюме —
+            это карта, которую обычно строят в первую неделю диагностики.
           </p>
         </div>
         <button
