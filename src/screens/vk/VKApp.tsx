@@ -24,7 +24,7 @@ export default function VKApp({ active, onChangeScreen }: { active: VKScreenId; 
     {active === "ecosystem"    && <TalentEcosystemScreen mode={mode} onBack={() => go("simulator")} onNext={() => go("external")} />}
     {active === "external"     && <ExternalTalentDiscoveryScreen mode={mode} onBack={() => go("ecosystem")} onNext={() => go("pipeline")} />}
     {active === "pipeline"     && <TalentPipelineScreen mode={mode} onBack={() => go("external")} onNext={() => go("executive")} nextLabel="Рекомендация" />}
-    {active === "executive"    && <VKExecutiveScreen onBack={() => go("pipeline")} />}
+    {active === "executive"    && <VKExecutiveScreen onBack={() => go("pipeline")} onNext={() => go("architecture")} />}
     {active === "architecture" && <ArchitectureScreen mode={mode} onBack={() => go("executive")} onNext={() => go("future")} />}
     {active === "future"       && <FutureScreen mode={mode} onBack={() => go("architecture")} onRestart={() => go("problem")} />}
   </>);

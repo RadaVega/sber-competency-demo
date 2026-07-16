@@ -1,24 +1,30 @@
-import { ArrowLeft, TrendingUp } from "lucide-react";
+import { ArrowLeft, ArrowRight, TrendingUp } from "lucide-react";
 import { Card } from "@/components/Card";
 import { bi } from "@/lib/bi";
 
-export function VKExecutiveScreen({ onBack }: { onBack: () => void }) {
+export function VKExecutiveScreen({ onBack, onNext }: { onBack: () => void; onNext: () => void }) {
   return (
     <div className="mx-auto max-w-[1280px] px-8 py-10">
-      <div className="mb-10 border-b border-(--color-border) pb-8">
-        <button
-          onClick={onBack}
-          className="flex items-center gap-1.5 text-[12px] text-(--color-ink-3) hover:text-(--color-ink-1) transition-colors mb-3 font-mono"
-        >
-          <ArrowLeft className="h-3.5 w-3.5" />
-          Симулятор готовности
-        </button>
-        <div className="text-[11px] uppercase tracking-[0.14em] text-(--color-signal) font-mono mb-3">
-          {bi("Executive Recommendation", "Рекомендации руководству")}
+      <div className="mb-10 border-b border-(--color-border) pb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+        <div>
+          <button
+            onClick={onBack}
+            className="flex items-center gap-1.5 text-[12px] text-(--color-ink-3) hover:text-(--color-ink-1) transition-colors mb-3 font-mono"
+          >
+            <ArrowLeft className="h-3.5 w-3.5" />
+            Симулятор готовности
+          </button>
+          <div className="text-[11px] uppercase tracking-[0.14em] text-(--color-signal) font-mono mb-3">
+            {bi("Executive Recommendation", "Рекомендации руководству")}
+          </div>
+          <h1 className="font-display text-[34px] text-(--color-ink-1) leading-tight">
+            Рекомендации руководству
+          </h1>
         </div>
-        <h1 className="font-display text-[34px] text-(--color-ink-1) leading-tight">
-          Рекомендации руководству
-        </h1>
+        <button onClick={onNext} className="group flex items-center gap-2 rounded-md bg-(--color-signal) px-5 py-3 text-[13px] font-medium text-(--color-canvas) hover:brightness-110 transition-all shrink-0">
+          Архитектура платформы
+          <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+        </button>
       </div>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-px overflow-hidden rounded-lg border border-(--color-border) bg-(--color-border) mb-6">

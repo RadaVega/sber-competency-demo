@@ -1,4 +1,4 @@
-import { ArrowLeft, TrendingUp, TrendingDown, Minus } from "lucide-react";
+import { ArrowLeft, ArrowRight, TrendingUp, TrendingDown, Minus } from "lucide-react";
 import { divisions } from "@/data/mockData";
 import { bi } from "@/lib/bi";
 
@@ -19,27 +19,33 @@ const trendIcon = {
   flat: <Minus className="h-3.5 w-3.5 text-(--color-ink-3)" />,
 };
 
-export function DivisionReadinessScreen({ onBack }: { onBack: () => void }) {
+export function DivisionReadinessScreen({ onBack, onNext }: { onBack: () => void; onNext: () => void }) {
   const avg = Math.round(divisions.reduce((s, d) => s + d.readiness, 0) / divisions.length);
 
   return (
     <div className="mx-auto max-w-[1280px] px-8 py-10">
 
-      <div className="mb-10 border-b border-(--color-border) pb-8">
-        <button onClick={onBack} className="flex items-center gap-1.5 text-[12px] text-(--color-ink-3) hover:text-(--color-ink-1) transition-colors mb-3 font-mono">
-          <ArrowLeft className="h-3.5 w-3.5" /> Рекомендация руководителю
+      <div className="mb-10 border-b border-(--color-border) pb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+        <div>
+          <button onClick={onBack} className="flex items-center gap-1.5 text-[12px] text-(--color-ink-3) hover:text-(--color-ink-1) transition-colors mb-3 font-mono">
+            <ArrowLeft className="h-3.5 w-3.5" /> Рекомендация руководителю
+          </button>
+          <div className="text-[11px] uppercase tracking-[0.14em] text-(--color-signal) font-mono mb-3">
+            {bi("Division Readiness Comparison", "Сравнение готовности подразделений")}
+          </div>
+          <h1 className="font-display text-[32px] leading-tight max-w-[640px]">
+            <span className="text-gradient-accent">Есть ли у нас люди</span>
+            <span className="text-(--color-ink-1)"> для реализации стратегии?</span>
+          </h1>
+          <div className="mt-4 flex items-center gap-3">
+            <span className="text-[12px] text-(--color-ink-3) font-mono">Средняя по группе:</span>
+            <span className={`font-display text-[22px] ${text(avg)}`}>{avg}%</span>
+          </div>
+        </div>
+        <button onClick={onNext} className="group flex items-center gap-2 rounded-md bg-(--color-signal) px-5 py-3 text-[13px] font-medium text-(--color-canvas) hover:brightness-110 transition-all shrink-0">
+          Архитектура платформы
+          <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
         </button>
-        <div className="text-[11px] uppercase tracking-[0.14em] text-(--color-signal) font-mono mb-3">
-          {bi("Division Readiness Comparison", "Сравнение готовности подразделений")}
-        </div>
-        <h1 className="font-display text-[32px] leading-tight max-w-[640px]">
-          <span className="text-gradient-accent">Есть ли у нас люди</span>
-          <span className="text-(--color-ink-1)"> для реализации стратегии?</span>
-        </h1>
-        <div className="mt-4 flex items-center gap-3">
-          <span className="text-[12px] text-(--color-ink-3) font-mono">Средняя по группе:</span>
-          <span className={`font-display text-[22px] ${text(avg)}`}>{avg}%</span>
-        </div>
       </div>
 
       <div className="glass rounded-xl overflow-hidden">
