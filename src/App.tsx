@@ -151,7 +151,7 @@ function TopBar({ mode, onModeChange, navItems, activeId, onNav, started, onHome
             <button onClick={onWalkthrough}
               className={`hidden sm:flex items-center gap-2 rounded-xl px-4 py-2 text-pres-sm font-mono transition-all ${walkthroughActive ? "glass border-(--color-signal)/30 text-(--color-signal)" : "glass-subtle text-(--color-ink-3) hover:text-(--color-ink-2)"}`}
               title="Автоматический показ демонстрации для руководителя">
-              <Clapperboard className="h-4 w-4" /> Демонстрация
+              <Clapperboard className="h-4 w-4" /> Диагностика
             </button>
             <ViewModeSwitcher />
             <LiveModeToggle />

@@ -279,10 +279,10 @@ export function ExecutiveWalkthrough({
           {/* ---- Footer strip ---- */}
           <div className="px-8 py-2 border-t border-(--color-border-soft) flex items-center justify-between">
             <span className="text-[12px] font-mono text-(--color-ink-3)">
-              Демонстрация для руководителя · ~{totalMin} мин · {companyMode.toUpperCase()}
+              Диагностика стратегической реализации · ~{totalMin} мин · {companyMode.toUpperCase()}
             </span>
             {allDone ? (
-              <span className="text-[12px] font-mono text-(--color-good)">✓ Демонстрация завершена</span>
+              <span className="text-[12px] font-mono text-(--color-good)">✓ Диагностика завершена</span>
             ) : (
               <span className="text-[12px] font-mono text-(--color-ink-3)">
                 {playing ? "▶ воспроизведение" : "⏸ пауза"} · клик на шаг для перехода

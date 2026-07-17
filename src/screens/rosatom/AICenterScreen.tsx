@@ -29,7 +29,7 @@ export function AICenterScreen({ onBack, onNext }: { onBack: () => void; onNext:
               : bi("Personal AI Advisor", "Персональный AI-советник")}
           </div>
           <h1 className="font-display text-[34px] text-(--color-ink-1) leading-tight">
-            {isVP ? "Задайте вопрос — AI отвечает на основе данных платформы" : "Задайте вопрос о своём пути — AI отвечает на основе данных платформы"}
+            {isVP ? "Задайте вопрос — ответ построен на данных этой диагностики" : "Задайте вопрос о своём пути — ответ построен на данных этой диагностики"}
           </h1>
         </div>
         <button onClick={onNext} className="group flex items-center gap-2 rounded-md bg-(--color-signal) px-5 py-3 text-[13px] font-medium text-(--color-canvas) hover:brightness-110 transition-all shrink-0">

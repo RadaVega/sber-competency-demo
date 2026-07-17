@@ -30,7 +30,7 @@ export function IntroScreen({ mode, onStart }: { mode: ModeConfig; onStart: () =
 
         {/* Hero */}
         <div>
-          <div className="text-pres-label text-(--color-ink-3) mb-4">Интерактивная стратегическая модель</div>
+          <div className="text-pres-label text-(--color-ink-3) mb-4">Диагностика стратегической реализации</div>
           <h1 className="font-display text-[44px] sm:text-pres-hero text-gradient-accent leading-tight text-balance max-w-[820px] mx-auto mb-5">
             {BRAND_RU}
           </h1>
@@ -61,7 +61,7 @@ export function IntroScreen({ mode, onStart }: { mode: ModeConfig; onStart: () =
           className="group relative flex items-center gap-3 rounded-2xl px-10 py-4 text-pres-lg font-semibold text-white overflow-hidden transition-all duration-300 hover:scale-105"
           style={{ background: `linear-gradient(135deg, ${mode.accentColor}, #8B7FFF)`, boxShadow: `0 8px 36px ${mode.accentColor}44` }}
         >
-          <span className="relative z-10">Изучить концепцию</span>
+          <span className="relative z-10">Начать диагностику</span>
           <ArrowRight className="h-5 w-5 relative z-10 transition-transform group-hover:translate-x-1" />
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
         </button>

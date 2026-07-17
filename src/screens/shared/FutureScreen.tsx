@@ -17,6 +17,7 @@ const futurePoints = [
 ];
 
 export function FutureScreen({
+  mode,
   onBack,
   onRestart,
 }: {
@@ -147,13 +148,28 @@ export function FutureScreen({
         </div>
       </div>
 
+      {/* The concrete first engagement — sells a project, not a licence */}
+      <div className="glass rounded-2xl border border-(--color-good)/25 p-8 mb-6">
+        <div className="text-pres-label text-(--color-good) mb-3 text-center">Что можно сделать уже завтра</div>
+        <p className="text-pres-lg text-(--color-ink-1) font-medium leading-relaxed max-w-[680px] mx-auto text-center">
+          {mode.consultingPitchRu}
+        </p>
+      </div>
+
+      {/* The final question — the beginning of consulting, not a "Continue" button */}
+      <div className="text-center mb-10 px-4">
+        <p className="font-display text-pres-h2 text-(--color-ink-1) leading-snug max-w-[680px] mx-auto">
+          Если бы это была ваша организация — что бы вы хотели увидеть в первую очередь?
+        </p>
+      </div>
+
       <div className="flex justify-center">
         <button
           onClick={onRestart}
           className="group flex items-center gap-3 rounded-2xl px-7 py-3.5 text-pres-base font-semibold glass-subtle text-(--color-ink-2) hover:text-(--color-ink-1) transition-all"
         >
           <RotateCcw className="h-4 w-4" />
-          Начать демонстрацию заново
+          Начать диагностику заново
         </button>
       </div>
     </div>

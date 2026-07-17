@@ -99,7 +99,7 @@ export function StrategicInitiativeScreen({
       {/* ---- Header ---- */}
       <div className="mb-10 border-b border-(--color-border) pb-8">
         <button onClick={onBack} className="flex items-center gap-1.5 text-[12px] text-(--color-ink-3) hover:text-(--color-ink-1) transition-colors mb-3 font-mono">
-          <ArrowLeft className="h-3.5 w-3.5" /> Концепция платформы
+          <ArrowLeft className="h-3.5 w-3.5" /> Почему это важно
         </button>
         <div className="text-[11px] uppercase tracking-[0.14em] text-(--color-signal) font-mono mb-3">
           {bi("Strategic Initiative Navigator", "Навигатор стратегических инициатив")}
