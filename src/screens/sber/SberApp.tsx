@@ -1,4 +1,5 @@
 import { ProblemScreen } from "@/screens/shared/ProblemScreen";
+import { OrganizationalMemoryScreen } from "@/screens/shared/OrganizationalMemoryScreen";
 import { ArchitectureScreen } from "@/screens/shared/ArchitectureScreen";
 import { StrategicEcosystemScreen } from "@/screens/shared/StrategicEcosystemScreen";
 import { StrategicInitiativeScreen } from "@/screens/shared/StrategicInitiativeScreen";
@@ -24,8 +25,9 @@ export default function SberApp({ active, onChangeScreen }: {
   const go   = onChangeScreen;
   return (
     <>
-      {active === "problem"       && <ProblemScreen mode={mode} onNext={() => go("why")} />}
-      {active === "why"           && <StrategicEcosystemScreen mode={mode} onBack={() => go("problem")} onNext={() => go("initiative")} />}
+      {active === "problem"       && <ProblemScreen mode={mode} onNext={() => go("memory")} />}
+      {active === "memory"        && <OrganizationalMemoryScreen mode={mode} onBack={() => go("problem")} onNext={() => go("why")} />}
+      {active === "why"           && <StrategicEcosystemScreen mode={mode} onBack={() => go("memory")} onNext={() => go("initiative")} />}
       {active === "initiative"    && <StrategicInitiativeScreen mode={mode} onBack={() => go("why")} onNext={() => go("dashboard")} />}
       {active === "dashboard"     && <DashboardScreen onAnalyze={() => go("employee")} />}
       {active === "employee"      && <EmployeeScreen onBack={() => go("dashboard")} onNext={() => go("mentor")} />}

@@ -1,4 +1,5 @@
 import { ProblemScreen } from "@/screens/shared/ProblemScreen";
+import { OrganizationalMemoryScreen } from "@/screens/shared/OrganizationalMemoryScreen";
 import { ArchitectureScreen } from "@/screens/shared/ArchitectureScreen";
 import { StrategicEcosystemScreen } from "@/screens/shared/StrategicEcosystemScreen";
 import { StrategicInitiativeScreen } from "@/screens/shared/StrategicInitiativeScreen";
@@ -15,8 +16,9 @@ import type { VKScreenId } from "@/screens/vk/meta";
 export default function VKApp({ active, onChangeScreen }: { active: VKScreenId; onChangeScreen: (id: VKScreenId) => void }) {
   const mode = modes.vk; const go = onChangeScreen;
   return (<>
-    {active === "problem"      && <ProblemScreen mode={mode} onNext={() => go("why")} />}
-    {active === "why"          && <StrategicEcosystemScreen mode={mode} onBack={() => go("problem")} onNext={() => go("initiative")} />}
+    {active === "problem"      && <ProblemScreen mode={mode} onNext={() => go("memory")} />}
+    {active === "memory"       && <OrganizationalMemoryScreen mode={mode} onBack={() => go("problem")} onNext={() => go("why")} />}
+    {active === "why"          && <StrategicEcosystemScreen mode={mode} onBack={() => go("memory")} onNext={() => go("initiative")} />}
     {active === "initiative"   && <StrategicInitiativeScreen mode={mode} onBack={() => go("why")} onNext={() => go("team-build")} />}
     {active === "team-build"   && <VKInitiativeScreen onNext={() => go("talent")} />}
     {active === "talent"       && <VKTalentDiscoveryScreen onBack={() => go("team-build")} onNext={() => go("simulator")} />}
