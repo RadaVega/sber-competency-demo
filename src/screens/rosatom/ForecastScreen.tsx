@@ -1,5 +1,6 @@
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { Card } from "@/components/Card";
+import { TwoQuestionsClose } from "@/components/TwoQuestionsClose";
 import { bi } from "@/lib/bi";
 import { capabilityForecasts } from "@/data/rosatomData";
 import { useViewMode } from "@/lib/ViewModeContext";
@@ -85,6 +86,11 @@ export function ForecastScreen({ onBack, onNext }: { onBack: () => void; onNext:
           );
         })}
       </div>
+
+      <TwoQuestionsClose
+        vpQuestion="Если спрос на эту компетенцию виден уже сегодня — почему подготовка начинается только через два года?"
+        employeeQuestion="Растёте ли вы в направлении, которое будет нужно через пять лет, — или в том, что нужно было пять лет назад?"
+      />
     </div>
   );
 }

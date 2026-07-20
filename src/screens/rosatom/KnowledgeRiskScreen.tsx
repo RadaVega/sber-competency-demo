@@ -1,5 +1,6 @@
 import { ArrowLeft, ArrowRight, Users } from "lucide-react";
 import { Card } from "@/components/Card";
+import { TwoQuestionsClose } from "@/components/TwoQuestionsClose";
 import { bi } from "@/lib/bi";
 import { knowledgeRiskAreas, knowledgeRiskAIRecommendations, knowledgeRiskEmployeeRecommendations } from "@/data/rosatomData";
 import { useViewMode } from "@/lib/ViewModeContext";
@@ -86,6 +87,11 @@ export function KnowledgeRiskScreen({ onBack, onNext }: { onBack: () => void; on
           ))}
         </div>
       </Card>
+
+      <TwoQuestionsClose
+        vpQuestion="Если бы вам нужно было назвать пять человек, без которых программа встанет, — вы бы назвали их сразу?"
+        employeeQuestion="Знает ли кто-то, кроме вас, то, что знаете вы?"
+      />
     </div>
   );
 }

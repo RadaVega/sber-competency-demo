@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { ArrowLeft, ArrowRight, Sparkles } from "lucide-react";
 import { Card } from "@/components/Card";
+import { TwoQuestionsClose } from "@/components/TwoQuestionsClose";
 import { bi } from "@/lib/bi";
 import { useViewMode } from "@/lib/ViewModeContext";
 import { aiCenterQuestions, aiCenterEmployeeQuestions } from "@/data/rosatomData";
@@ -82,6 +83,11 @@ export function AICenterScreen({ onBack, onNext }: { onBack: () => void; onNext:
           )}
         </Card>
       </div>
+
+      <TwoQuestionsClose
+        vpQuestion="Сколько сейчас стоит организации один неправильный ответ на этот вопрос?"
+        employeeQuestion="Если бы у вас был прямой канал к любому нужному эксперту компании — какой вопрос вы бы задали первым?"
+      />
     </div>
   );
 }

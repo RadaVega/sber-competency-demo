@@ -2,6 +2,7 @@ import { useState } from "react";
 import { ArrowLeft, ArrowRight, Check, X, Sparkles, TrendingUp } from "lucide-react";
 import { Card } from "@/components/Card";
 import { RiskBadge } from "@/components/RiskBadge";
+import { TwoQuestionsClose } from "@/components/TwoQuestionsClose";
 import { bi } from "@/lib/bi";
 import { useViewMode } from "@/lib/ViewModeContext";
 import { missionPrograms, employeeMatches } from "@/data/rosatomData";
@@ -32,11 +33,31 @@ export function TeamBuilderScreen({ onBack, onNext }: { onBack: () => void; onNe
         </button>
       </div>
 
+      <div className="mb-8 text-center">
+        <p className="font-display text-[22px] md:text-[26px] text-(--color-ink-1) leading-snug max-w-[640px] mx-auto mb-4">
+          Почему в эстафете побеждает не самая быстрая команда,
+          <br />
+          а та, что не роняет палочку?
+        </p>
+        <p className="text-[13.5px] text-(--color-ink-2) leading-relaxed max-w-[560px] mx-auto">
+          Четыре сильных бегуна проигрывают, если передача между ними
+          происходит вслепую — наугад, кто окажется рядом. Побеждает команда,
+          где каждый заранее знает, кому передавать и в какой момент.
+          Собрать программную команду — та же задача: не найти четырёх
+          сильных людей, а сделать так, чтобы передача между ними не терялась.
+        </p>
+      </div>
+
       {isVP ? (
         <VPView selected={selected} setSelected={setSelected} />
       ) : (
         <EmployeeView selected={selected} setSelected={setSelected} />
       )}
+
+      <TwoQuestionsClose
+        vpQuestion="Сколько времени сейчас уходит на то, чтобы просто понять, кто свободен и подходит для новой программы?"
+        employeeQuestion="Если бы вам предложили присоединиться к программе, которая реально нуждается в вашем опыте, — узнали бы вы об этом вовремя?"
+      />
     </div>
   );
 }

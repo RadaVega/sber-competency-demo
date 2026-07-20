@@ -1,5 +1,6 @@
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { Card } from "@/components/Card";
+import { TwoQuestionsClose } from "@/components/TwoQuestionsClose";
 import { bi } from "@/lib/bi";
 import { knowledgeGraphNodes, knowledgeGraphEdges, type KnowledgeGraphNode } from "@/data/rosatomData";
 import { useViewMode } from "@/lib/ViewModeContext";
@@ -52,6 +53,19 @@ export function KnowledgeGraphScreen({ onBack, onNext }: { onBack: () => void; o
           Сеть экспертов
           <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
         </button>
+      </div>
+
+      <div className="mb-6 text-center">
+        <p className="font-display text-[22px] md:text-[26px] text-(--color-ink-1) leading-snug max-w-[640px] mx-auto mb-4">
+          Почему знания мастера редко переживают его уход из мастерской?
+        </p>
+        <p className="text-[13.5px] text-(--color-ink-2) leading-relaxed max-w-[560px] mx-auto">
+          Мастер помнит тысячи мелких решений — какой материал не подходит,
+          в какой момент менять инструмент, почему в этом узле нельзя срезать
+          угол. Ученик перенимает часть этого, работая рядом. Но если мастер
+          уходит раньше, чем ученик успел впитать главное, знание не
+          записывается — оно просто исчезает.
+        </p>
       </div>
 
       <div className="glass-subtle rounded-xl px-6 py-4 mb-6 max-w-[820px]">
@@ -153,6 +167,11 @@ export function KnowledgeGraphScreen({ onBack, onNext }: { onBack: () => void; o
           )}
         </div>
       </Card>
+
+      <TwoQuestionsClose
+        vpQuestion="Кто в вашей организации сейчас — мастер без записанного ученика?"
+        employeeQuestion="Если бы вы могли учиться у одного человека в компании прямо сейчас — вы бы знали, у кого?"
+      />
     </div>
   );
 }

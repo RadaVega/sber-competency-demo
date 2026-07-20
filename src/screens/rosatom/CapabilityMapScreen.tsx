@@ -1,5 +1,6 @@
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { Card } from "@/components/Card";
+import { TwoQuestionsClose } from "@/components/TwoQuestionsClose";
 import { nationalCapabilities, heatMapDomains } from "@/data/rosatomData";
 import { bi } from "@/lib/bi";
 import { useViewMode } from "@/lib/ViewModeContext";
@@ -49,6 +50,26 @@ export function CapabilityMapScreen({ onBack, onNext }: { onBack?: () => void; o
           Риск потери знаний
           <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
         </button>
+      </div>
+
+      {/* 1-2-3. Question, analogy, plain explanation — before any data */}
+      <div className="mb-10 text-center">
+        <p className="font-display text-[24px] md:text-[28px] text-(--color-ink-1) leading-snug max-w-[680px] mx-auto mb-6">
+          Почему в одном и том же саду одни растения цветут,
+          <br />
+          а другие незаметно чахнут?
+        </p>
+        <p className="text-[14px] text-(--color-ink-2) leading-relaxed max-w-[560px] mx-auto mb-3">
+          Садовник каждый день видит только то, на что смотрит. Если он год
+          за годом ухаживает за одними и теми же грядками, соседние вянут —
+          не потому что они менее важны, а потому что до них просто не
+          доходят руки.
+        </p>
+        <p className="text-[13px] text-(--color-ink-3) leading-relaxed max-w-[560px] mx-auto">
+          В инженерных компетенциях происходит то же самое: одни направления
+          получают внимание годами, а другие тихо теряют экспертов — просто
+          потому что на них никто не смотрел.
+        </p>
       </div>
 
       {/* Heat map by domain */}
@@ -130,6 +151,11 @@ export function CapabilityMapScreen({ onBack, onNext }: { onBack?: () => void; o
           })}
         </div>
       </Card>
+
+      <TwoQuestionsClose
+        vpQuestion="Какое направление в вашей организации сейчас получает внимание только потому, что оно громче остальных — а не потому что оно важнее?"
+        employeeQuestion="Есть ли у вас компетенция, о критичности которой руководитель пока даже не подозревает?"
+      />
     </div>
   );
 }
