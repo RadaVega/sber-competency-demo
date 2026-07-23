@@ -62,6 +62,20 @@ export function KnowledgeGraphScreen({ onBack, onNext }: { onBack: () => void; o
 
   return (
     <div className="mx-auto max-w-[1280px] px-8 py-10">
+      {/* Level 1 — plain human observation, no corporate language */}
+      <div className="mb-8 text-center">
+        <p className="font-display text-[22px] md:text-[26px] text-(--color-ink-1) leading-snug max-w-[620px] mx-auto">
+          Почему хорошая библиотека становится ценнее с каждой
+          прочитанной и возвращённой книгой?
+        </p>
+        <p className="text-[13.5px] text-(--color-ink-2) mt-4 max-w-[560px] mx-auto leading-relaxed">
+          Не потому что книг физически становится больше. А потому что
+          библиотекарь начинает знать, кто что читал, какие книги обычно
+          читают вместе, и куда отправить человека, который ищет что-то
+          похожее на то, что уже прочитал кто-то другой.
+        </p>
+      </div>
+
       <div className="mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-(--color-border) pb-8">
         <div>
           <button onClick={onBack} className="flex items-center gap-1.5 text-[12px] text-(--color-ink-3) hover:text-(--color-ink-1) transition-colors mb-3 font-mono">
@@ -175,6 +189,16 @@ export function KnowledgeGraphScreen({ onBack, onNext }: { onBack: () => void; o
             </p>
           )}
         </Card>
+      </div>
+
+      <div className="mt-6 rounded-xl border border-(--color-signal)/25 px-5 py-5 max-w-[720px] mx-auto">
+        <div className="text-[10.5px] text-(--color-signal) font-mono uppercase tracking-[0.08em] mb-2.5 text-center">
+          Вопрос руководителю
+        </div>
+        <p className="text-[14px] text-(--color-ink-1) leading-relaxed text-center">
+          Если бы новый сотрудник спросил, кто в компании уже решал похожую
+          задачу, — сколько людей пришлось бы обзвонить, чтобы найти ответ?
+        </p>
       </div>
     </div>
   );

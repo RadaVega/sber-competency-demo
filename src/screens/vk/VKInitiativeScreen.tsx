@@ -41,6 +41,21 @@ export function VKInitiativeScreen({ onNext }: { onNext: () => void }) {
 
   return (
     <div className="mx-auto max-w-[1280px] px-8 py-10">
+      {/* Level 1 — plain human observation, no corporate language */}
+      <div className="mb-8 text-center">
+        <p className="font-display text-[22px] md:text-[26px] text-(--color-ink-1) leading-snug max-w-[620px] mx-auto">
+          Почему опытная кухня ресторана готовит блюдо быстрее,
+          <br />
+          чем повар такого же уровня в одиночку?
+        </p>
+        <p className="text-[13.5px] text-(--color-ink-2) mt-4 max-w-[560px] mx-auto leading-relaxed">
+          Не потому что там работают более талантливые люди. А потому что
+          каждый заранее знает свою станцию и то, что делает сосед —
+          собрать такую бригаду с нуля под каждое новое блюдо было бы
+          в разы медленнее.
+        </p>
+      </div>
+
       <div className="mb-10 border-b border-(--color-border) pb-8">
         <div className="text-[11px] uppercase tracking-[0.14em] text-(--color-signal) font-mono mb-3">
           {bi("Strategic Initiative Builder", "Конструктор стратегических инициатив")}
@@ -161,6 +176,16 @@ export function VKInitiativeScreen({ onNext }: { onNext: () => void }) {
               })}
             </div>
           </Card>
+
+          <div className="mt-6 rounded-xl border border-(--color-signal)/25 px-5 py-5 max-w-[720px] mx-auto">
+            <div className="text-[10.5px] text-(--color-signal) font-mono uppercase tracking-[0.08em] mb-2.5 text-center">
+              Вопрос руководителю
+            </div>
+            <p className="text-[14px] text-(--color-ink-1) leading-relaxed text-center">
+              Сколько своих запусков заняли на 2-3 месяца дольше только потому,
+              что бригаду под них каждый раз собирали заново?
+            </p>
+          </div>
 
           <div className="flex justify-end mt-6">
             <button

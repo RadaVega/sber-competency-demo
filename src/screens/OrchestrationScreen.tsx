@@ -73,6 +73,18 @@ export function OrchestrationScreen({
 
   return (
     <div className="mx-auto max-w-[1280px] px-8 py-10">
+      {/* Level 1 — plain human observation, no corporate language */}
+      <div className="mb-8 text-center">
+        <p className="font-display text-[22px] md:text-[26px] text-(--color-ink-1) leading-snug max-w-[620px] mx-auto">
+          Почему хороший дирижёр не играет ни на одном инструменте?
+        </p>
+        <p className="text-[13.5px] text-(--color-ink-2) mt-4 max-w-[560px] mx-auto leading-relaxed">
+          Он не быстрее скрипача и не точнее валторниста. Его работа — знать,
+          кому вступать и когда, чтобы семьдесят разных инструментов звучали
+          как одна мысль, а не как семьдесят отдельных партий.
+        </p>
+      </div>
+
       {/* ---- Header ---- */}
       <div className="mb-10 flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-(--color-border) pb-8">
         <div>
@@ -353,6 +365,17 @@ export function OrchestrationScreen({
             </div>
           )}
         </Card>
+      </div>
+
+      <div className="mt-8 rounded-xl border border-(--color-signal)/25 px-5 py-5 max-w-[720px] mx-auto">
+        <div className="text-[10.5px] text-(--color-signal) font-mono uppercase tracking-[0.08em] mb-2.5 text-center">
+          Вопрос руководителю
+        </div>
+        <p className="text-[14px] text-(--color-ink-1) leading-relaxed text-center">
+          Сколько сейчас разных систем нужно опросить, чтобы получить один
+          обоснованный ответ на кадровый вопрос — и кто в компании держит
+          в голове, как их свести воедино?
+        </p>
       </div>
     </div>
   );
