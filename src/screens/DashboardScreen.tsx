@@ -1,5 +1,6 @@
 import { ArrowRight, Building2, Target, Users, TrendingUp } from "lucide-react";
 import { Card, CardHeader } from "@/components/Card";
+import { TwoQuestionsClose } from "@/components/TwoQuestionsClose";
 import { MetricStat } from "@/components/MetricStat";
 import { RiskBadge } from "@/components/RiskBadge";
 import { orgUnit } from "@/data/mockData";
@@ -93,6 +94,11 @@ export function DashboardScreen({ onAnalyze }: { onAnalyze: () => void }) {
           </div>
         </Card>
       </div>
+
+      <TwoQuestionsClose
+        vpQuestion="Если бы совет директоров спросил, готова ли организация к следующей волне AI-трансформации, — вы бы ответили одной цифрой или неделей согласований?"
+        employeeQuestion="Знаете ли вы, насколько ваш собственный профиль готов к роли, которая понадобится компании через полгода?"
+      />
     </div>
   );
 }

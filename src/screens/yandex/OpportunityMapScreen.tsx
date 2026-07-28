@@ -1,5 +1,6 @@
 import { ArrowLeft, ArrowRight, Layers } from "lucide-react";
 import { Card } from "@/components/Card";
+import { TwoQuestionsClose } from "@/components/TwoQuestionsClose";
 import { bi } from "@/lib/bi";
 import { useViewMode } from "@/lib/ViewModeContext";
 import { opportunityAreas } from "@/data/yandexData";
@@ -61,6 +62,11 @@ export function OpportunityMapScreen({ onBack, onNext }: { onBack: () => void; o
           </Card>
         ))}
       </div>
+
+      <TwoQuestionsClose
+        vpQuestion="Сколько сейчас команд в компании независимо решают одну и ту же задачу — и как вы об этом узнали бы, если бы не эта карта?"
+        employeeQuestion="Если бы вы знали, что кто-то в компании уже прошёл этот путь, — сколько времени сэкономил бы один разговор с ним?"
+      />
     </div>
   );
 }

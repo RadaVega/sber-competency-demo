@@ -1,6 +1,7 @@
 import { ArrowLeft, ArrowRight, TrendingUp, Target, Users, Zap } from "lucide-react";
 import { orgUnit } from "@/data/mockData";
 import { bi } from "@/lib/bi";
+import { TwoQuestionsClose } from "@/components/TwoQuestionsClose";
 
 export function ExecutiveScreen({ onBack, onNext }: { onBack: () => void; onNext: () => void }) {
   const delta = orgUnit.targetReadiness - orgUnit.readiness;
@@ -95,6 +96,10 @@ export function ExecutiveScreen({ onBack, onNext }: { onBack: () => void; onNext
         </div>
       </div>
 
+      <TwoQuestionsClose
+        vpQuestion="Это решение заняло у вас несколько минут. Сколько времени оно занимало раньше — и сколько совещаний потребовалось бы, чтобы собрать те же цифры вручную?"
+        employeeQuestion="Если бы такая рекомендация касалась лично вас, узнали бы вы о ней раньше своего руководителя?"
+      />
     </div>
   );
 }

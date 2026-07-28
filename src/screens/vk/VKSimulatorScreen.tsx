@@ -1,5 +1,6 @@
 import { ArrowLeft, ArrowRight, Clock } from "lucide-react";
 import { Card } from "@/components/Card";
+import { TwoQuestionsClose } from "@/components/TwoQuestionsClose";
 import { vkSimulator } from "@/data/vkData";
 import { bi } from "@/lib/bi";
 
@@ -107,6 +108,11 @@ export function VKSimulatorScreen({
           </div>
         </Card>
       </div>
+
+      <TwoQuestionsClose
+        vpQuestion="Эта разница в темпе существует в вашей организации прямо сейчас — вы можете назвать, между какими именно командами?"
+        employeeQuestion="Что бы изменилось в скорости вашей команды, если бы дефицит компетенций был виден заранее, а не в момент, когда он уже мешает?"
+      />
     </div>
   );
 }
