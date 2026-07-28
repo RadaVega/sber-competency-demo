@@ -2,7 +2,6 @@ import { useState } from "react";
 import { ArrowLeft, ArrowRight, Check, X, Sparkles, TrendingUp } from "lucide-react";
 import { Card } from "@/components/Card";
 import { RiskBadge } from "@/components/RiskBadge";
-import { TwoQuestionsClose } from "@/components/TwoQuestionsClose";
 import { bi } from "@/lib/bi";
 import { useViewMode } from "@/lib/ViewModeContext";
 import { missionPrograms, employeeMatches } from "@/data/rosatomData";
@@ -53,11 +52,6 @@ export function TeamBuilderScreen({ onBack, onNext }: { onBack: () => void; onNe
       ) : (
         <EmployeeView selected={selected} setSelected={setSelected} />
       )}
-
-      <TwoQuestionsClose
-        vpQuestion="Сколько времени сейчас уходит на то, чтобы просто понять, кто свободен и подходит для новой программы?"
-        employeeQuestion="Если бы вам предложили присоединиться к программе, которая реально нуждается в вашем опыте, — узнали бы вы об этом вовремя?"
-      />
     </div>
   );
 }

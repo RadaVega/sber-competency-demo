@@ -1,6 +1,5 @@
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { Card } from "@/components/Card";
-import { TwoQuestionsClose } from "@/components/TwoQuestionsClose";
 import { nationalCapabilities, heatMapDomains } from "@/data/rosatomData";
 import { bi } from "@/lib/bi";
 import { useViewMode } from "@/lib/ViewModeContext";
@@ -151,11 +150,6 @@ export function CapabilityMapScreen({ onBack, onNext }: { onBack?: () => void; o
           })}
         </div>
       </Card>
-
-      <TwoQuestionsClose
-        vpQuestion="Какое направление в вашей организации сейчас получает внимание только потому, что оно громче остальных — а не потому что оно важнее?"
-        employeeQuestion="Есть ли у вас компетенция, о критичности которой руководитель пока даже не подозревает?"
-      />
     </div>
   );
 }

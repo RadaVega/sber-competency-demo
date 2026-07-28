@@ -1,6 +1,5 @@
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { Card } from "@/components/Card";
-import { TwoQuestionsClose } from "@/components/TwoQuestionsClose";
 import { rosatomExperts } from "@/data/rosatomData";
 import { bi } from "@/lib/bi";
 
@@ -69,11 +68,6 @@ export function ExpertNetworkScreen({ onBack, onNext }: { onBack: () => void; on
           </Card>
         ))}
       </div>
-
-      <TwoQuestionsClose
-        vpQuestion="Если бы новому руководителю программы нужно было за один день узнать, к кому обращаться по каждому вопросу, — смог бы он это сделать?"
-        employeeQuestion="Знают ли коллеги, что вы — тот человек, к которому стоит обращаться по вашей теме?"
-      />
     </div>
   );
 }

@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { ArrowLeft, ArrowRight, Sparkles, Loader2 } from "lucide-react";
 import { Card, CardHeader } from "@/components/Card";
-import { TwoQuestionsClose } from "@/components/TwoQuestionsClose";
 import { MetricStat } from "@/components/MetricStat";
 import { lazy, Suspense } from "react";
 const CompetencyRadar = lazy(() => import("@/components/CompetencyRadar").then(m => ({ default: m.CompetencyRadar })));
@@ -184,11 +183,6 @@ export function EmployeeScreen({
             </div>
           )}
         </div>
-
-        <TwoQuestionsClose
-          vpQuestion="Сколько сотрудников с потенциалом роста вы сейчас видите только потому, что кто-то случайно упомянул их имя?"
-          employeeQuestion="Знаете ли вы сами, какие именно четыре компетенции отделяют вас от следующей роли?"
-        />
       </div>
     </div>
   );

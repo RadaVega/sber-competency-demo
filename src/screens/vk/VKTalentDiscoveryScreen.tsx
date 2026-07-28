@@ -1,7 +1,6 @@
 import { ArrowLeft, ArrowRight, Crown, GraduationCap, User } from "lucide-react";
 import type { ReactNode } from "react";
 import { Card } from "@/components/Card";
-import { TwoQuestionsClose } from "@/components/TwoQuestionsClose";
 import { vkTalent } from "@/data/vkData";
 import { bi } from "@/lib/bi";
 
@@ -109,11 +108,6 @@ export function VKTalentDiscoveryScreen({
           );
         })}
       </div>
-
-      <TwoQuestionsClose
-        vpQuestion="Если бы завтра нужно было закрыть роль лидера для нового продукта, вы бы искали снаружи — или уже знаете, кто внутри готов?"
-        employeeQuestion="Знает ли ваш руководитель, что вы уже готовы к следующей роли — или это заметно только вам самим?"
-      />
     </div>
   );
 }

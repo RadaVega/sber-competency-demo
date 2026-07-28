@@ -1,6 +1,5 @@
 import { ArrowRight, AlertTriangle, Sparkles } from "lucide-react";
 import { Card } from "@/components/Card";
-import { TwoQuestionsClose } from "@/components/TwoQuestionsClose";
 import { bi } from "@/lib/bi";
 import { strategicPrograms, dashboardSummary, dashboardAIRecommendations } from "@/data/rosatomData";
 
@@ -109,11 +108,6 @@ export function RosatomDashboardScreen({ onNext }: { onNext: () => void }) {
           ))}
         </div>
       </Card>
-
-      <TwoQuestionsClose
-        vpQuestion="Если бы совет директоров спросил вас завтра, какая из пяти программ реально под риском, — ответ был бы у вас на одной странице?"
-        employeeQuestion="Знаете ли вы, какая стратегическая программа сейчас нуждается в вашем опыте больше всего?"
-      />
     </div>
   );
 }
