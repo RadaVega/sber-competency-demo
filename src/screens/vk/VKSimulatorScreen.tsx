@@ -13,6 +13,20 @@ export function VKSimulatorScreen({
 }) {
   return (
     <div className="mx-auto max-w-[1280px] px-8 py-10">
+      {/* Level 1 — plain human observation, no corporate language */}
+      <div className="mb-8 text-center">
+        <p className="font-display text-[22px] md:text-[26px] text-(--color-ink-1) leading-snug max-w-[620px] mx-auto">
+          Почему опытный автомеханик чинит машину за час,
+          <br />
+          а новичок — за весь день?
+        </p>
+        <p className="text-[13.5px] text-(--color-ink-2) mt-4 max-w-[560px] mx-auto leading-relaxed">
+          Не потому что руки быстрее. Механик уже видел эту поломку сто раз
+          и точно знает, с чего начать. Новичок тратит половину времени
+          на то, чтобы просто понять, что происходит.
+        </p>
+      </div>
+
       <div className="mb-10 flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-(--color-border) pb-8">
         <div>
           <button

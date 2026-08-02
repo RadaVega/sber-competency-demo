@@ -13,6 +13,20 @@ export function DashboardScreen({ onAnalyze }: { onAnalyze: () => void }) {
   return (
     <div className="mx-auto max-w-[1280px] px-8 py-12">
 
+      {/* Level 1 — plain human observation, no corporate language */}
+      <div className="mb-10 text-center">
+        <p className="font-display text-[24px] md:text-[28px] text-(--color-ink-1) leading-snug max-w-[640px] mx-auto">
+          Почему хороший врач сначала смотрит на всю карту,
+          <br />
+          а не лечит первый попавшийся симптом?
+        </p>
+        <p className="text-[13.5px] text-(--color-ink-2) mt-4 max-w-[560px] mx-auto leading-relaxed">
+          Пациент жалуется на усталость. Можно выписать витамины и отпустить.
+          А можно сначала посмотреть анализы целиком — и увидеть, что усталость
+          здесь последствие, а не причина.
+        </p>
+      </div>
+
       <div className="mb-12 flex flex-col sm:flex-row sm:items-end justify-between gap-6 border-b border-(--color-border) pb-10">
         <div>
           <div className="text-pres-label text-(--color-signal) mb-4">
