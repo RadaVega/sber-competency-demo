@@ -18,6 +18,18 @@ export function AICenterScreen({ onBack, onNext }: { onBack: () => void; onNext:
 
   return (
     <div className="mx-auto max-w-[1280px] px-8 py-10">
+      {/* Level 1 — plain human observation, no corporate language */}
+      <div className="mb-8 text-center">
+        <p className="font-display text-[22px] md:text-[26px] text-(--color-ink-1) leading-snug max-w-[620px] mx-auto">
+          Почему диспетчер скорой помощи не обзванивает больницы одну за
+          другой, а сразу знает, где есть свободная бригада?
+        </p>
+        <p className="text-[13.5px] text-(--color-ink-2) mt-4 max-w-[560px] mx-auto leading-relaxed">
+          У него перед глазами карта всех бригад в реальном времени. Вопрос
+          не тратится на поиск информации — он сразу становится решением.
+        </p>
+      </div>
+
       <div className="mb-10 flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-(--color-border) pb-8">
         <div>
           <button onClick={onBack} className="flex items-center gap-1.5 text-[12px] text-(--color-ink-3) hover:text-(--color-ink-1) transition-colors mb-3 font-mono">
