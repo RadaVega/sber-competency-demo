@@ -12,6 +12,21 @@ const periodMeta: Record<string, { color: string; bar: string }> = {
 export function PlanScreen({ onBack, onNext }: { onBack: () => void; onNext: () => void }) {
   return (
     <div className="mx-auto max-w-[1280px] px-8 py-12">
+      {/* Level 1 — plain human observation, no corporate language */}
+      <div className="mb-10 text-center">
+        <p className="font-display text-[24px] md:text-[28px] text-(--color-ink-1) leading-snug max-w-[640px] mx-auto">
+          Почему хороший прораб никогда не начинает
+          <br />
+          строительство дома с крыши?
+        </p>
+        <p className="text-[13.5px] text-(--color-ink-2) mt-4 max-w-[560px] mx-auto leading-relaxed">
+          Не потому что так положено по инструкции. А потому что крыша,
+          поставленная раньше фундамента, просто не выдержит. Развитие
+          человека устроено так же — пропущенный первый шаг не ускоряет,
+          а обрушивает всё, что построено после него.
+        </p>
+      </div>
+
       <div className="mb-12 flex flex-col sm:flex-row sm:items-center justify-between gap-6 border-b border-(--color-border) pb-10">
         <div>
           <button onClick={onBack} className="flex items-center gap-2 text-pres-sm text-(--color-ink-3) hover:text-(--color-ink-1) transition-colors mb-4 font-mono">
