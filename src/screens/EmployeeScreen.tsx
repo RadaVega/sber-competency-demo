@@ -39,6 +39,20 @@ export function EmployeeScreen({
 
   return (
     <div className="mx-auto max-w-[1280px] px-8 py-10">
+      {/* Level 1 — plain human observation, no corporate language */}
+      <div className="mb-8 text-center">
+        <p className="font-display text-[22px] md:text-[26px] text-(--color-ink-1) leading-snug max-w-[620px] mx-auto">
+          Почему опытный тренер перед соревнованием измеряет
+          <br />
+          то, что мешает, а не то, что уже хорошо получается?
+        </p>
+        <p className="text-[13.5px] text-(--color-ink-2) mt-4 max-w-[560px] mx-auto leading-relaxed">
+          Хвалить сильные стороны приятно, но результат меняет только
+          работа со слабыми. Без точного замера тренировка становится
+          догадкой — а не планом.
+        </p>
+      </div>
+
       {/* ---- Header ---- */}
       <div className="mb-10 flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-(--color-border) pb-8">
         <div>
@@ -50,7 +64,7 @@ export function EmployeeScreen({
             Готовность организации
           </button>
           <div className="text-[11px] uppercase tracking-[0.14em] text-(--color-signal) font-mono mb-3">
-            {bi("Employee Competency Analysis", "Анализ компетенций сотрудника")}
+            {bi("Employee Readiness Analysis", "Анализ готовности сотрудника")}
           </div>
           <h1 className="font-display text-pres-hero text-(--color-ink-1) leading-tight">
             Анализ сотрудника
