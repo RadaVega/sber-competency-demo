@@ -38,6 +38,20 @@ export function TalentEcosystemScreen({
   return (
     <div className="mx-auto max-w-[1280px] px-8 py-10">
 
+      {/* Level 1 — plain human observation, no corporate language */}
+      <div className="mb-8 text-center">
+        <p className="font-display text-[22px] md:text-[26px] text-(--color-ink-1) leading-snug max-w-[620px] mx-auto">
+          Почему семья иногда зовёт на помощь дальних родственников,
+          <br />
+          а не только тех, кто живёт рядом?
+        </p>
+        <p className="text-[13.5px] text-(--color-ink-2) mt-4 max-w-[560px] mx-auto leading-relaxed">
+          Не потому что своих не хватает. А потому что у дальнего
+          родственника может оказаться именно тот опыт, которого
+          нет ни у кого в доме.
+        </p>
+      </div>
+
       {/* ---- Header ---- */}
       <div className="mb-8 border-b border-(--color-border) pb-6">
         <button
