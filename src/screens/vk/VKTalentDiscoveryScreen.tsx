@@ -31,6 +31,20 @@ export function VKTalentDiscoveryScreen({
 }) {
   return (
     <div className="mx-auto max-w-[1280px] px-8 py-10">
+      {/* Level 1 — plain human observation, no corporate language */}
+      <div className="mb-8 text-center">
+        <p className="font-display text-[22px] md:text-[26px] text-(--color-ink-1) leading-snug max-w-[620px] mx-auto">
+          Почему в любой компании есть люди, которых все хвалят,
+          <br />
+          но никто не додумался спросить, готовы ли они возглавить проект?
+        </p>
+        <p className="text-[13.5px] text-(--color-ink-2) mt-4 max-w-[560px] mx-auto leading-relaxed">
+          Хорошая репутация не то же самое, что видимость. Человек может
+          быть готов к большему годами — просто никто не смотрел на него
+          с этой стороны.
+        </p>
+      </div>
+
       <div className="mb-10 flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-(--color-border) pb-8">
         <div>
           <button
@@ -38,7 +52,7 @@ export function VKTalentDiscoveryScreen({
             className="flex items-center gap-1.5 text-[12px] text-(--color-ink-3) hover:text-(--color-ink-1) transition-colors mb-3 font-mono"
           >
             <ArrowLeft className="h-3.5 w-3.5" />
-            Инициатива
+            Сборка команды
           </button>
           <div className="text-[11px] uppercase tracking-[0.14em] text-(--color-signal) font-mono mb-3">
             {bi("Internal Talent Discovery", "Поиск внутренних экспертов")}
