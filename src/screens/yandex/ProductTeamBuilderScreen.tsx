@@ -37,6 +37,20 @@ export function ProductTeamBuilderScreen({ onNext }: { onNext?: () => void }) {
 
   return (
     <div className="mx-auto max-w-[1280px] px-8 py-10">
+      {/* Level 1 — plain human observation, no corporate language */}
+      <div className="mb-8 text-center">
+        <p className="font-display text-[22px] md:text-[26px] text-(--color-ink-1) leading-snug max-w-[620px] mx-auto">
+          Почему хороший джазовый ансамбль может сыграться за один вечер,
+          <br />
+          а случайная группа музыкантов — не сыграется и за год?
+        </p>
+        <p className="text-[13.5px] text-(--color-ink-2) mt-4 max-w-[560px] mx-auto leading-relaxed">
+          Дело не в мастерстве каждого отдельно. Дело в том, слышат ли
+          музыканты друг друга и дополняют ли партии, а не играют
+          одновременно одно и то же.
+        </p>
+      </div>
+
       <div className="mb-10 border-b border-(--color-border) pb-8">
         <div className="text-[11px] uppercase tracking-[0.14em] text-(--color-signal) font-mono mb-3">
           {bi("Product Team Builder", "Конструктор продуктовых команд")}
