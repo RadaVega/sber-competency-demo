@@ -25,10 +25,12 @@ export function ArchitectureScreen({
   mode,
   onBack,
   onNext,
+  backLabel = "Назад",
 }: {
   mode: ModeConfig;
   onBack: () => void;
   onNext: () => void;
+  backLabel?: string;
 }) {
   return (
     <div className="mx-auto max-w-[1200px] px-8 py-12">
@@ -36,7 +38,7 @@ export function ArchitectureScreen({
       {/* Header */}
       <div className="mb-12 border-b border-(--color-border) pb-8">
         <button onClick={onBack} className="flex items-center gap-2 text-pres-sm text-(--color-ink-3) hover:text-(--color-ink-1) transition-colors mb-4 font-mono">
-          <ArrowLeft className="h-4 w-4" /> Почему стратегии не реализуются?
+          <ArrowLeft className="h-4 w-4" /> {backLabel}
         </button>
         <div className="text-pres-label text-(--color-signal) mb-3">{bi("Enterprise Architecture", "Архитектура платформы")}</div>
         <h1 className="font-display text-pres-h1 leading-tight max-w-[700px]">

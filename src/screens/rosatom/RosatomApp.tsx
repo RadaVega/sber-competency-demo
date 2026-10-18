@@ -30,7 +30,7 @@ export default function RosatomApp({ active, onChangeScreen }: { active: Rosatom
     {active === "aiCenter"      && <AICenterScreen onBack={() => go("teamBuilder")} onNext={() => go("forecast")} />}
     {active === "forecast"      && <ForecastScreen onBack={() => go("aiCenter")} onNext={() => go("sovereignty")} />}
     {active === "sovereignty"   && <SovereigntyScreen onBack={() => go("forecast")} onNext={() => go("architecture")} />}
-    {active === "architecture"  && <ArchitectureScreen mode={mode} onBack={() => go("sovereignty")} onNext={() => go("future")} />}
+    {active === "architecture"  && <ArchitectureScreen mode={mode} onBack={() => go("sovereignty")} onNext={() => go("future")} backLabel="Технологический суверенитет" />}
     {active === "future"        && <FutureScreen mode={mode} onBack={() => go("architecture")} onRestart={() => go("problem")} />}
   </>);
 }

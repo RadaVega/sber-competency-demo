@@ -14,7 +14,7 @@ export default function Future2035App({ active, onChangeScreen }: { active: Futu
     {active === "memory"       && <OrganizationalMemoryScreen mode={mode} onBack={() => go("problem")} onNext={() => go("why")} />}
     {active === "why"          && <StrategicEcosystemScreen mode={mode} onBack={() => go("memory")} onNext={() => go("initiative")} />}
     {active === "initiative"   && <StrategicInitiativeScreen mode={mode} onBack={() => go("why")} onNext={() => go("architecture")} />}
-    {active === "architecture" && <ArchitectureScreen mode={mode} onBack={() => go("initiative")} onNext={() => go("future")} />}
+    {active === "architecture" && <ArchitectureScreen mode={mode} onBack={() => go("initiative")} onNext={() => go("future")} backLabel="Инициатива" />}
     {active === "future"       && <FutureScreen mode={mode} onBack={() => go("architecture")} onRestart={() => go("problem")} />}
   </>);
 }

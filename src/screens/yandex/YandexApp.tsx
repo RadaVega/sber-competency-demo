@@ -22,7 +22,7 @@ export default function YandexApp({ active, onChangeScreen }: { active: YandexSc
     {active === "opportunityMap" && <OpportunityMapScreen onBack={() => go("knowledgeGraph")} onNext={() => go("builder")} />}
     {active === "builder"        && <ProductTeamBuilderScreen onNext={() => go("compounding")} />}
     {active === "compounding"    && <CompoundingIntelligenceScreen onBack={() => go("builder")} onNext={() => go("architecture")} />}
-    {active === "architecture"   && <ArchitectureScreen mode={mode} onBack={() => go("compounding")} onNext={() => go("future")} />}
+    {active === "architecture"   && <ArchitectureScreen mode={mode} onBack={() => go("compounding")} onNext={() => go("future")} backLabel="Накопление интеллекта" />}
     {active === "future"         && <FutureScreen mode={mode} onBack={() => go("architecture")} onRestart={() => go("problem")} />}
   </>);
 }

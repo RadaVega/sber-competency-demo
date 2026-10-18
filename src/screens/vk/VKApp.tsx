@@ -23,11 +23,11 @@ export default function VKApp({ active, onChangeScreen }: { active: VKScreenId; 
     {active === "team-build"   && <VKInitiativeScreen onNext={() => go("talent")} />}
     {active === "talent"       && <VKTalentDiscoveryScreen onBack={() => go("team-build")} onNext={() => go("simulator")} />}
     {active === "simulator"    && <VKSimulatorScreen onBack={() => go("talent")} onNext={() => go("ecosystem")} />}
-    {active === "ecosystem"    && <TalentEcosystemScreen mode={mode} onBack={() => go("simulator")} onNext={() => go("external")} />}
+    {active === "ecosystem"    && <TalentEcosystemScreen mode={mode} onBack={() => go("simulator")} onNext={() => go("external")} backLabel="Симулятор готовности" />}
     {active === "external"     && <ExternalTalentDiscoveryScreen mode={mode} onBack={() => go("ecosystem")} onNext={() => go("pipeline")} />}
     {active === "pipeline"     && <TalentPipelineScreen mode={mode} onBack={() => go("external")} onNext={() => go("executive")} nextLabel="Рекомендация" />}
     {active === "executive"    && <VKExecutiveScreen onBack={() => go("pipeline")} onNext={() => go("architecture")} />}
-    {active === "architecture" && <ArchitectureScreen mode={mode} onBack={() => go("executive")} onNext={() => go("future")} />}
+    {active === "architecture" && <ArchitectureScreen mode={mode} onBack={() => go("executive")} onNext={() => go("future")} backLabel="Рекомендации руководству" />}
     {active === "future"       && <FutureScreen mode={mode} onBack={() => go("architecture")} onRestart={() => go("problem")} />}
   </>);
 }

@@ -28,10 +28,12 @@ export function TalentEcosystemScreen({
   mode,
   onBack,
   onNext,
+  backLabel = "Команда",
 }: {
   mode: ModeConfig;
   onBack: () => void;
   onNext: () => void;
+  backLabel?: string;
 }) {
   const [sourceMode, setSourceMode] = useState<TalentSourceMode>("hybrid");
 
@@ -59,7 +61,7 @@ export function TalentEcosystemScreen({
           className="flex items-center gap-1.5 text-[12px] text-(--color-ink-3) hover:text-(--color-ink-1) transition-colors mb-3 font-mono"
         >
           <ArrowLeft className="h-3.5 w-3.5" />
-          Команда
+          {backLabel}
         </button>
         <div className="flex items-start justify-between gap-4">
           <div>

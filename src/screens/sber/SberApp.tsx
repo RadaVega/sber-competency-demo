@@ -39,7 +39,7 @@ export default function SberApp({ active, onChangeScreen }: {
       {active === "orchestration" && <OrchestrationScreen onBack={() => go("external")} onNext={() => go("executive")} accentColor={mode.accentColor} />}
       {active === "executive"     && <ExecutiveScreen onBack={() => go("orchestration")} onNext={() => go("division")} />}
       {active === "division"      && <DivisionReadinessScreen onBack={() => go("executive")} onNext={() => go("architecture")} />}
-      {active === "architecture"  && <ArchitectureScreen mode={mode} onBack={() => go("division")} onNext={() => go("future")} />}
+      {active === "architecture"  && <ArchitectureScreen mode={mode} onBack={() => go("division")} onNext={() => go("future")} backLabel="Готовность подразделений" />}
       {active === "future"        && <FutureScreen mode={mode} onBack={() => go("architecture")} onRestart={() => go("problem")} />}
     </>
   );
